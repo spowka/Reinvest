@@ -1,0 +1,14 @@
+<div class="app-order" *ngIf="orderDetails">
+  <div class="container-menu">
+    <h2>Покупатель</h2>
+    <div class="profile-info">
+      <p>{{orderDetails.customerName}} {{orderDetails.customerLastName}}</p>
+      <p>{{orderDetails.customerEmail}}</p>
+      <p *ngIf="orderDetails.customerPhone">{{orderDetails.customerPhone}}</p>
+    </div>
+  </div>
+  <div class="info">
+    <h3>Заказ №{{orderDetails.id}} от {{orderDetails.createDate | date : "dd.MM.yyyy"}}</h3>
+    <app-customer-order-details [details]="orderDetails" (onUpdated)="reload()"></app-customer-order-details>
+  </div>
+</div>

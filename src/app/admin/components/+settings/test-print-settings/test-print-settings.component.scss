@@ -1,0 +1,27 @@
+.test-settings{
+  margin: 0 1.5rem;
+  .section {
+    h1{
+      font-size: 30px;
+      margin: 1rem 0;
+    }
+
+    .save-info {
+        text-align: left;
+    }
+  }
+
+  .image-upload {
+    img.image {
+      max-height: 400px;
+    }
+  }
+  
+  .columns-container {
+    justify-content: space-between;
+  }
+
+  .error {
+    margin: 1rem;
+  }
+}

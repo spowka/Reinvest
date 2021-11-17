@@ -1,0 +1,27 @@
+<div class="profile-container">
+  <div class="container-menu">
+    <h2>Аккаунт</h2>
+    <div class="profile-info">
+      <p>{{this.customer.firstName}} {{this.customer.lastName}}</p>
+      <p>{{this.customer.email}}</p>
+      <p *ngIf="this.customer.phoneNumber">{{this.customer.phoneNumber}}</p>
+    </div>
+    <button [ngClass]="{'active': tabIndex == 0}" (click)="tabIndex=0;">Личные данные</button>
+    <h3>Заказы</h3>
+    <button [ngClass]="{'active': tabIndex == 1}" (click)="tabIndex=1;">Заказы в работе</button>
+    <button [ngClass]="{'active': tabIndex == 2}" (click)="tabIndex=2;">История заказов</button>
+  </div>
+  <div class="info">
+    <ng-container *ngIf="tabIndex==0">
+      <app-customer-info [customer]="customer" (onReload)="reload()"></app-customer-info>
+    </ng-container>
+    <ng-container *ngIf="tabIndex==1">
+      <app-customer-active-orders [customerId]="customer.id" [defaultOrderId]="openState && openState.orderId">
+      </app-customer-active-orders>
+    </ng-container>
+    <ng-container *ngIf="tabIndex==2">
+      <app-customer-finished-orders [customerId]="customer.id" [defaultOrderId]="openState && openState.orderId">
+      </app-customer-finished-orders>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+.container-legal-entities-card {
+    margin: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+  
+    .container-menu {
+      margin-right: 40px;
+  
+      h2{
+        font-size: 24px;
+        margin-bottom: 1rem;
+      }
+  
+      button {
+        display: block;
+        margin: 4px 1px;
+        border: none;
+        padding: 9px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        width: 225px;
+      }
+    }
+  
+    .info {
+      flex: 2;
+      
+      form {
+        max-width: 40rem;
+  
+        h1{
+          font-size: 30px;
+          margin-bottom: 1rem;
+        }
+        h2{
+          font-size: 24px;
+          margin-bottom: 1rem;
+        }
+        .date-create {
+          display: flex;
+          justify-content: space-between;
+          width: 40rem;
+          margin: 1rem 0;
+          p:first-child { flex: 1}
+          p:last-child { flex: 2}
+        }
+      }
+    }
+  
+    .input-group label {
+      flex: 0 250px;
+    }
+    
+    .image-upload .input-group {
+      .title {
+        width: 200px;  
+      }
+      .image {
+        width: 30px;
+        height: 30px;
+      }
+      .actions {
+        flex: 200px !important;
+      }
+    }
+  }

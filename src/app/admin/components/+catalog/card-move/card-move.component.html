@@ -1,0 +1,29 @@
+<div class="card-move-container">
+  <h2>{{card ? card.title : ''}}</h2>
+  <div class="app-info-card">
+    <h3>Положение в каталоге</h3>
+    <p class="info-text">Необходимо указать значения для всех активных полей</p>
+    <div class="form">
+      <div class="input-group">
+        <label>Тематика</label>
+        <p-dropdown [options]="availableThemes" [(ngModel)]="themeCatalogLevelId" disabled="true"
+          [style]="{'width':'100%'}"></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Серия</label>
+        <p-dropdown [options]="availableSeries != null ? availableSeries : null" [(ngModel)]="serieCatalogLevelId"
+          [style]="{'width':'100%'}" (onChange)="changeSerie()"></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Комплект</label>
+        <p-dropdown [options]="availableSets != null ? availableSets : null" [(ngModel)]="setCatalogLevelId"
+          [style]="{'width':'100%'}" (onChange)="changeSet()"></p-dropdown>
+      </div>
+    </div>
+    <div class="save-info">
+      <button pButton (click)="moveCard()" label="Переместить"
+        [(disabled)]="originalCatalogLevelId === catalogLevelId"></button>&nbsp;
+      <button pButton (click)="cancel()" label="Отмена"></button>
+    </div>
+  </div>
+</div>

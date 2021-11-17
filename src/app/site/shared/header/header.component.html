@@ -1,0 +1,170 @@
+<header class="header">
+  <div class="container">
+    <a [routerLink]="['/']" class="header__logo">
+      <img src="/assets/images/logo.svg" alt="">
+    </a>
+    <div class="header__menu menu" #headerMenu (click)="mobileMenuToggle()">
+      <a [routerLink]="['/about']">
+        <span>О нас</span>
+      </a>
+      <a [routerLink]="['/blog']">
+        <span>Блог</span>
+      </a>
+      <a [routerLink]="['/howto']">
+        <span>Как заказать?</span>
+      </a>
+      <a [routerLink]="['/shipping']">
+        <span>Доставка и оплата</span>
+      </a>
+      <a [routerLink]="['/faq']">
+        <span>FAQ</span>
+      </a>
+      <a [routerLink]="['/contacts']">
+        <span>Контакты</span>
+      </a>
+      <div id="mobileSubMenu">
+        <ng-container [ngTemplateOutlet]="subMenu"></ng-container>
+      </div>
+    </div>
+
+    <div class="header__controls">
+      <ng-container *ngIf="!isAuthenticated">
+        <a class="btn" [routerLink]="['/login']">Вход</a>
+        <a class="btn btn-black" [routerLink]="['/authorization']">Регистрация</a>
+      </ng-container>
+
+      <ng-container *ngIf="isAuthenticated">
+        <div class="header__controls">
+          <div class="header__controls__dropdown">
+           <a [routerLink]="['/profile']" class="btn btn-black">
+            <img src="/assets/images/icons/login.svg" alt="">
+            <span>{{fullName}}</span>
+
+            <div class="header__profile__content">
+
+              <div class="header__profile__inner">
+                <p class="header__profile__title">Аккаунт</p>
+                <div class="header__profile__link">
+                  <a class="btn btn-black" [routerLink]="['/profile']">Личные данные</a>
+                </div>
+              </div>
+
+              <div class="header__profile__inner">
+                <p class="header__profile__title">Мои заказы</p>
+                <div class="header__profile__link">
+                  <a class="btn btn-black"
+                     href="javascript:void(0)"
+                     (click)="goToProfile($event, 'orders')">
+                    Заказы в работе ({{ (activeOrders$ | async)?.orders.length }})
+                  </a>
+
+                  <a class="btn btn-black"
+                     href="javascript:void(0)"
+                     (click)="goToProfile($event, 'ordersHistory')">
+                    История заказов ({{ (finishedOrders$ | async)?.orders.length }})
+                  </a>
+                </div>
+              </div>
+
+              <div class="header__profile__inner">
+                <div class="header__profile__link--silver">
+                  <a href="javascript:void(0)" class="btn-silver" (click)="logout()">Выйти из аккаунта</a>
+                </div>
+              </div>
+
+            </div>
+          </a>
+          </div>
+
+          <div class="header__cart" [routerLink]="['/cart']">
+            <div class="header__time">{{countdownTime}}</div>
+            <div>
+              <img src="/assets/images/icons/cart.svg" alt="">
+              <div class="header__cart-count">{{cartItems}}</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div #headerControlsMobile (click)="mobileMenuToggle()"></div>
+    </div>
+  </div>
+</header>
+
+<div id="desktopSubMenu">
+  <ng-container [ngTemplateOutlet]="subMenu"></ng-container>
+</div>
+
+<section class="topbar" [ngClass]="{'white': isPageIncludesBanner}">
+  <div class="container">
+    <rs-site-breadcrumbs></rs-site-breadcrumbs>
+
+    <form class="search">
+      <button>
+        <svg class="icon">
+          <use xlink:href="/assets/images/symbol-defs.svg#icon-search"></use>
+        </svg>
+      </button>
+      <input type="text"
+             #searchInput
+             placeholder="Поиск"
+             id="searchInput"
+             class="form-control"
+             matInput
+             (keydown.enter)="search()"
+             [(ngModel)]="searchString"
+             [ngModelOptions]="{ standalone: true }"
+             [matAutocomplete]="auto"/>
+
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchSuggestSelected($event)">
+        <mat-option *ngFor="let suggest of searchSuggests" [value]="suggest">
+          {{suggest}}
+        </mat-option>
+      </mat-autocomplete>
+    </form>
+  </div>
+</section>
+
+<div *ngIf="!catalogTree">
+  Идет загрузка...
+</div>
+
+<ng-template #subMenu>
+  <section class="submenu">
+    <div class="container header__menu__inner" *ngIf="catalogTree">
+
+      <ng-container *ngFor="let theme of catalogTree; let index = index">
+        <a class="header__menu__link"
+           (click)="deselectTheme()"
+           (mouseenter)="expandTheme(theme)"
+           [routerLink]="['/catalog/' + theme.id]">
+          <span>{{theme.name}}</span>
+        </a>
+      </ng-container>
+
+      <div class="header__menu__content" *ngIf="selectedTheme">
+        <div class="header__menu__links">
+
+          <ng-container *ngFor="let series of selectedTheme.children">
+            <div class="header__menu__container" (click)="deselectTheme()">
+              <span class="header__menu__title" [routerLink]="['/catalog/' + series.id]">
+                {{series.name}}
+              </span>
+              <span class="header__menu__desc" *ngFor="let childTheme of series.children"
+                    [routerLink]="['/catalog/' + childTheme.id]">
+                {{childTheme.name}}
+              </span>
+            </div>
+          </ng-container>
+
+        </div>
+        <div class="header__menu__close-block">
+          <div class="header__menu__close-icon" (click)="deselectTheme()">
+            <img src="/assets/images/icons/close-white.svg" alt="">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</ng-template>

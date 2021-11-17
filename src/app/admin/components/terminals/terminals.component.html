@@ -1,0 +1,88 @@
+<div class="container-terminals">
+  <div class="header-terminal">
+    <h1 class="caption-h1">Терминалы</h1>
+  </div>
+  <div class="add">
+    <p [routerLink]="['/admin/main/terminals/add']">+ Добавить терминал</p>
+  </div>
+  <div class="container-table">
+    <rs-table-info [rows]="terminals" (resetFiltersEvent)="resetFilters()"
+      (setShowArchiveEvent)="setShowArchive($event)" [totalRecords]="totalRecords" [headerTemplate]="headerTemplate"
+      [rowsTemplate]="rowsTemplate">
+
+      <ng-template #headerTemplate let-parentContext>
+        <tr *ngIf="filters">
+          <th class="sortable" *ngIf="showArchive">
+            <p>Дата архивирования</p>
+            от
+            <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.archiveDateFrom" (ngModelChange)="search()" [readonlyInput]="true">
+            </p-calendar>
+            <br>
+            до
+            <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.archiveDateTo" [minDate]="filters.archiveDateFrom" (ngModelChange)="search()"
+              [readonlyInput]="true">
+            </p-calendar>
+            <sortArrows [order]="getSortOrder('archiveDate')" (onChange)="onSort($event, 'archiveDate')"></sortArrows>
+          </th>
+          <th class="sortable" [ngClass]="{'wide-date-filter-column': !showArchive}">
+            <p>Дата создания</p>
+            от <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.createDateFrom" (ngModelChange)="search()" [readonlyInput]="true">
+            </p-calendar>
+            <br *ngIf="showArchive">
+            до <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.createDateTo" [minDate]="filters.createDateFrom" (ngModelChange)="search()"
+              [readonlyInput]="true"></p-calendar>
+            <sortArrows [order]="getSortOrder('createDate')" (onChange)="onSort($event, 'createDate')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Инвентарный номер</p>
+            <input type="text" pInputText [(ngModel)]="filters.inventoryNumber" (ngModelChange)="search()"
+              class="form-control" placeholder="">
+            <sortArrows [order]="getSortOrder('inventoryNumber')" (onChange)="onSort($event, 'inventoryNumber')">
+            </sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Connect id</p>
+            <input type="text" pInputText [(ngModel)]="filters.connectId" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('connectId')" (onChange)="onSort($event, 'connectId')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Собственник</p>
+            <input type="text" pInputText [(ngModel)]="filters.terminalOwner" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('terminalOwner')" (onChange)="onSort($event, 'terminalOwner')">
+            </sortArrows>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #rowsTemplate let-row>
+        <tr *ngIf="row">
+          <td *ngIf="!row.isActive">{{ row.archiveDate | date : "dd.MM.yyyy HH:mm" }}</td>
+          <td>{{ row.createDate | date : "dd.MM.yyyy HH:mm" }}</td>
+          <td>{{ row.inventoryNumber }}</td>
+          <td>{{ row.connectId }}</td>
+          <td>{{ row.terminalOwner }}</td>
+          <td class="commands-column">
+            <p-button label="{{row.isActive ? 'Редактировать' : 'Просмотр'}}"
+              [routerLink]="['/admin/main/terminals/'+ row.id]"></p-button>
+            <p-button label="В архив" *ngIf="row.isActive && !row.isSystem" (click)="archiveTerminal(row)">
+            </p-button>
+            <p-button label="Восстановить" *ngIf="!row.isActive" (click)="restoreTerminal(row.id)"></p-button>
+            <!-- Кнопку "Удаления" для архивных терминалов пока не делаем (согласно макету) -->
+            <!-- <p-button label="Удалить" *ngIf="!row.isActive" (onClick)="deleteTerminal(row.id)"></p-button> -->
+          </td>
+        </tr>
+      </ng-template>
+
+    </rs-table-info>
+  </div>
+  <div class="add">
+    <p [routerLink]="['/admin/main/terminals/add']">+ Добавить терминал</p>
+  </div>
+</div>

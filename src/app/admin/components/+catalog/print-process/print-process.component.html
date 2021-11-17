@@ -1,0 +1,108 @@
+<div class="app-print-process">
+  <h4>Процесс печати</h4>
+
+  <ng-container *ngIf="processInfo">
+    <h5 class="clickable" (click)="togglePrinters()">Принтеры (<u>{{printersVisible ? 'cвернуть' : 'показать'}}</u>)
+    </h5>
+    <div *ngIf="printersVisible">
+      <p-table [value]="processInfo.printers" [autoLayout]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Имя принтера</th>
+            <th>Диагностические данные</th>
+            <th>Может напечатать</th>
+            <th>Использовать</th>
+            <th>Наз / Нап</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-printer>
+          <tr>
+            <td>{{printer.name}}</td>
+            <td>{{printer.status}}</td>
+            <td>{{printer.remainingRibbon}}</td>
+            <td>
+              <input type="checkbox" [(ngModel)]="printer.isSelected" [attr.disabled]="printer.isReady ? null : ''"
+                (ngModelChange)="isPrinterUsedChanged($event, printer)" />
+            </td>
+            <td>{{printer.totalCards}} / {{printer.readyCards}}</td>
+            <td>
+              <p-button [disabled]="!printer.canStop" label="Остановить" (click)="stopPrinter(printer)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="buttons-group left">
+        <p-button label="Остановить все" [disabled]="!processInfo.canStopAll" (click)="stopAllPrinters()"></p-button>
+      </div>
+    </div>
+    <h5>Массив заказов для печати</h5>
+    <p-table [value]="processInfo.orders" [autoLayout]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Заказ #</th>
+          <th>Принтер для заказа</th>
+          <th>Номер</th>
+          <th>Карточка</th>
+          <th>Принтер для карточки</th>
+          <th>Состояние</th>
+          <th></th>
+          <th>Статус заказа</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr *ngFor="let card of order.cards; let first = first;">
+          <ng-container *ngIf="first">
+            <td [attr.rowspan]="order.cards.length" class="order-cell">{{order.id}}</td>
+            <td [attr.rowspan]="order.cards.length" class="order-cell">{{order.printerName}}</td>
+          </ng-container>
+          <td>{{card.number}}</td>
+          <td class="card-info">
+            <p class="card-name">{{card.name}}</p>
+            <p>{{card.path}}</p>
+          </td>
+          <td>
+            <ng-container *ngIf="card.status == 'Preparing'; else displayPrinter">
+              <p-dropdown [options]="printerItems" [(ngModel)]="card.printerId" (onShow)="pauseRefresh()"
+                (onHide)="resumeRefresh()"></p-dropdown>
+            </ng-container>
+            <ng-template #displayPrinter>
+              {{card.printerName}}
+            </ng-template>
+          </td>
+          <td>
+            <div class="card-status" [ngClass]="getCardStatusClass(card)">
+              <div class="background"></div>
+              <div class="text">{{card.statusText}}</div>
+            </div>
+            <p>{{card.statusDescription}}</p>
+          </td>
+          <td>
+            <p-button *ngIf="card.status == 'Completed'" [disabled]="!canReject()" label="Брак" (click)="reject(card)">
+            </p-button>
+            <p-button *ngIf="card.status == 'Waiting' || card.status == 'Error'" [disabled]="!canCancel()"
+              label="Отменить" (click)="cancel(card)"></p-button>
+            <p-button *ngIf="card.status == 'Preparing'" [disabled]="!canReprint(card)" label="Напечатать снова"
+              (click)="reprint(card)">
+            </p-button>
+          </td>
+          <ng-container *ngIf="first" class="order-cell">
+            <td [attr.rowspan]="order.cards.length" class="order-cell">{{getStatusLabel(order.status)}}</td>
+          </ng-container>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="buttons-group left">
+      <p-button label="Остановить печать" [disabled]="!processInfo.canStopAll" (click)="stopAllPrinters()">
+      </p-button>
+      <p-button label="Завершить работу" [disabled]="!processInfo.canFinish" (click)="completePrint()">
+      </p-button>
+      <p-button label="Экстренное завершение сессии печати"
+        [disabled]="processInfo.canFinish || processInfo.forceShutdownRequested" (click)="forceShutdown()">
+      </p-button>
+    </div>
+    <div *ngIf="processInfo.forceShutdownRequested">
+      {{printingForceShutdownDelayedMessage}}
+    </div>
+  </ng-container>
+</div>

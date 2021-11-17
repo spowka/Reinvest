@@ -1,0 +1,52 @@
+<div class="test-settings">
+  <div class="section">
+    <h1>Настройки тестовой печати</h1>
+
+    <div *ngIf="isLoading">
+      Загрузка данных...
+    </div>
+    <div *ngIf="!isLoading">
+      <div class="toggle-buttons">
+        <button [ngClass]="{'active': printFilesMode == 'None'}" (click)="printFilesMode = 'None'">
+          Комплект файлов не задан</button>
+        <button [ngClass]="{'active': printFilesMode == 'ImageLamination'}"
+          (click)="printFilesMode = 'ImageLamination'">Изображение и ламинация</button>
+        <button [ngClass]="{'active': printFilesMode == 'ImageHoloLamination'}"
+          (click)="printFilesMode = 'ImageHoloLamination'">
+          Изображение, голограмма и ламинация</button>
+      </div>
+      <div class="input-group" *ngIf="hasSaveAttempt && printFilesMode != 'None' && !isValid">
+        <span class="error-text">Необходимо загрузить полный комплект файлов</span>
+      </div>
+      <div class="input-group" *ngIf="printFilesMode == 'None'">
+        <span>Укажите необходимый комплект файлов для карточки и загрузите их.</span>
+      </div>
+      <div *ngIf="printFilesMode != 'None'" class="columns-container">
+        <div class="column">
+          <h4>Лицевая сторона</h4>
+          <rs-image-upload title="Изображение" [image]="printFrontImage" extensions="png">
+          </rs-image-upload>
+          <rs-image-upload *ngIf="printFilesMode == 'ImageHoloLamination'" title="Голограмма" [image]="printFrontHolo"
+            extensions="png" acceptType="image/png">
+          </rs-image-upload>
+          <rs-image-upload title="Ламинация" [image]="printFrontLamination" extensions="png" acceptType="image/png">
+          </rs-image-upload>
+        </div>
+        <div class="column">
+          <h4>Обратная сторона</h4>
+          <rs-image-upload title="Изображение" [image]="printBackImage" extensions="png" acceptType="image/png">
+          </rs-image-upload>
+          <rs-image-upload *ngIf="printFilesMode == 'ImageHoloLamination'" title="Голограмма" [image]="printBackHolo"
+            extensions="png" acceptType="image/png">
+          </rs-image-upload>
+          <rs-image-upload title="Ламинация" [image]="printBackLamination" extensions="png" acceptType="image/png">
+          </rs-image-upload>
+        </div>
+      </div>
+
+      <div class="save-info">
+        <button (click)="save()" class="info-button"
+          [attr.disabled]="printFilesMode == 'None' ? true : null">Сохранить</button>
+      </div>
+    </div>
+  </div>

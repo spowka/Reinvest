@@ -1,0 +1,174 @@
+<div class="app-orders" (mousemove)="collapseOrder()">
+  <h4>Заказы</h4>
+  <button class="printing-state-button" *ngIf="printingState"
+    (click)="printingStateClick()">{{printingStateText}}</button>
+
+  <div class="tab-menu">
+    <p>Показать</p>
+    <div class="tabs">
+      <button [ngClass]="{'active': filters.feed == 'Processing'}" (click)="setFeed('Processing')">К исполнению</button>
+      <button [ngClass]="{'active': filters.feed == 'Packaging'}" (click)="setFeed('Packaging')">Упаковка и
+        отправка</button>
+      <button [ngClass]="{'active': filters.feed == 'Returning'}" (click)="setFeed('Returning')">Ожидают приемки из
+        ПС</button>
+      <button [ngClass]="{'active': filters.feed == 'Completed'}" (click)="setFeed('Completed')">Завершенные</button>
+    </div>
+  </div>
+  <div class="tab-menu" *ngIf="filters.feed == 'Processing'">
+    <p>Поступление</p>
+    <div class="tabs">
+      <button [ngClass]="{'active': dateFilter == 0}" (click)="setDateFilter(0)">Ранее</button>
+      <button [ngClass]="{'active': dateFilter == 1}" (click)="setDateFilter(1)">Вчера</button>
+      <button [ngClass]="{'active': dateFilter == 2}" (click)="setDateFilter(2)">Сегодня</button>
+      <button [ngClass]="{'active': dateFilter == 3}" (click)="setDateFilter(3)">За все время</button>
+    </div>
+  </div>
+
+  <div class="buttons-header">
+    <div>
+      <p-button label="Сбросить фильтры" (onClick)="resetFilters()"></p-button>
+    </div>
+  </div>
+  <p-table #dt [value]="orders" [autoLayout]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="sortable">
+          <p>#</p>
+          <input type="text" pInputText [(ngModel)]="filters.id" (ngModelChange)="reloadOrders()" class="form-control"
+            placeholder="">
+          <sortArrows [order]="getSortOrder('id')" (onChange)="onSort($event, 'id')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Processing'" class="date-filter-single-line sortable">
+          <p>Дата поступления</p>
+          <div>
+            от
+            <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="filters.createDateFrom"
+              (ngModelChange)="dateFilter = null; reloadOrders();" [readonlyInput]="true">
+            </p-calendar>
+            до
+            <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="filters.createDateTo"
+              [minDate]="filters.createDateFrom" (ngModelChange)="dateFilter = null; reloadOrders();"
+              [readonlyInput]="true"></p-calendar>
+          </div>
+          <sortArrows [order]="getSortOrder('createDate')" (onChange)="onSort($event, 'createDate')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Покупатель</p>
+          <input type="text" pInputText [(ngModel)]="filters.customerName" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('customerName')" (onChange)="onSort($event, 'customerName')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Packaging'" class="sortable">
+          <p>Способ получения</p>
+          <p-dropdown [options]="deliveryTypes" [(ngModel)]="filters.deliveryType" [style]="{'width':'100%'}"
+            (ngModelChange)="reloadOrders()"></p-dropdown>
+          <sortArrows [order]="getSortOrder('deliveryType')" (onChange)="onSort($event, 'deliveryType')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Packaging'" class="sortable">
+          <p>Пункт самовывоза</p>
+          <p-dropdown [options]="pickPoints" [(ngModel)]="filters.pickPointId" [style]="{'width':'100%'}"
+            (ngModelChange)="reloadOrders()"></p-dropdown>
+          <sortArrows [order]="getSortOrder('pickPointId')" (onChange)="onSort($event, 'pickPointId')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Processing'" class="sortable">
+          <p>E-mail</p>
+          <input type="text" pInputText [(ngModel)]="filters.customerEmail" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('customerEmail')" (onChange)="onSort($event, 'customerEmail')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Позиций >=</p>
+          <input type="text" pInputText [(ngModel)]="filters.itemsCount" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('itemsCount')" (onChange)="onSort($event, 'itemsCount')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Сумма, Р >=</p>
+          <input type="text" pInputText [(ngModel)]="filters.totalPrice" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('totalPrice')" (onChange)="onSort($event, 'totalPrice')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Статус</p>
+          <p-dropdown [options]="statuses" [(ngModel)]="filters.status" [style]="{'width':'100%'}"
+            (ngModelChange)="reloadOrders()"></p-dropdown>
+          <sortArrows [order]="getSortOrder('status')" (onChange)="onSort($event, 'status')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Processing'">
+          <p>Выбрать для печати</p>
+        </th>
+        <th>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+      <tr>
+        <td>{{rowData.id}}</td>
+        <td *ngIf="filters.feed == 'Processing'">{{rowData.createDate | date : "dd.MM.yyyy HH:mm" }}</td>
+        <td>{{rowData.customerName}}</td>
+        <td *ngIf="filters.feed == 'Packaging'">{{rowData.deliveryType}}</td>
+        <td *ngIf="filters.feed == 'Packaging'">
+          <ng-container *ngIf="rowData.pickpointName">
+            {{rowData.pickpointName}}
+            <br>
+            {{rowData.pickpointAddress}}
+          </ng-container>
+          <ng-container *ngIf="!rowData.pickpointName">
+            -----
+          </ng-container>
+        </td>
+        <td *ngIf="filters.feed == 'Processing'">{{rowData.customerEmail}}</td>
+        <td>{{rowData.itemsCount}}</td>
+        <td>{{rowData.totalPrice}}</td>
+        <td>
+          {{rowData.status | substitute: totalStatuses }}
+          <br>
+          {{rowData.statusDate | date : "dd.MM.yyyy"}}
+        </td>
+        <td *ngIf="filters.feed == 'Processing'">
+          <div *ngIf="rowData.isPrinting" class="printing-mark">П</div>
+
+          <input *ngIf="!rowData.isPrinting" type="checkbox" [(ngModel)]="rowData.selected" (ngModelChange)="selectedChange()"
+            [attr.disabled]="canPrint(rowData) ? null : ''" />
+        </td>
+        <td>
+          <p-button class="view-button" label="Просмотр" (mouseenter)="expandOrder($event, rowData)"
+            (mousemove)="cancelCollapseOrder($event)" (click)="gotoOrderView(rowData)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <label *ngIf="totalRecords" class="summary">Позиций: {{totalRecords}}</label>
+  </div>
+</div>
+<div *ngIf="isExpanded" class="order-popover-container" [style.left.px]="popoverPosition.left"
+  [style.top.px]="popoverPosition.top">
+  <div class="order-popover-inner-container" (mousemove)="collapseOrder()">
+    <div class="order-popover" (mousemove)="cancelCollapseOrder($event)">
+      <div *ngIf="!expandedData">
+        Загрузка данных...
+      </div>
+      <div *ngIf="expandedData">
+        <div *ngFor="let orderRow of expandedData.items" class="order-item">
+          <p class="title">{{orderRow.title}}</p>
+          <p>{{orderRow.path}}</p>
+          <p>{{orderRow.price}} Р х {{orderRow.quantity}} шт</p>
+        </div>
+        <p class="total">Итого - {{expandedData.totalPrice}} Р</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectedOrders && selectedOrders.length > 0 && !printingState" class="selected-orders-popover">
+  <h4>Подготовка к печати</h4>
+  <div *ngFor="let orderRow of selectedOrders" class="order-item">
+    #{{orderRow.id}} - {{orderRow.itemsCount}} карточек
+  </div>
+  <p class="bottomline">Итого: заказов - {{selectedOrders.length}}, карточек - {{selectedOrdersItemsCount}}</p>
+
+  <p-button label="Перейти к печати" (onClick)="gotoPrintPreparation()"></p-button>
+  <p-button label="Сбросить" (onClick)="resetSelection()"></p-button>
+</div>

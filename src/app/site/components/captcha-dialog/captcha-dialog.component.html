@@ -1,0 +1,7 @@
+<div class="captcha-dialog-container">
+	<div>
+		<re-captcha *ngIf="siteKey" #captchaRef size="invisible" (resolved)="resolved($event)" [siteKey]="siteKey">
+		</re-captcha>
+		<button *ngIf="captchaRef" (click)="execute()">Подтверждаю, что я не робот</button>
+	</div>
+</div>

@@ -1,0 +1,85 @@
+.actions {
+  margin: 20px 0 10px 0;
+}
+
+div.horizontal-container {
+  justify-content: flex-end;
+
+  input {
+      width: 100px;
+      flex: none;
+  }
+}
+
+.order-container {
+  margin-bottom: 20px;  
+}
+
+.detailed-order {
+  padding: 5px;
+  border: 5px solid #cdcdcd;  
+  border-radius: 3px;  
+}
+
+table {  
+  thead {
+    background: #dedede;
+
+    td {
+      vertical-align: baseline;
+      padding: 4px 20px;
+  
+      p {
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  tbody {
+    td {
+      vertical-align: top;
+      padding: 4px 20px;
+  
+      p {
+        margin-bottom: 2px;
+      }
+    }
+  }  
+}
+
+.bordered {
+  border-bottom: 2px dotted #cdcdcd;
+}
+
+td.card-preview {  
+  padding: 4px 20px 4px 0;
+
+  img {
+    width: 70px;
+  }
+}
+
+.new-block {
+  margin-top: 25px;
+}
+
+h4.new-block {
+  margin-top: 40px;
+}
+
+.title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+button {
+  margin-top: 3px;
+}
+
+.columns-container {
+  width: auto;
+
+  .column {
+    margin: 1px 30px 1px 0;
+  }
+}

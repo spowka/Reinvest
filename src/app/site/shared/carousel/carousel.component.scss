@@ -1,0 +1,23 @@
+.main {
+  margin-top: -45px;
+}
+
+.slick-dots  {
+  li {
+    button {
+      border: 1px solid #fff;
+
+      &:before {
+        color: transparent;
+      }
+    }
+  }
+
+  li.slick-active {
+    button {
+      &:before {
+        color: transparent;
+      }
+    }
+  }
+}

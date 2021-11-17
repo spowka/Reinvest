@@ -1,0 +1,531 @@
+@import "./mixins";
+@import "./variables";
+
+.cards-result,
+.player {
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 3fr));
+        grid-gap: 30px;
+        align-items: start;
+
+        @media screen and (max-width: 775px) {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 3fr));
+        }
+
+        @media screen and (max-width: 481px) {
+            justify-items: center;
+            align-items: center;
+        }
+
+        & + .btn {
+            margin-top: 46px;
+        }
+
+        .rv-card {
+            position: relative;
+            max-width: 255px;
+            min-height: 180px;
+            max-height: 462px;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            transition: $trans;
+
+            &.isActive {
+                &:hover {
+                    color: inherit;
+
+                    .cards-result__controls,
+                    .player__controls {
+                        opacity: 1;
+                        pointer-events: all;
+                        user-select: normal;
+
+                        .btn {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .out {
+                pointer-events: none;
+                user-select: none;
+
+                .cards-result__img,
+                .cards-result__name,
+                .cards-result__count,
+                .cards-result__reating,
+                .price,
+                .old-price,
+                .new-price,
+                .player__img,
+                .player__name,
+                .player__count,
+                .player__reating {
+                    opacity: 0.5;
+                }
+
+                .ended {
+                    opacity: 1;
+                }
+            }
+
+            .isDisabled {
+                position: absolute;
+                left: 0;
+                top: 0;
+                max-width: 255px;
+                min-height: 180px;
+                max-height: 462px;
+                width: 100%;
+                height: 100%;
+                z-index: 99;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        }
+    }
+
+    &__photo {
+        position: relative;
+        max-width: 215px;
+        width: 100%;
+        border-radius: 9px;
+        margin-bottom: 10px;
+
+        .img-default {
+            position: relative;
+            max-width: 215px;
+            max-height: 307px;
+            min-height: 307px;
+            width: 100%;
+            height: 100%;
+            border-radius: 9px;
+            background: linear-gradient(180deg, rgba(41, 41, 41, 0) -13.33%, #292929 99.8%);
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+        }
+
+        .img {
+            max-width: 215px;
+            max-height: 307px;
+            min-height: 307px;
+            width: 100%;
+            height: 100%;
+            border-radius: 9px;
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+        }
+
+        .sale {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            top: -10px;
+            left: -10px;
+            background: $colorIbis;
+            color: $colorWhite;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            border-radius: 50%;
+            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .cart-quantity {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            top: -10px;
+            right: -10px;
+            background: $colorWhite;
+            color: $colorDark;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 18px;
+            border-radius: 50%;
+            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+
+            img {
+                width: 15px;
+            }
+        }
+    }
+
+    &__desc {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+        font-size: 16px;
+
+        li {
+            padding: 3px 0;
+            font-weight: 300;
+        }
+    }
+
+    &__name,
+    &__price {
+        font-weight: bold !important;
+    }
+
+    .ended {
+        z-index: 100;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 21px;
+    }
+
+    &__cart {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+        @include fcc;
+        z-index: 9;
+
+        img {
+            width: 15px;
+        }
+
+        span {
+            margin-left: 1px;
+        }
+    }
+
+    &__controls {
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 20px 20px 20px;
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+        transition: $trans;
+
+        .btn {
+            width: 100%;
+            transition-delay: 150ms;
+            transform: translateY(20px);
+            opacity: 0;
+
+            &:first-child {
+                margin-bottom: 15px;
+                transition-delay: 0ms;
+            }
+        }
+    }
+}
+
+.search {
+    &__list {
+        display: grid;
+        align-items: start;
+
+        &:not(:first-child) {
+            margin-top: 20px;
+        }
+
+        & + .btn {
+            margin-top: 46px;
+        }
+
+        .empty {
+            width: 265px;
+        }
+
+        .sets-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(238px, 4fr));
+            grid-gap: 30px;
+            align-items: start;
+
+            @media screen and (max-width: 1098px) {
+                grid-template-columns: repeat(auto-fill, minmax(238px, 3fr));
+                justify-items: center;
+                align-items: center;
+            }
+        }
+
+        .rv-card {
+            width: 100%;
+
+            &.sets {
+                max-width: 250px;
+            }
+
+            @media screen and (max-width: 768px) {
+                flex-direction: column;
+            }
+        }
+    }
+
+    &__photo {
+        position: relative;
+        margin-right: 80px;
+        width: 100%;
+        max-width: 540px;
+        height: 255px;
+
+        &.themes {
+            max-width: 255px;
+        }
+
+        &.sets {
+            max-width: 255px;
+            margin-right: 0px;
+        }
+
+        .card__inner--small,
+        .card__inner--large {
+            width: 100%;
+        }
+
+        @media screen and (max-width: 992px) {
+            margin-right: 40px;
+        }
+
+        @media screen and (max-width: 768px) {
+            margin-right: 0;
+        }
+
+        .overlay {
+            position: absolute;
+            font-weight: bold !important;
+            left: 25px;
+            bottom: 25px;
+        }
+
+        .img-default {
+            width: 100%;
+            max-width: 540px;
+            height: 255px;
+            border-radius: 9px;
+            background: linear-gradient(180deg, rgba(41, 41, 41, 0) -13.33%, #292929 99.8%);
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+
+            &.themes {
+                max-width: 255px;
+            }
+        }
+
+        .img {
+            width: 100%;
+            max-width: 540px;
+            height: 255px;
+            border-radius: 9px;
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+
+            &.themes {
+                max-width: 255px;
+            }
+        }
+    }
+
+    &__info {
+        max-width: 540px;
+        width: 100%;
+        height: 225px;
+        overflow: hidden;
+
+        &.themes {
+            max-width: none;
+        }
+
+        &.sets {
+            max-width: none;
+            height: auto;
+        }
+
+        @media screen and (max-width: 768px) {
+            height: auto;
+            max-height: 255px;
+            margin-top: 20px;
+        }
+
+        &__header {
+            .subtitle {
+                max-width: 446px;
+                width: 100%;
+            }
+        }
+
+        &__desc {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            overflow-y: hidden;
+            overflow-x: auto;
+            gap: 10px 50px;
+            width: 100%;
+
+            .children-group {
+                width: fit-content;
+            }
+
+            @media screen and (max-width: 992px) {
+                gap: 10px 30px;
+            }
+
+            .link-button:hover {
+                color: $colorRubinate;
+            }
+        }
+    }
+}
+
+.card {
+    &__list {
+        @include flexlist(15px);
+
+        & + .btn {
+            margin-top: 40px;
+            padding: 14px 25px;
+        }
+    }
+
+    &__inner {
+        &--small {
+            @include r(1023) {
+                @include flexitem(50%, 10px);
+            }
+
+            @include r(767) {
+                @include flexitem(100%, 10px);
+            }
+
+            @include flexitem(25%, 10px);
+        }
+
+        &--large {
+            @include r(767) {
+                @include flexitem(100%, 15px);
+            }
+
+            @include flexitem(50%, 15px);
+        }
+    }
+
+    &__item {
+        height: 255px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        @include fne;
+        flex-direction: column;
+        padding: 26px;
+        color: #fff;
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+        transition: $trans;
+
+        &::before {
+            @include r(1023) {
+                transform: translateY(-20%);
+            }
+
+            content: "";
+            position: absolute;
+            background: linear-gradient(180deg, rgba(41, 41, 41, 0) 50.2%, $colorDark 99.91%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 130%;
+            border-radius: 10px;
+            transform: translateY(0);
+            transition: $trans;
+        }
+
+        &:hover {
+            color: #fff !important;
+
+            .card__hidden,
+            .card__name {
+                transform: translateY(0px);
+            }
+
+            &::before {
+                background: linear-gradient(180deg, rgba(41, 41, 41, 0) -13.33%, #292929 99.8%);
+                transition: $trans;
+            }
+        }
+
+        &.show::before {
+            transform: translateY(-20%);
+        }
+
+        .btn {
+            @include r(1023) {
+                opacity: 1;
+            }
+
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transition: $trans;
+
+            &.show {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__name {
+        position: relative;
+        z-index: 2;
+        font-size: 24px;
+        font-weight: bold;
+        transform: translateY(140px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    &__text {
+        @include r(1023) {
+            opacity: 1;
+        }
+
+        position: relative;
+        z-index: 2;
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        height: 60px;
+        width: 193px;
+        overflow: hidden;
+
+        &.show {
+            opacity: 1;
+        }
+    }
+
+    &__hidden {
+        transform: translateY(140px);
+        transition: all 0.3s ease-in-out;
+
+        @include r(1023) {
+            display: block;
+        }
+
+        display: none;
+    }
+
+    &__show {
+        display: block;
+    }
+}

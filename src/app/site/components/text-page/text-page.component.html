@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="site-text-page-container columns-container">
+    <div class="column" style="white-space: nowrap; margin-right: 20px;">
+        <!--<ng-container *ngIf="page && page.sidePages">-->
+            <!--<h4>Важно и интересно</h4>-->
+            <!--<div class="dropdown" *ngFor="let sidePage of page.sidePages">-->
+                <!--<a class="link-button" [routerLink]="['/', sidePage.logicalName]">{{sidePage.title}}</a>-->
+            <!--</div>-->
+            <!--<div class="dropdown">-->
+                <!--<a class="link-button" class="dropbtn" [routerLink]="['/blog']">Будь в курсе</a>-->
+            <!--</div>-->
+        <!--</ng-container>-->
+    </div>
+
+    <div class="column page">
+        <ng-container *ngIf="!page">
+            Идет загрузка...
+        </ng-container>
+
+        <ng-container *ngIf="page">
+            <!--<h3>{{page.title}}</h3>-->
+
+            <div class="content-container" #content_container (click)="onContentContainerClick($event)">
+                <app-pickpoints-map *ngIf="hasPickpointsMap" fitIntoId="pickpoints-map-container-target">
+                </app-pickpoints-map>
+                <app-office-map *ngIf="hasOfficeMap" fitIntoId="office-map-container-target"></app-office-map>
+                <div [innerHTML]="pageContent | safeHtml"></div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+</div>

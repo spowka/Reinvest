@@ -1,0 +1,54 @@
+.input-group {
+  align-items: flex-start;
+  p {
+    flex: 3;
+  }
+  p-dropdown {
+    flex: 3;
+  }
+
+  input {
+    flex: 3;
+    height: 35px;
+  }
+}
+image-upload {
+  width: 100%;
+}
+
+.container-loader {
+  display: flex;
+  justify-content: center;
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3c2b63;
+    width: 40px;
+    height:40px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.settings-block {
+  margin-left: 8px;
+}

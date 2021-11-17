@@ -1,0 +1,59 @@
+<div class="app-blog-posts">
+  <h4>Блог</h4>
+
+  <div class="add">
+    <p [routerLink]="['/admin/main/blog-posts/add']">+ Добавить запись</p>
+  </div>
+
+  <rs-table-info [rows]="pages" (resetFiltersEvent)="resetFilters()" [totalRecords]="totalRecords"
+    [headerTemplate]="headerTemplate" [rowsTemplate]="rowsTemplate">
+
+    <ng-template #headerTemplate let-parentContext>
+      <tr>
+        <th width="270px" class="sortable">
+          <p>Дата создания</p>
+          <div>
+            от
+            <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="filters.createDateFrom"
+              (ngModelChange)="reload();" [readonlyInput]="true">
+            </p-calendar>
+            до
+            <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="filters.createDateTo"
+              [minDate]="filters.createDateFrom" (ngModelChange)="reload();" [readonlyInput]="true"></p-calendar>
+          </div>
+          <sortArrows [order]="getSortOrder('createDate')" (onChange)="onSort($event, 'createDate')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Заголовок</p>
+          <input type="text" pInputText [(ngModel)]="filters.title" (ngModelChange)="reload()" class="form-control"
+            placeholder="">
+          <sortArrows [order]="getSortOrder('title')" (onChange)="onSort($event, 'title')"></sortArrows>
+        </th>
+        <th width="100px">Публикация</th>
+        <th width="300px"></th>
+      </tr>
+    </ng-template>
+    <ng-template #rowsTemplate let-row>
+      <tr>
+        <td>
+          {{row.createDate | date : "dd.MM.yyyy"}}
+        </td>
+        <td>
+          {{row.title}}
+        </td>
+        <td>
+          <input type="checkbox" [(ngModel)]="row.isPublished" (ngModelChange)="isPublishedChange(row, $event)" />
+        </td>
+        <td>
+          <p-button label="Редактировать" (click)="edit(row)"></p-button>
+          &nbsp;
+          <p-button label="Удалить" (click)="delete(row)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </rs-table-info>
+
+  <div class="add">
+    <p [routerLink]="['/admin/main/blog-posts/add']">+ Добавить запись</p>
+  </div>
+</div>

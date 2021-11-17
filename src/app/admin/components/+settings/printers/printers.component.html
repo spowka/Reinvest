@@ -1,0 +1,116 @@
+<div class="printers-editing">
+  <div>
+    <h1>Принтеры</h1>
+
+    <div *ngIf="isLoading">
+      Загрузка данных...
+    </div>
+    <div>
+      <p-table *ngIf="!isLoading && printers.length" [value]="printers" [autoLayout]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Модель</th>
+            <th>Имя принтера</th>
+            <th>Диагностические данные</th>
+            <th>Профиль 1</th>
+            <th>Профиль 2</th>
+            <th width="400px"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>{{row.serialHex}}</td>
+            <td>{{row.name}}</td>
+            <td class="diagnostics">
+              <p class="underlined">[{{row.statusDate | date : "dd.MM.yyyy HH:mm"}}] {{row.status}}</p>
+              <p>Остаток: {{row.remainingRibbon}}</p>
+              <p>Пробег: {{row.lifeTime}}</p>
+              <p>Краска: {{row.sublimate}}</p>
+              <p>Голография: {{row.hologram}}</p>
+            </td>
+            <td>
+              <div class="indicator" [ngClass]="row.inProfileUrl ? 'on' : ''"></div>
+            </td>
+            <td>
+              <div class="indicator" [ngClass]="row.outProfileUrl ? 'on' : ''"></div>
+            </td>
+            <td class="commands-column">
+              <p-button *ngIf="!row.editForm && !row.testPrintForm && row.canDoTestPrint" label="Тестовая печать"
+                (click)="openTestPrint(row)">
+              </p-button>
+              <p-button *ngIf="!row.editForm && !row.testPrintForm" label="Редактировать" (click)="openEdit(row)">
+              </p-button>
+              <p-button *ngIf="row.editForm || row.testPrintForm" label="Свернуть" (click)="collapseForms(row)">
+              </p-button>
+            </td>
+          </tr>
+          <tr *ngIf="row.editForm">
+            <td colspan="6">
+              <div class="editform">
+                <h4>{{row.title}} — редактирование</h4>
+
+                <div class="input-group">
+                  <p class="title">Имя принтера</p>
+                  <input placeholder="" [(ngModel)]="row.editForm.name">
+                </div>
+
+                <div class="input-group">
+                  <p class="title">Входной цветовой профиль</p>
+                  <div class="file-info">
+                    <a *ngIf="row.editForm.inProfile.url" href="{{row.editForm.inProfile.url}}">Загруженный файл</a>
+                    <p *ngIf="row.editForm.inProfile.file">{{row.editForm.inProfile.file.name}}</p>
+                  </div>
+                  <div class="actions" *ngIf="!isArchived">
+                    <p-button ngfSelect [(file)]="row.editForm.inProfile.file" accept=".*" multiple="1"
+                      label="{{row.editForm.inProfile.selectButtonLabel}}">
+                    </p-button>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <p class="title">Выходной цветовой профиль</p>
+                  <div class="file-info">
+                    <a *ngIf="row.editForm.outProfile.url" href="{{row.editForm.outProfile.url}}">Загруженный файл</a>
+                    <p *ngIf="row.editForm.outProfile.file">{{row.editForm.outProfile.file.name}}</p>
+                  </div>
+                  <div class="actions" *ngIf="!isArchived">
+                    <p-button ngfSelect [(file)]="row.editForm.outProfile.file" accept=".*" multiple="1"
+                      label="{{row.editForm.outProfile.selectButtonLabel}}">
+                    </p-button>
+                  </div>
+                </div>
+
+                <div class="buttons-group">
+                  <p-button label="Сохранить" (click)="commitEdit(row)"></p-button>
+                  <p-button label="Отменить" (click)="collapseForms(row)"></p-button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="row.testPrintForm">
+            <td colspan="6">
+              <div class="testPrintForm">
+                <h4>{{row.title}} — тестовая печать</h4>
+
+                <div *ngIf="row.testPrintForm.isLoading">
+                  Загрузка данных...
+                </div>
+                <div *ngIf="!row.testPrintForm.isLoading" class="columns-container">
+                  <label>Тестовая карточка</label>
+                  <div class="status">
+                    <ng-container *ngIf="row.testPrintForm.data">
+                      <p>{{row.testPrintForm.data.statusText}}</p>
+                      <p *ngIf="row.testPrintForm.data.error">{{row.testPrintForm.data.error}}</p>
+                    </ng-container>
+                  </div>
+                  <p-button [label]="row.testPrintForm.printButtonLabel" (click)="doTestPrint(row)"
+                    [disabled]="!row.testPrintForm.canStartTestPrint"></p-button>
+                </div>
+                <p-button label="Свернуть" (click)="collapseForms(row)"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

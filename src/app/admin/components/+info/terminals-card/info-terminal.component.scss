@@ -1,0 +1,115 @@
+.container-info {
+  margin: 0 1.5rem;
+
+  h1 {
+    font-size: 30px;
+  }
+
+  form {
+    width: 1000px;
+  }
+
+  .info-data {
+    h2 {
+      font-size: 26px;
+      margin   : 1rem 0;
+    }
+
+    .info-text {
+      margin: 10px 0;
+    }
+
+    .date-create {
+      display        : flex;
+      justify-content: space-between;
+      width          : 40rem;
+      margin-bottom  : 1rem;
+
+      p:first-child {
+        flex: 1
+      }
+
+      p:last-child {
+        flex: 2
+      }
+    }
+  }
+}
+
+.popover-container {
+  position  : fixed;
+  background: none;
+  width     : 0;
+  height    : 0;
+
+  .popover-inner-container {
+    position  : relative;
+    width     : auto;
+    height    : auto;
+    left      : 50px;
+    bottom    : 35px;
+    display   : flex;
+    background: none;
+
+    .popover {
+      max-width : unset;
+      max-height: unset;
+      width     : auto;
+      height    : auto;
+
+      background: white;
+      border    : 2px gray solid;
+      padding   : 3px;
+    }
+  }
+}
+
+.image-view {
+  width     : 300px;
+  height    : 533px;
+  overflow  : hidden;
+  object-fit: cover;
+}
+
+.payment-group {
+  align-items: center;
+  margin     : 1rem 0;
+  display    : flex;
+
+  .payment-label {
+    flex: 0 200px;
+  }
+
+  .payment-block {
+    flex   : 400px;
+    padding: 10px 5px;
+
+    input {
+      top     : 1px;
+      position: relative;
+      left    : -5px;
+    }
+  }
+}
+
+.status-indicator {
+  width : 20px;
+  height: 20px;
+
+  display      : block;
+  float        : left;
+  margin-right : 4px;
+  left         : -5px;
+  position     : relative;
+  border-radius: 10px;
+}
+
+.status-label {}
+
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: red;
+}

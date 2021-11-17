@@ -1,0 +1,6 @@
+<div class="container-crumbs">
+  <div *ngFor="let crumb of crumbs; let last = last" class="crumb">
+    <a>{{crumb}}</a>
+    <p *ngIf="!last">/</p>
+  </div>
+</div>

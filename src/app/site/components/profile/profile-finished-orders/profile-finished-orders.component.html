@@ -1,0 +1,142 @@
+<div class="finished-orders-container">
+    <h1>История заказов</h1>
+
+    <ng-container *ngIf="years">
+        <div class="tab-menu">
+            <p>Показать</p>
+            <div class="tabs">
+                <button [ngClass]="{'active': !currentYear}" (click)="setYear(undefined)">
+                    Все
+                </button>
+                <button *ngFor="let year of years" [ngClass]="{'active': currentYear == year}" (click)="setYear(year)">
+                    {{year}}
+                </button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="themes">
+        <div class="tab-menu">
+            <p>Показать</p>
+            <div class="tabs">
+                <button (click)="setTheme(undefined)" [ngClass]="{'active': allThemesDeselected}">
+                    Все
+                </button>
+                <button *ngFor="let theme of themes" [ngClass]="{'active': theme.isSelected}" (click)="setTheme(theme)">
+                    {{theme.name}}
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="orders && !orders.length">
+        Пока заказов нет
+    </ng-container>
+
+    <ng-container *ngIf="orders">
+        <div *ngFor="let order of orders" class="order-container">
+            <h3>Заказ №{{order.id}} от {{order.createDate | date : "dd.MM.yyyy"}}</h3>
+
+            <ng-container *ngIf="!order.detailsVisible">
+                <table width="100%" class="bordered">
+                    <thead>
+                        <td>В заказе</td>
+                        <td>Стоимость, Р</td>
+                        <td>Кол-во</td>
+                        <td>Сумма</td>
+                        <td>Итого</td>
+                        <td>Статус</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of order.rows; let first = first;">
+                            <td>{{row.title}}</td>
+                            <td>{{row.price}}</td>
+                            <td>{{row.quantity}}</td>
+                            <td>{{row.sum}}</td>
+                            <td *ngIf="first" [attr.rowspan]="order.rows.length">
+                                <p>{{order.totalPrice}}</p>
+                            </td>
+                            <td *ngIf="first" [attr.rowspan]="order.rows.length">
+                                <p>{{order.status}}</p>
+                                <p>{{order.statusDate | date : "dd.MM.yyyy HH:mm"}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button (click)="order.toggleDetails()">
+                    Показать детали
+                </button>
+            </ng-container>
+
+            <div *ngIf="order.detailsVisible" class="detailed-order">
+
+                <button *ngIf="order.detailsVisible" (click)="order.toggleDetails()">Скрыть детали</button>
+
+                <div *ngIf="!order.details">
+                    Идет загрузка...
+                </div>
+                <div *ngIf="order.details" class="columns-container">
+                    <div class="column">
+                        <h4>Состав заказа</h4>
+
+                        <table>
+                            <thead>
+                                <td>Фото</td>
+                                <td>Карточка</td>
+                                <td>Стоимость</td>
+                                <td>Кол-во</td>
+                                <td>Сумма</td>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detailRow of order.details.rows" class="bordered">
+                                    <td class="card-preview">
+                                        <img [src]="detailRow.previewImage">
+                                    </td>
+                                    <td>
+                                        <p class="title">{{detailRow.title}}</p>
+                                        <p>{{detailRow.path}}</p>
+                                    </td>
+                                    <td>{{detailRow.price}}</td>
+                                    <td>{{detailRow.quantity}}</td>
+                                    <td>{{detailRow.sum}}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{order.details.totalPrice}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <h4>О получении</h4>
+
+                        <div class="info">
+                            <p class="bold" *ngIf="order.details.deliveryType == 'Address'">Доставка</p>
+                            <p class="bold" *ngIf="order.details.deliveryType == 'Pickpoint'">Самовывоз</p>
+                            <p class="bold" *ngIf="order.details.deliveryType == 'Terminal'">Заказ напечатан на
+                                терминале
+                            </p>
+                            <p *ngFor="let line of order.details.address">{{line}}</p>
+                        </div>
+
+                        <div *ngIf="order.details.comment" class="info new-block">
+                            <p class="bold">Комментарий к заказу</p>
+                            <p>{{order.details.comment}}</p>
+                        </div>
+
+                        <h4 class="new-block">Статус заказа</h4>
+                        <div class="info new-block">
+                            <p>{{order.status}}</p>
+                            <p>{{order.statusDate | date : "dd.MM.yyyy"}}</p>
+                            <p class="link-button" (click)="order.showHistory()">История статусов</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button *ngIf="order.detailsVisible" (click)="order.toggleDetails()">Скрыть детали</button>
+            </div>
+        </div>
+    </ng-container>
+</div>

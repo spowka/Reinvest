@@ -1,0 +1,29 @@
+.sa-arrows {  
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  cursor: pointer;  
+  text-transform: none;
+  line-height: 1;  
+
+  i {
+    font-family: 'primeicons';
+    width: 1.28571429em;
+    text-align: center;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+  }
+}
+
+.sa-sort-down:before {
+  content: "\e913";
+}
+
+.sa-sort-up:before {
+  content: "\e914";
+}
+
+.sa-sort:before {
+  content: "\e915";
+}

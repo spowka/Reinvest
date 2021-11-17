@@ -1,0 +1,11 @@
+.container-crumbs{
+  display: flex;
+  margin: 1rem;
+  .crumb {
+    display: flex;
+    a {
+      color: #000000;
+      margin: 0 0.5rem;
+    }
+  }
+}

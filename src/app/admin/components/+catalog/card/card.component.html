@@ -1,0 +1,319 @@
+<div class="card-info-container">
+    <h2 *ngIf="isEdit">Карточка<br /><span *ngFor="let item of cardThemes">{{item.name}} / </span> {{card.title}}</h2>
+    <h2 *ngIf="!isEdit">Создаем новую карточку</h2>
+    <div class="app-info-card">
+        <h3>Положение в каталоге</h3>
+        <p *ngIf="card.canEdit" class="info-text">Необходимо указать значения для всех активных полей</p>
+        <div class="date-create" *ngIf="isEdit">
+            <p>Дата создания</p>
+            <p>{{card.created | date : "dd.MM.yyyy HH:mm"}}</p>
+        </div>
+        <form [formGroup]="cardForm">
+            <div class="input-group">
+                <label>Тематика</label>
+                <p-dropdown [options]="availableThemes" formControlName="themeCatalogLevelId" disabled="true"
+                    [style]="{'width':'100%'}"></p-dropdown>
+            </div>
+            <div class="input-group">
+                <label>Серия</label>
+                <p-dropdown [options]="availableSeries" formControlName="seriesCatalogLevelId"
+                    [ngClass]="{'error': hasError(f.seriesCatalogLevelId)}" [style]="{'width':'100%'}"
+                    [disabled]="!card.canEdit"></p-dropdown>
+            </div>
+            <div class="input-group">
+                <label>Комплект</label>
+                <p-dropdown [options]="availableSets" formControlName="setCatalogLevelId"
+                    [ngClass]="{'error': hasError(f.setCatalogLevelId)}" [style]="{'width':'100%'}"
+                    [disabled]="!isSetCatalogIdEnabled || !card.canEdit"></p-dropdown>
+            </div>
+            <h3>Базовое описание</h3>
+            <p *ngIf="card.canEdit" class="info-text">Поле "Наименование" обязательно для заполнения</p>
+            <div class="input-group">
+                <label>Наименование</label>
+                <input pInputText placeholder="Наименование" formControlName="title"
+                    [ngClass]="{'error': hasError(f.title)}" [attr.readonly]="card.canEdit ? null : ''">
+            </div>
+
+            <h3>Отображение на сайте</h3>
+            <div class="input-group">
+                <label>Описание для сайта</label>
+                <textarea pInputTextarea placeholder="Описание для сайта" formControlName="description"
+                    [ngClass]="{'error': hasError(f.description)}"
+                    [attr.readonly]="card.canEdit ? null : ''"></textarea>
+            </div>
+            <div class="input-group" *ngIf="generalErrors.siteImages">
+                <span class="error-text">Необходимо загрузить полный комплект файлов</span>
+            </div>
+            <div class="input-group">
+                <label>Превью для каталога<br />jpg, png, gif - {{previewImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="previewImage.imageSrc" class="image" [src]="previewImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="previewImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="previewImage.file" accept="image/*" multiple="1"
+                            [label]="previewImage.selectButtonLabel" (click)="previewImage.url='';"></p-button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Лицевая сторона (крупно)<br />jpg, png, gif - {{frontImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="frontImage.imageSrc" class="image" [src]="frontImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="frontImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="frontImage.file" accept="image/*" multiple="1"
+                            [label]="frontImage.selectButtonLabel" (click)="frontImage.url='';"></p-button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Обратная сторона (крупно)<br />jpg, png, gif - {{backImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="backImage.imageSrc" class="image" [src]="backImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="backImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="backImage.file" accept="image/*" multiple="1"
+                            [label]="backImage.selectButtonLabel" (click)="backImage.url='';"></p-button>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Отображение на терминалах</h3>
+            <div class="input-group">
+                <label>Описание для терминала</label>
+                <textarea pInputTextarea placeholder="Описание для терминала" formControlName="terminalDescription"
+                    [ngClass]="{'error': hasError(f.terminalDescription)}"
+                    [attr.readonly]="card.canEdit ? null : ''"></textarea>
+            </div>
+            <div class="input-group" *ngIf="generalErrors.terminalImages">
+                <span class="error-text">Необходимо загрузить полный комплект файлов</span>
+            </div>
+            <div class="input-group">
+                <label>Превью для терминала<br />jpg, png, gif - {{terminalPreviewImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="terminalPreviewImage.imageSrc" class="image" [src]="terminalPreviewImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="terminalPreviewImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="terminalPreviewImage.file" accept="image/*" multiple="1"
+                            [label]="terminalPreviewImage.selectButtonLabel" (click)="terminalPreviewImage.url='';">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Лицевая сторона (крупно)<br />jpg, png, gif - {{terminalFrontImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="terminalFrontImage.imageSrc" class="image" [src]="terminalFrontImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="terminalFrontImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="terminalFrontImage.file" accept="image/*" multiple="1"
+                            [label]="terminalFrontImage.selectButtonLabel" (click)="terminalFrontImage.url='';">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Обратная сторона (крупно)<br />jpg, png, gif - {{terminalBackImage.imageSizeLabel}}</label>
+                <div class="image-edit-box">
+                    <img *ngIf="terminalBackImage.imageSrc" class="image" [src]="terminalBackImage.imageSrc">
+                    <div class="actions" *ngIf="card.canEdit">
+                        <p-button label="Удалить файл" (click)="terminalBackImage.reset()"></p-button>
+                        <p-button ngfSelect [(file)]="terminalBackImage.file" accept="image/*" multiple="1"
+                            [label]="terminalBackImage.selectButtonLabel" (click)="terminalBackImage.url='';">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Файлы для печати</h3>
+            <div class="toggle-buttons">
+                <button [ngClass]="{'active': printFilesMode == 'None'}" (click)="printFilesMode = 'None'"
+                    [attr.disabled]="card.canEdit ? null : ''">Комплект
+                    файлов не задан</button>
+                <button [ngClass]="{'active': printFilesMode == 'ImageLamination'}"
+                    (click)="printFilesMode = 'ImageLamination'" [attr.disabled]="card.canEdit ? null : ''">Изображение
+                    и ламинация</button>
+                <button [ngClass]="{'active': printFilesMode == 'ImageHoloLamination'}"
+                    (click)="printFilesMode = 'ImageHoloLamination'"
+                    [attr.disabled]="card.canEdit ? null : ''">Изображение, голограмма и
+                    ламинация</button>
+            </div>
+            <div class="input-group" *ngIf="generalErrors.printFiles">
+                <span class="error-text">Необходимо загрузить полный комплект файлов</span>
+            </div>
+            <div class="input-group" *ngIf="printFilesMode == 'None' && card.canEdit">
+                <span>Укажите необходимый комплект файлов для карточки и загрузите их.</span>
+            </div>
+            <ng-container *ngIf="printFilesMode != 'None'">
+                <h4>Лицевая сторона</h4>
+                <div class="input-group">
+                    <label>Изображение<br />png - {{terminalPrintFrontImage.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintFrontImage.imageSrc" class="image"
+                            [src]="terminalPrintFrontImage.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintFrontImage.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintFrontImage.file" accept="image/png" multiple="1"
+                                [label]="terminalPrintFrontImage.selectButtonLabel"
+                                (click)="terminalPrintFrontImage.url='';"></p-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group" *ngIf="printFilesMode == 'ImageHoloLamination'">
+                    <label>Голограмма<br />png - {{terminalPrintFrontHolo.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintFrontHolo.imageSrc" class="image"
+                            [src]="terminalPrintFrontHolo.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintFrontHolo.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintFrontHolo.file" accept="image/png" multiple="1"
+                                [label]="terminalPrintFrontHolo.selectButtonLabel"
+                                (click)="terminalPrintFrontHolo.url='';"></p-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Ламинация<br />png - {{terminalPrintFrontLamination.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintFrontLamination.imageSrc" class="image"
+                            [src]="terminalPrintFrontLamination.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintFrontLamination.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintFrontLamination.file" accept="image/png"
+                                multiple="1" [label]="terminalPrintFrontLamination.selectButtonLabel"
+                                (click)="terminalPrintFrontLamination.url='';">
+                            </p-button>
+                        </div>
+                    </div>
+                </div>
+                <h4>Обратная сторона</h4>
+                <div class="input-group">
+                    <label>Изображение<br />png - {{terminalPrintBackImage.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintBackImage.imageSrc" class="image"
+                            [src]="terminalPrintBackImage.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintBackImage.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintBackImage.file" accept="image/png" multiple="1"
+                                [label]="terminalPrintBackImage.selectButtonLabel"
+                                (click)="terminalPrintBackImage.url='';"></p-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group" *ngIf="printFilesMode == 'ImageHoloLamination'">
+                    <label>Голограмма<br />png - {{terminalPrintBackHolo.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintBackHolo.imageSrc" class="image"
+                            [src]="terminalPrintBackHolo.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintBackHolo.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintBackHolo.file" accept="image/png" multiple="1"
+                                [label]="terminalPrintBackHolo.selectButtonLabel"
+                                (click)="terminalPrintBackHolo.url='';"></p-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Ламинация<br />png - {{terminalPrintBackLamination.imageSizeLabel}}</label>
+                    <div class="image-edit-box">
+                        <img *ngIf="terminalPrintBackLamination.imageSrc" class="image"
+                            [src]="terminalPrintBackLamination.imageSrc">
+                        <div class="actions" *ngIf="card.canEdit">
+                            <p-button label="Удалить файл" (click)="terminalPrintBackLamination.reset()"></p-button>
+                            <p-button ngfSelect [(file)]="terminalPrintBackLamination.file" accept="image/png"
+                                multiple="1" [label]="terminalPrintBackLamination.selectButtonLabel"
+                                (click)="terminalPrintBackLamination.url='';">
+                            </p-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <h3>Шаблон печати номера</h3>
+            <div class="input-group">
+                <label class="align-self-top">Шаблон печати номера</label>
+                <div class="vertical" style="margin-left: 20px">
+                    <label style="margin: 0">{{ card.cardNumberPrintTemplate || 'Не назначен' }}</label>
+                    <button class="link-button" (click)="gotoTemplatesAssign()">Перейти к назначению шаблонов</button>
+                </div>
+            </div>
+
+            <h3>Тираж и формирование цены (продано: {{card.soldCount}})</h3>
+            <div class="input-group">
+                <label>Тираж</label>
+                <input pInputText placeholder="Тираж" formControlName="printCount"
+                    [ngClass]="{'error': hasError(f.printCount)}" [attr.disabled]="f.unlimited.value ? '' : null"
+                    [attr.readonly]="card.canEdit ? null : ''">
+                <div class="horizontal" style="margin-left: 20px">
+                    <label class="unlimited">Unlimited</label>
+                    <input class="unlimited" type="checkbox" formControlName="unlimited"
+                        [attr.disabled]="card.canEdit ? null : ''">
+                </div>
+            </div>
+            <div class="input-group" *ngIf="!f.unlimited.value">
+                <label>Модель формирования цены</label>
+                <div class="radio-buttons" [ngClass]="{'error': hasError(f.priceModel)}">
+                    <p-radioButton name="groupname" value="Fixed" label="Фиксированная" formControlName="priceModel"
+                        [disabled]="!card.canEdit">
+                    </p-radioButton>
+                    <p-radioButton name="groupname" value="Proportional" label="Пропорциональная"
+                        formControlName="priceModel" [disabled]="!card.canEdit">
+                    </p-radioButton>
+                    <p-radioButton name="groupname" value="Exponential" label="Экспоненциальная"
+                        formControlName="priceModel" [disabled]="!card.canEdit">
+                    </p-radioButton>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>{{priceLabel}}</label>
+                <input pInputText placeholder="Цена" formControlName="price" [ngClass]="{'error': hasError(f.price)}"
+                    [attr.readonly]="card.canEdit ? null : ''">
+            </div>
+
+            <h3>Предварительный просмотр</h3>
+            <div class="input-group">
+                <p-button label="Сформировать страницу" (click)="showPreview()"></p-button>
+            </div>
+
+            <div *ngIf="isEdit">
+                <h3>Статус карточки</h3>
+                <div class="input-group">
+                    <label>Статус</label>
+                    <p-dropdown [options]="statuses" formControlName="status" [ngClass]="{'error': hasError(f.status)}"
+                        [style]="{'width':'100%'}" [disabled]="statuses.length <= 1">
+                        <ng-template let-status pTemplate="item">
+                            {{ status.label }}
+                            <span *ngIf="status.warning" class="status-warning">{{ status.warning }}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div *ngIf="isStatusChangedToActive" class="input-group">
+                    <span class="strong-warning-text">{{activateCardText}}</span>
+                </div>
+                <div *ngIf="isStatusChangedToInactive" class="input-group">
+                    <span class="strong-warning-text">{{deactivateCardText}}</span>
+                </div>
+                <div *ngIf="isStatusChanged" class="input-group">
+                    <label>Комментарий</label>
+                    <textarea pInputTextarea placeholder="Обязательный комментарий к смене статуса"
+                        formControlName="comment" [ngClass]="{'error': hasError(f.comment)}"></textarea>
+                </div>
+            </div>
+
+            <div class="input-group" *ngIf="isEdit">
+                <label></label>
+                <div class="change-info">
+                    Последнее изменение:<br>
+                    {{card.updatedBy}}, {{card.updated | date : "dd.MM.yyyy, HH:mm" }}<br>
+                    <button class="link-button" (click)="showStatusHistory()">Посмотреть историю статусов</button>
+                </div>
+            </div>
+
+            <div class="save-info">
+                <button *ngIf="card.canEdit || statuses.length > 1" pButton (click)="isEdit ? saveCard() : createCard()"
+                    [attr.disabled]="isBusy ? '' : null" label="{{isEdit? 'Сохранить изменения': 'Создать'}}"></button>
+                <button pButton (click)="cancel()" label="{{card.canEdit? 'Отмена': 'Назад'}}"></button>
+            </div>
+        </form>
+    </div>
+</div>

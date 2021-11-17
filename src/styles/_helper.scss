@@ -1,0 +1,51 @@
+.h-scrollbar {
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-color: #adb5ca transparent;
+  scrollbar-width: thin;
+  transition: background-color .3s ease;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    width: 100%;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #adb5ca;
+    transition: background-color .3s ease;
+    margin-top: 10px;
+  }
+  &--hidden {
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: #adb5ca;
+    }
+  }
+  &--light {
+    scrollbar-color: #b0abce #F4F2FF;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #b0abce;
+      border-radius: 0;
+      min-height: 90px;
+    }
+    &::-webkit-scrollbar-thumb:vertical {
+      border-top: 40px solid #F4F2FF;
+    }
+    &::-webkit-scrollbar-thumb:horizontal {
+      min-height: auto;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #F4F2FF;
+    }
+  }
+}

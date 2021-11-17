@@ -1,0 +1,58 @@
+<div class="container-pickup-points">
+  <div *ngIf="!showArchive" class="add">
+    <p (click)="add(false)">+ Добавить пункт самовывоза</p>
+  </div>
+
+  <div class="tab-menu">
+    <p>Показать</p>
+    <div class="tabs">
+      <button [class.ui-button]="!showArchive" (click)="setShowArchive(false)">Действующие</button>
+      <button [class.ui-button]="showArchive" (click)="setShowArchive(true)">Архивные</button>
+    </div>
+  </div>
+
+  <div class="container-table">
+    <p-table [value]="pickupPoints" dataKey="id">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Наименование</th>
+          <th>Адрес</th>
+          <th width="140px">Доступность для заказа</th>
+          <th width="140px">Офис</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td>{{row.name}}</td>
+          <td>{{row.address}}</td>
+          <td>
+            <div class="indicator" [ngClass]="row.isAvailable ? 'on' : ''"></div>
+          </td>
+          <td>
+            <div class="indicator" [ngClass]="row.isOffice ? 'on' : ''"></div>
+          </td>
+          <td class="commands-column">
+            <ng-container *ngIf="!row.isExpanded">
+              <p-button label="{{showArchive ? 'Просмотр' : 'Редактировать'}}" (click)="startEdit(row)">
+              </p-button>
+              <p-button label="В архив" *ngIf="!showArchive" (click)="archive(row.id)"></p-button>
+              <p-button label="Восстановить" *ngIf="showArchive" (click)="restore(row.id)"></p-button>
+            </ng-container>
+            <p-button label="Свернуть" *ngIf="row.isExpanded" (click)="cancelEdit(row)"></p-button>
+          </td>
+        </tr>
+        <tr *ngIf="row.isExpanded">
+          <td colspan="5">
+            <app-pickup-points-card [pickupPointOwnerId]="ownerId" [pickupPointId]="row.id" [isArchived]="showArchive"
+              [mapElementId]="row.mapElementId" (onSave)="reload()" (onCancel)="cancelEdit(row)">
+            </app-pickup-points-card>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div *ngIf="!showArchive" class="add">
+    <p (click)="add(true)">+ Добавить пункт самовывоза</p>
+  </div>
+</div>

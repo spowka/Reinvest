@@ -1,0 +1,233 @@
+<section class="cart">
+  <div class="container">
+    <div class="search-results">
+      <ng-container *ngIf="isLoading">
+        Идет поиск...
+      </ng-container>
+      <ng-container *ngIf="result && !isLoading">
+        <h3 class="title normal rv-margin-t-30" *ngIf="lastSearchString">Вы искали “<span
+            class="search-result">{{lastSearchString}}</span>”</h3>
+        <ng-container>
+          <h3 *ngIf="result.cards" class="search-results__header">
+            К сожалению, ничего найти не удалось
+            <ng-container *ngFor="let tab of tabs; let first = first; let last = last;">
+              <span class="tab" [ngClass]="{'link-button': currentTab === tab}"
+                (click)="currentTab = tab;">{{tab.tabText}}</span>
+              <span *ngIf="!last">/</span>
+            </ng-container>
+          </h3>
+        </ng-container>
+
+        <div class="tab-content" *ngIf="currentTab && currentTab.type == 'cards'">
+
+          <div class="cards-result__filter checkbox rv-flex rv-flex-align-center rv-margin-b-40">
+            <input type="checkbox" [(ngModel)]="cardsFilter.showSoldOut" (ngModelChange)="getExpiredCards()" id="c1">
+            <label class="label" for="c1">Показывать закончившиеся карточки</label>
+          </div>
+
+          <div class="cards-result__list rv-cards" sameHeightClass="path">
+            <div *ngFor="let card of getCards()" class="rv-card" [class.isActive]="card.printCountLeft">
+              <div class="isDisabled" *ngIf="!card.printCountLeft"></div>
+              <div class="cards-result__item rv-padding-20" [ngClass]="{'out': !card.printCountLeft}">
+                <div class="cards-result__photo">
+                  <ng-container *ngIf="card.previewImage; else default">
+                    <img [src]="card.previewImage" [alt]="card.previewImage" class="img">
+                  </ng-container>
+                  <ng-template #default>
+                    <div class="img-default"></div>
+                  </ng-template>
+                  <!-- for example -->
+                  <!-- <div class="sale rv-flex rv-flex-center" *ngIf="card.isSale > 0">
+                    {{card.isSalePercent}}%
+                  </div> -->
+                  <div class="sale rv-flex rv-flex-center">
+                    -25%
+                  </div>
+                  <div class="cart-quantity rv-flex rv-flex-center" *ngIf="card.cartQuantity > 0">
+                    <img src="assets/images/icons/cart.svg" class="rv-margin-r-2" alt="cart.svg" />
+                    {{card.cartQuantity}}
+                  </div>
+                </div>
+                <ul class="cards-result__desc">
+                  <li class="cards-result__name line-height-20" [innerHtml]="card.title"></li>
+
+                  <ng-container *ngIf="!card.unlimited">
+                    <li class="cards-result__count text line-height-20">Осталось: <span>{{card.printCountLeft}}</span>
+                      шт.</li>
+                  </ng-container>
+
+                  <ng-container *ngIf="card.printCount">
+                    <li class="cards-result__reating text line-height-20">Рейтинг: <span>{{card.printCount}}</span>
+                    </li>
+                  </ng-container>
+
+                  <li class="cards-result__price">
+                    <ng-container *ngIf="card.printCountLeft; else isSalePrice">
+                      <span class="price line-height-20">{{card.price}}</span> ₽
+                    </ng-container>
+
+                    <ng-template #isSalePrice>
+                      <div class="rv-flex rv-flex-besline">
+                        <p class="text old-price line-height-20">
+                          <!-- {{card.currnetPrice}} ₽ -->
+                          200 ₽
+                        </p>
+                        <p class="text new-price rv-margin-l-18 line-height-20">
+                          <!-- {{card.isSale}} ₽ -->
+                          150 ₽
+                        </p>
+                      </div>
+                    </ng-template>
+
+                    <ng-container *ngIf="!card.printCountLeft">
+                      <p class="ended line-height-20">Закончились</p>
+                    </ng-container>
+                  </li>
+                </ul>
+                <div class="cards-result__controls">
+                  <a href="javascript:void(0)" class="btn btn-red" *ngIf="card.unlimited || card.printCountLeft > 0"
+                    (click)="addToCart($event, card)">
+
+                    <span *ngIf="card.cartQuantity">В корзине - {{card.cartQuantity}} шт</span>
+                    <span *ngIf="!card.cartQuantity">В корзину</span>
+                  </a>
+                  <a href="javascript:void(0)" class="btn" (click)="openCard(card)">Просмотр</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" *ngIf="currentTab && currentTab.type == 'themes'">
+          <div class="search__list themes rv-cards rv-flex rv-flex-column">
+            <div *ngFor="let theme of result.themes" class="rv-card rv-flex rv-margin-b-40">
+              <div class="search__photo themes">
+                <div class="card__list">
+                  <div class="card__inner--small">
+                    <a class="card__item"
+                      [style.background-image]="theme.image ? 'url(' + theme.image + ')' : 'url(' + 'assets/images/Gradient.png' + ')'">
+                      <div class="card__name" [innerHTML]="theme.name"></div>
+                      <div class="card__hidden card__show">
+                        <div class="card__text show" [innerHTML]="theme.shortDescription"></div>
+                        <a class="btn show" [routerLink]="['/catalog/' + theme.id]">Смотреть Тематику</a>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="search__info themes rv-flex flex-column">
+                <div class="search__info__header themes">
+                  <h3 class="subtitle rv-margin-b-0" *ngIf="hasChildren(theme, 2)">Тематика содержит серии и комплекты:
+                  </h3>
+                  <h3 class="subtitle rv-margin-b-0" *ngIf="hasChildren(theme, 1)">В этой тематике есть серии:</h3>
+                  <ng-container *ngIf="hasNoChildren(theme)">
+                    <h3 class="subtitle rv-margin-b-0">Тематика содержит карточки без серий и комплектов. Перейдите в
+                      тематику чтобы просмотреть и выбрать карточки</h3>
+                  </ng-container>
+                </div>
+                <div class="search__info__desc themes">
+                  <div class="children-group" *ngFor="let series of theme.children">
+                    <a class="link-button small-subtitle bold"
+                      [routerLink]="['/catalog/' + series.id]">{{series.name}}</a>
+                    <ng-container *ngFor="let set of series.children">
+                      <a class="link-button small-subtitle" [routerLink]="['/catalog/' + set.id]">{{set.name}}</a>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" *ngIf="currentTab && currentTab.type == 'series'">
+          <ng-container *ngFor="let seriesGroup of result.series">
+            <div class="search__list series rv-cards rv-flex rv-flex-column">
+              <div class="rv-flex rv-flex-align-center">
+                <h3 class="subtitle">{{seriesGroup.path}}<span>/</span></h3>
+                <div class="empty"></div>
+              </div>
+              <div *ngFor="let series of seriesGroup.series" class="rv-card rv-flex rv-margin-b-40">
+                <div class="search__photo series">
+                  <div class="card__list">
+                    <div class="card__inner--large">
+                      <a class="card__item"
+                        [style.background-image]="series.image ? 'url(' + series.image + ')' : 'url(' + 'assets/images/Gradient.png' + ')'">
+                        <div class="card__name" [innerHTML]="series.name"></div>
+                        <div class="card__hidden card__show">
+                          <div class="card__text show" [innerHTML]="series.shortDescription"></div>
+                          <a class="btn show" [routerLink]="['/catalog/' + series.id]">Смотреть Серию</a>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="search__info series rv-flex flex-column">
+                  <div class="search__info__header series">
+                    <h3 class="subtitle rv-margin-b-0" *ngIf="hasChildren(series, 1)">Серия содержит комплекты:</h3>
+                    <ng-container *ngIf="hasNoChildren(series)">
+                      <h3 class="subtitle rv-margin-b-0">Серия содержит карточки без комплектов. Перейдите в серию
+                        чтобы
+                        просмотреть и выбрать карточки</h3>
+                    </ng-container>
+                  </div>
+                  <div class="search__info__desc series">
+                    <div class="children-group" *ngFor="let set of series.children">
+                      <a class="link-button small-subtitle" [routerLink]="['/catalog/' + set.id]">{{set.name}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="tab-content" *ngIf="currentTab && currentTab.type == 'sets'">
+          <ng-container *ngFor="let setGroup of result.sets">
+            <div class="search__list sets rv-cards rv-flex rv-flex-column">
+              <div class="rv-flex rv-flex-align-center">
+                <h3 class="subtitle">{{setGroup.path}}<span>/</span></h3>
+                <div class="empty"></div>
+              </div>
+              <div class="rv-margin-b-40 sets-body">
+                <div *ngFor="let set of setGroup.sets" class="rv-card rv-flex rv-flex-column sets">
+                  <div class="search__photo sets">
+                    <div class="card__list">
+                      <div class="card__inner--small">
+                        <a class="card__item"
+                          [style.background-image]="set.image ? 'url(' + set.image + ')' : 'url(' + 'assets/images/Gradient.png' + ')'">
+                          <div class="card__name" [innerHTML]="set.name"></div>
+                          <div class="card__hidden card__show">
+                            <div class="card__text show" [innerHTML]="set.shortDescription"></div>
+                            <a class="btn show" [routerLink]="['/catalog/' + set.id]">Смотреть Комплект</a>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="search__info sets rv-margin-t-10 rv-flex rv-flex-center">
+                    <label class="margin-top-5 small-subtitle">В комплекте {{set.cardsCount}} карточек</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="tab-content" *ngIf="currentTab && currentTab.type == 'other'">
+          <div class="rv-flex other-result columns-container"
+            *ngFor="let result of result.otherResults; let index = index;">
+            <div class="subtitle bold-middle rv-margin-r-45">{{index + 1}}.</div>
+            <div class="info rv-flex rv-flex-column rv-flex-align-start">
+              <p class="text">{{getOtherResultPath(result)}} / </p>
+              <h3 class="subtitle bold-middle clickable" [routerLink]="[getOtherResultLink(result)]" [innerHtml]="result.title"></h3>
+              <div *ngIf="result.description" class="other-result__desc rv-flex">
+                <div class="text description" [innerHtml]="result.description" maintainScrollClass="search-result"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</section>

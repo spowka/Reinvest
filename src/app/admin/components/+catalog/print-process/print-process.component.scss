@@ -1,0 +1,68 @@
+.app-print-process {   
+    margin: 0 1.5rem;
+
+    .card-name {
+        font-weight: bold;
+    }
+    
+    .order-cell {
+        vertical-align: top;
+    }
+    
+    .card-status {
+        padding: 4px;
+    
+        .text {
+            position: relative;
+        }
+    }
+    
+    .card-completed {
+        border: 1px dashed #7a817a;
+        position: relative;
+        
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background:  #00cc00;
+        }
+    }
+    
+    .card-printing {
+        border: 1px dashed #7a817a;
+        position: relative;
+        
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background:  #00cc00;
+        }
+    }
+    
+    .card-error {
+        border: 1px dashed #7a817a;
+        position: relative;
+        
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background:  #ff9900;
+        }
+    }
+    
+    .card-rejected {
+        color: #cc0000;
+        .background {
+            display: none;
+        }
+    }
+}

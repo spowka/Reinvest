@@ -1,0 +1,103 @@
+<div class="container-legal-entities-card">
+  <div class="container-menu">
+    <button [class.ui-button]="tabIndex==0" (click)="tabIndex=0;">Базовое описание</button>
+    <button [class.ui-button]="tabIndex==1" (click)="tabIndex=1;">Пункты самовывоза</button>
+    <button [class.ui-button]="tabIndex==2" (click)="tabIndex=2;">Настройки отображения ПС</button>
+    <button [class.ui-button]="tabIndex==3" (click)="tabIndex=3;">Терминалы</button>
+  </div>
+  <div class="info">
+    <h1>{{basicInfo.name}} - {{getActiveTabName()}}</h1>
+
+    <ng-container *ngIf="tabIndex==0">
+      <form #cardForm="ngForm" name="cardForm">
+        <h2>Описание</h2>
+
+        <div>
+          <p *ngIf="basicInfo.isActive" class="info-text">Поле "Наименование" - обязательно для заполнения</p>
+
+          <div class="date-create" *ngIf="isEdit">
+            <p>Дата создания</p>
+            <p>{{basicInfo.createDate | date : "dd.MM.yyyy HH:mm" }}</p>
+          </div>
+
+          <div class="date-create" *ngIf="!basicInfo.isActive && isEdit">
+            <p>Дата архивирования</p>
+            <p>{{basicInfo.archiveDate | date : "dd.MM.yyyy HH:mm" }}</p>
+          </div>
+
+          <div class="input-group">
+            <label>Наименование</label>
+            <input type="text" required [ngClass]="{'isArchive':!basicInfo.isActive}" [(ngModel)]="basicInfo.name"
+              name="name">
+          </div>
+
+          <div class="input-group">
+            <label>Адрес офиса</label>
+            <input type="text" required [ngClass]="{'isArchive':!basicInfo.isActive}"
+              [(ngModel)]="basicInfo.officeAddress" name="officeAddress">
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <h2>Контактное лицо</h2>
+
+          <div class="input-group">
+            <label>ФИО контактного лица</label>
+            <input [ngClass]="{'isArchive':!basicInfo.isActive}" [(ngModel)]="basicInfo.contactPersonName"
+              name="contactPersonName">
+          </div>
+          <div class="input-group">
+            <label>Электронная почта</label>
+            <input [ngClass]="{'isArchive':!basicInfo.isActive}" [(ngModel)]="basicInfo.contactEmail"
+              name="contactEmail">
+          </div>
+          <div class="input-group">
+            <label>Телефон контактного лица</label>
+            <input [ngClass]="{'isArchive':!basicInfo.isActive}" [(ngModel)]="basicInfo.contactPhone"
+              name="contactPhone" pattern="^[0-9\s\)\(\-\+]*$" a-pattern-restrict>
+          </div>
+        </div>
+
+
+        <div class="mt-5">
+          <h2>Регистрационные данные</h2>
+
+          <p *ngIf="!basicInfo.isArchived" class="info-text">E-mail и пароль - обязательны для заполнения</p>
+
+
+          <div class="input-group">
+            <label>Email</label>
+            <input [ngClass]="{'isArchive':!basicInfo.isActive}" required name="email" [(ngModel)]="basicInfo.email">
+          </div>
+          <div class="input-group">
+            <label>Пароль</label>
+            <input [ngClass]="{'isArchive':!basicInfo.isActive}" required name="pasword"
+              [(ngModel)]="basicInfo.password">
+          </div>
+          <div class="send-data" *ngIf="basicInfo.isActive">
+            <button (click)="sendRegData()" class="info-button">Отправить
+              регистрационные на почту</button>
+          </div>
+
+          <div class="save-info">
+            <button [disabled]="!cardForm.form.valid || (!cardForm.form.touched && !cardForm.form.dirty)"
+              *ngIf="basicInfo.isActive" (click)="update()" class="info-button">Сохранить изменения</button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="tabIndex==1">
+      <app-pickup-points [ownerId]="id"></app-pickup-points>
+    </ng-container>
+
+    <ng-container *ngIf="tabIndex==2">
+      <legal-entities-card-display-settings [ownerId]="id" [isArchived]="!basicInfo.isActive">
+      </legal-entities-card-display-settings>
+    </ng-container>
+
+    <ng-container *ngIf="tabIndex==3">
+      <legal-entities-terminals [ownerId]="id"></legal-entities-terminals>
+    </ng-container>
+  </div>
+</div>

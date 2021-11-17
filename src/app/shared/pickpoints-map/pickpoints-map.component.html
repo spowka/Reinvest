@@ -1,0 +1,23 @@
+<div class="pickup">
+  <div class="block">
+    <div data-simplebar class="h-scrollbar">
+
+      <ng-container *ngFor="let pickpoint of pickpoints; let index = index">
+        <div class="form-group radio">
+          <input type="radio" [checked]="pickpoint.id === selectedPickpoint?.id" name="r2" [id]="'r' + (index + 1)" (click)="selectPickpoint(pickpoint)">
+          <label [for]="'r' + (index + 1)">
+            <span>{{pickpoint.name}} </span>
+            <br>
+            <span>{{pickpoint.address}}</span>
+            <br>
+            <span>{{pickpoint.phones}}</span>
+          </label>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+  <div class="block pickup__map">
+    <div id="map" class="yandex-map"></div>
+  </div>
+</div>

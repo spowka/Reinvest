@@ -1,0 +1,74 @@
+<div class="app-card-number-print-templates-assign">
+  <div class="columns-container">
+    <div class="column" style="flex: 40% 0 0;">
+      <h4>Структура каталога</h4>
+
+
+      <p-treeTable [value]="tree" [(selection)]="selectedCatalog" selectionMode="single" dataKey="id"
+        (onNodeSelect)="catalogSelect($event)">
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+          <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+            <td>
+              <div class="catalog-level">
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                <div class="template-marker" [ngClass]="getMarkerClass(rowNode)"></div>
+                {{rowData.name}}
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+    </div>
+    <div class="column">
+      <h4>
+        Назначение шаблонов
+        <ng-container *ngIf="selectedCatalog"> - {{ selectedCatalog.data.name }}</ng-container>
+      </h4>
+
+      <div *ngIf="!selectedCatalog">Выберите тематику, серию или комплект для назначения шаблона</div>
+      <ng-container *ngIf="selectedCatalog && selectedCatalogInfo">
+        <div class="input-group">
+          <label>Шаблон</label>
+
+          &nbsp;
+
+          <p-dropdown [options]="cardNumberPrintTemplates" [(ngModel)]="selectedCatalogInfo.cardNumberPrintTemplateId"
+            [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+
+        <div class="columns-container" style="column-gap: 20px">
+          <div class="column">
+            <h4>Карточки выбранного уровня</h4>
+            <button [attr.disabled]="selectedCatalogInfo.cardNumberPrintTemplateId ? null : ''" (click)="apply(false)">
+              Применить для всех карточек уровня
+            </button>
+          </div>
+          <div *ngIf="selectedCatalog.data.children && selectedCatalog.data.children.length" class="column">
+            <h4>Карточки вложенных уровней</h4>
+            <button [attr.disabled]="selectedCatalogInfo.cardNumberPrintTemplateId ? null : ''" (click)="apply(true)">
+              Применить для всех карточек вложенных уровней
+            </button>
+          </div>
+        </div>
+
+        <table class="margin-top-5">
+          <thead>
+            <td>Название карточки</td>
+            <td>Тираж</td>
+            <td>Продано</td>
+            <td>Шаблон печати номера</td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let card of selectedCatalogInfo.cards" class="bordered">
+              <td>{{card.title}}</td>
+              <td>{{card.unlimited ? 'не ограничен' : card.printCount}}</td>
+              <td>{{card.soldCount}}</td>
+              <td>{{currentCardNumberPrintTemplateName}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

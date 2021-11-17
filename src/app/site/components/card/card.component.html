@@ -1,0 +1,33 @@
+<div class="modal-body">
+  <div *ngIf="card" class="info">
+    <div class="info__cards">
+      <div class="info__front"><img src="{{sidesTurned ? card.backImage: card.frontImage}}" alt=""></div>
+      <div class="info__back"><img src="{{sidesTurned ? card.frontImage: card.backImage}}" alt=""></div>
+      <div class="info__rotate"><img src="/assets/images/icons/rotate.svg" alt="" (click)="switchSides()"></div>
+    </div>
+    <div class="info__body">
+      <div class="info__block">
+        <div class="info__name" [innerHTML]="card.title"></div>
+        <div class="info__text" [innerHTML]="card.description"></div>
+
+        <ul>
+          <li><strong>Тираж:</strong> {{card.unlimited ? 'не ограничен' : card.printCount}} шт.</li>
+          <li><strong>Остаток:</strong> {{card.printCountLeft}} шт.</li>
+          <li><strong>Добавлена:</strong> {{card.created | date : "dd.MM.yyyy"}}</li>
+        </ul>
+      </div>
+      <div class="info__block info__controls">
+        <div class="info__price"><strong>Стоимость:</strong> {{card.price}} ₽</div>
+        <div>
+          <div class="counter">
+            <div class="counter__btn counter__btn-minus" (click)="decrementQuantity()"></div>
+            <input type="number" class="counter__input" [(ngModel)]="quantity" min="1">
+            <div class="counter__btn counter__btn-plus" (click)="incrementQuantity()"></div>
+          </div>
+          <a href="javascript:void(0)" (click)="addToCart()" class="btn btn-red">В корзину</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

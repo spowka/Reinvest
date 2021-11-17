@@ -1,0 +1,7 @@
+<div class="breadcrumbs">
+  <ng-container *ngIf="crumbs.length">
+    <a [routerLink]="['/']">Главная</a>
+    <a [routerLink]="['/' + crumb]" *ngFor="let crumb of crumbs">{{mathcPath[crumb]}}</a>
+  </ng-container>
+</div>
+

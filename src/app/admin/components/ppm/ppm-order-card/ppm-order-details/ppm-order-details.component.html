@@ -1,0 +1,80 @@
+<div class="customer-order-details-container">
+    <div *ngIf="loading">
+        Идет загрузка...
+    </div>
+    <ng-container *ngIf="!loading">
+        <div class="columns-container">
+            <div class="column">
+                <h4>Состав заказа</h4>
+
+                <table>
+                    <thead>
+                        <td>Фото</td>
+                        <td>Карточка</td>
+                        <td>Стоимость</td>
+                        <td>Кол-во</td>
+                        <td>Сумма</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detailRow of details.rows" class="bordered">
+                            <td class="card-preview">
+                                <img [src]="detailRow.previewImage">
+                            </td>
+                            <td>
+                                <p class="title">{{detailRow.title}}</p>
+                                <p>{{detailRow.path}}</p>
+                            </td>
+                            <td>{{detailRow.price}}</td>
+                            <td>{{detailRow.quantity}}</td>
+                            <td>{{detailRow.sum}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{details.totalPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <h4>Статус заказа</h4>
+                <div class="info">
+                    <p>{{getCurrentStatus()}}</p>
+                    <p>{{details.statusDate | date : "dd.MM.yyyy"}}</p>
+                    <p class="link-button" (click)="showHistory()">История статусов</p>
+                </div>
+            </div>
+        </div>
+
+        <form *ngIf="details.showProcessingBlock" [formGroup]="form">
+            <h4 style="margin-top: 20px">Обработка заказа</h4>
+
+            <div class="input-group">
+                <label>Текущий статус</label>
+                <div>
+                    <p>{{getCurrentStatus()}} ({{details.statusDate | date : "dd.MM.yyyy HH:mm"}})</p>
+                    <p *ngIf="details.statusComment">Комментарий: {{details.statusComment}}</p>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Новый статус</label>
+                <p-dropdown [options]="statuses" formControlName="newStatus"
+                    [ngClass]="{'error': hasError(f.newStatus)}" [style]="{'width':'100%'}"
+                    [disabled]="statuses.length <= 1"></p-dropdown>
+            </div>
+            <div *ngIf="isStatusChanged" class="input-group">
+                <label>Комментарий</label>
+                <textarea pInputTextarea placeholder="Обязательный комментарий к смене статуса"
+                    formControlName="newStatusComment" [ngClass]="{'error': hasError(f.newStatusComment)}"></textarea>
+            </div>
+        </form>
+
+        <div class="save-info">
+            <button *ngIf="details.showProcessingBlock" pButton (click)="save()" label="Сохранить изменения"></button>
+            <button pButton (click)="gotoOrders()" label="Вернуться к списку заказов"></button>
+        </div>
+    </ng-container>
+</div>

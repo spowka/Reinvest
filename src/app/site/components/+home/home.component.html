@@ -1,0 +1,26 @@
+<div>
+  <rs-carousel [items]="banners"></rs-carousel>
+
+  <rs-card-list
+    [cardList]="topThemes"
+    cardLinkTitle="Смотреть тематику"
+    cardsTitle="Популярные тематики"
+    cardClass="card__inner--small"
+  ></rs-card-list>
+
+  <rs-card-list
+    [cardList]="topSeries"
+    cardLinkTitle="Смотреть Серию"
+    cardsTitle="Популярные Серии"
+    cardClass="card__inner--large"
+  ></rs-card-list>
+
+  <rs-card-list
+    [cardList]="topSets"
+    cardLinkTitle="Смотреть комплект"
+    cardsTitle="Топ комплекты"
+    cardClass="card__inner--small"
+  ></rs-card-list>
+</div>
+
+<!-- <a [routerLink]="['/admin']">GO to ADMIN</a> -->

@@ -1,0 +1,190 @@
+<div class="container-editing">
+  <div class="section">
+    <h1>Шаблоны писем</h1>
+
+    <p-panel header="Справка" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true">
+      <p>
+        Шаблоны писем поддерживают теги HTML и набор заранее определенных ключевых слов для подстановки.
+      </p>
+      <table>
+        <tr *ngFor="let keyWord of keyWords">
+          <td>{{keyWord.key}}</td>
+          <td>{{keyWord.description}}</td>
+        </tr>
+      </table>
+    </p-panel>
+
+    <p-panel header="Шаблон письма данные покупателя" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'CustomerRegData')">
+      <div *ngIf="context['CustomerRegData'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['CustomerRegData'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['CustomerRegData'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['CustomerRegData'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('CustomerRegData')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма об успешной регистрации покупателя" [toggleable]="true"
+      [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'CustomerRegistrationSuccess')">
+      <div *ngIf="context['CustomerRegistrationSuccess'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['CustomerRegistrationSuccess'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['CustomerRegistrationSuccess'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['CustomerRegistrationSuccess'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('CustomerRegistrationSuccess')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма - данные сотрудника" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'EmployeeRegData')">
+      <div *ngIf="context['EmployeeRegData'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['EmployeeRegData'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['EmployeeRegData'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['EmployeeRegData'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('EmployeeRegData')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма о новом пароле" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'NewPassword')">
+      <div *ngIf="context['NewPassword'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['NewPassword'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['NewPassword'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['NewPassword'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('NewPassword')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма о запросе на создания нового пароля" [toggleable]="true"
+      [style]="{'margin-bottom':'20px'}" [collapsed]="true" (onAfterToggle)="onToggle($event, 'PasswordRestoreLink')">
+      <div *ngIf="context['PasswordRestoreLink'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['PasswordRestoreLink'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['PasswordRestoreLink'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['PasswordRestoreLink'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('PasswordRestoreLink')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма - данные сотрудника" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'EmployeeRegData')">
+      <div *ngIf="context['EmployeeRegData'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['EmployeeRegData'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['EmployeeRegData'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['EmployeeRegData'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('EmployeeRegData')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма - данные собственника терминала" [toggleable]="true"
+      [style]="{'margin-bottom':'20px'}" [collapsed]="true" (onAfterToggle)="onToggle($event, 'TerminalOwnerRegData')">
+      <div *ngIf="context['TerminalOwnerRegData'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['TerminalOwnerRegData'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['TerminalOwnerRegData'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['TerminalOwnerRegData'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('TerminalOwnerRegData')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма - данные пункта самовывоза" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'PickupPointRegData')">
+      <div *ngIf="context['PickupPointRegData'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['PickupPointRegData'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['PickupPointRegData'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['PickupPointRegData'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('PickupPointRegData')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Шаблон письма - о создании профиля при успешном заказе (для покупателя)" [toggleable]="true"
+      [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'CustomerCreatedByOrderSuccess')">
+      <div *ngIf="context['CustomerCreatedByOrderSuccess'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['CustomerCreatedByOrderSuccess'].showError()">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['CustomerCreatedByOrderSuccess'].showContent()">
+        <div class="panel-content">
+          <label>Шаблон письма</label>
+          <textarea maxlength="1500" [(ngModel)]="context['CustomerCreatedByOrderSuccess'].message"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('CustomerCreatedByOrderSuccess')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</div>

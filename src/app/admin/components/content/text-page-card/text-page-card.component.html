@@ -1,0 +1,101 @@
+<div *ngIf="form" class="container-text-page-card">
+  <h2>{{header}}</h2>
+
+  <form [formGroup]="form">
+
+    <p *ngIf="!isArchived">Поля "Название страницы" и "Имя в браузере" - обязательны для заполнения</p>
+
+    <div class="input-group">
+      <label>Название страницы</label>
+      <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.title)}"
+        [attr.disabled]="isArchived ? '' : null" formControlName="title">
+    </div>
+    <div class="input-group">
+      <label>Имя в браузере</label>
+      <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.logicalName)}"
+        [attr.disabled]="isArchived || isSystem ? '' : null" formControlName="logicalName">
+    </div>
+    <div class="input-group">
+      <label>Мета-тег Title</label>
+      <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.titleTag)}"
+        [attr.disabled]="isArchived ? '' : null" formControlName="titleTag">
+    </div>
+    <div class="input-group">
+      <label>Мета-тег Description</label>
+      <textarea pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.descriptionTag)}"
+        [attr.disabled]="isArchived ? '' : null" formControlName="descriptionTag">
+      </textarea>
+    </div>
+    <div class="input-group">
+      <label>Мета-тег Keywords</label>
+      <textarea pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.keywordsTag)}"
+        [attr.disabled]="isArchived ? '' : null" formControlName="keywordsTag">
+      </textarea>
+    </div>
+    <div class="input-group">
+      <label>Содержание страницы</label>
+      <div>
+        <custom-rich-editor formControlName="content"></custom-rich-editor>
+        <p-panel header="Справка по редактированию" [toggleable]="true" [collapsed]="true"
+          [style]="{'margin-top':'3px'}">
+          Указанный код необходимо вставлять в режиме редактирования HTML.<br>
+          Также можно использовать маркеры в обычном режиме редактирования, но каждый маркер вставляется в отдельной строке и без открывающих и
+            закрывающих тегов.<br>
+          <table class="edit-notes">
+            <thead>
+              <tr>
+                <th>Код</th>
+                <th>Описание</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{pickPointsMapMarker}}</td>
+                <td>
+                  Активная карта со списком всех пунктов самовывоза
+                </td>
+              </tr>
+              <tr>
+                <td>{{officeMapMarker}}</td>
+                <td>
+                  Карта с адресом офиса
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>{{faqMarkerBegin}}</p>
+                  <p>...текст вопроса...</p>
+                  <p>{{faqMarkerDivider}}</p>
+                  <p>...текст ответа...</p>
+                  <p>{{faqMarkerEnd}}</p>
+                </td>
+                <td>
+                  Элемент списка FAQ
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </p-panel>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Публикация</label>
+      <div class="wrapper">
+        <input type="checkbox" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.isPublished)}"
+          [attr.disabled]="isArchived ? '' : null" formControlName="isPublished">
+      </div>
+    </div>
+    <div class="input-group" *ngIf="pageLink">
+      <label>Ссылка на страницу</label>
+      <div class="wrapper">
+        <a href="{{pageLink}}" target="_blank">{{pageLink}}</a>
+      </div>
+    </div>
+  </form>
+
+  <div class="save-info">
+    <button (click)="save()" class="info-button">Сохранить</button>
+    <button (click)="goBack()" class="info-button">Вернуться к списку</button>
+  </div>
+</div>

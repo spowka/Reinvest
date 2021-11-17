@@ -1,0 +1,20 @@
+<h2>Терминалы</h2>
+<a *ngIf="!isArchived" href="#" (click)="$event.preventDefault(); addTerminals();">Прикрепить терминал</a>
+<p *ngIf="!terminals.length">Пока ни один терминал не прикреплен</p>
+<p-table *ngIf="terminals.length" [value]="terminals" [autoLayout]="true">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Connect id</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td>{{ row.connectId }}</td>
+      <td class="commands-column">
+        <p-button label="Исключить" (onClick)="deleteTerminal(row.id)"></p-button>
+        <p-button class="to-card" label="В карточку терминала" [routerLink]="['/admin/main/terminals/'+ row.id]"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

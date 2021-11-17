@@ -1,0 +1,89 @@
+<form [formGroup]="form">
+  <h3 class="column__title">Личные данные</h3>
+
+  <h3>Регистрационные данные</h3>
+
+  <div class="form-group line">
+    <label for="">Имя</label>
+    <input type="text" pInputText [ngClass]="{'error': hasError(f.firstName)}" formControlName="firstName" placeholder="Святослав">
+  </div>
+  <div class="form-group line">
+    <label for="">Фамилия</label>
+    <input type="text" pInputText [ngClass]="{'error': hasError(f.lastName)}" formControlName="lastName" placeholder="Белов">
+  </div>
+  <div class="form-group line">
+    <label for="">E-mail</label>
+    <input type="text" pInputText [ngClass]="{'error': hasError(f.email)}" formControlName="email" disabled>
+  </div>
+  <div class="form-group line">
+    <label for="">Телефон</label>
+    <input type="text"
+           pInputText
+           [ngClass]="{'error': hasError(f.phoneNumber)}"
+           formControlName="phoneNumber"
+           placeholder="+7 916 777 77 77">
+    <!-- mask="+0(000) 000 00 00" -->
+  </div>
+
+  <h3>Адрес доставки</h3>
+  <div class="form-group line">
+    <label for="">Край / область</label>
+    <input type="text"
+           pInputText
+           [ngClass]="{'error': hasError(f.deliveryRegion)}"
+           formControlName="deliveryRegion"
+           placeholder="Москва">
+  </div>
+  <div class="form-group line">
+    <label for="">Город</label>
+    <input type="text"
+           pInputText
+           [ngClass]="{'error': hasError(f.deliveryCity)}"
+           formControlName="deliveryCity"
+           placeholder="Москва">
+  </div>
+  <div class="form-group line">
+    <label for="">Почтовый индекс</label>
+    <input type="text"
+           pInputText
+           [ngClass]="{'error': hasError(f.deliveryPostIndex)}"
+           formControlName="deliveryPostIndex"
+           placeholder="109431">
+  </div>
+  <div class="form-group line">
+    <label for="">Улица</label>
+    <input type="text" pInputText
+           [ngClass]="{'error': hasError(f.deliveryStreet)}"
+           formControlName="deliveryStreet"
+           placeholder="Пушкинская">
+  </div>
+  <div class="form-group line">
+    <label for=""></label>
+
+    <div class="form-group line">
+      <label for="">Дом</label>
+      <input type="text"
+             pInputText
+             [ngClass]="{'error': hasError(f.deliveryHouse)}"
+             formControlName="deliveryHouse"
+             placeholder="22">
+    </div>
+    <div class="form-group line">
+      <label for="">Корпус</label>
+      <input type="text"
+             pInputText
+             [ngClass]="{'error': hasError(f.deliveryBuilding)}"
+             formControlName="deliveryBuilding"
+             placeholder="2">
+    </div>
+    <div class="form-group line">
+      <label for="">Квартира</label>
+      <input type="text"
+             pInputText
+             [ngClass]="{'error': hasError(f.deliveryApartment)}"
+             formControlName="deliveryApartment"
+             placeholder="20">
+    </div>
+  </div>
+  <button class="btn btn-red" (click)="save()" [attr.disabled]="loading ? '' : null">Сохранить</button>
+</form>

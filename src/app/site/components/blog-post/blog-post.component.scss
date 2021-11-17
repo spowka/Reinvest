@@ -1,0 +1,103 @@
+@import "../../../../styles/variables";
+@import "../../../../styles/mixins";
+
+.blog-post {
+    &__post-section {
+        max-width: 730px;
+        min-width: 485px;
+        width: 100%;
+        margin-right: 30px;
+
+        .post-photo {
+            width: 100%;
+            filter: drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.25));
+            border-radius: 10px;
+
+            img {
+                width: 100%;
+                border-radius: 10px;
+            }
+        }
+
+        .post-info {
+            &__inner {
+
+                &:not(:last-child) {
+                    margin-right: 22px;
+                }
+
+                .icon {
+                    max-width: 11px;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .post-comments {
+            .comment-answer {
+                margin-left: 65px;
+            }
+
+            .person-photo {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
+    &__helpful-section {
+        .card {
+            max-width: 350px;
+            min-width: 285px;
+            width: 100%;
+            height: 435px;
+            padding: 25px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+        }
+
+        .news-section {
+            &__new {
+                .photo {
+                    width: 90px;
+                    height: 90px;
+                    border-radius: 10px;
+
+                    img {
+                        width: 90px;
+                        height: 90px;
+                        object-fit: contain;
+                        border-radius: 10px;
+                    }
+                }
+
+                &:not(:first-of-type) {
+                    margin-top: 30px;
+                }
+            }
+        }
+
+        .topics-section {
+            .topics {
+                &:not(:first-child) {
+                    margin-top: 10px;
+                }
+            }
+
+            .tems {
+                min-height: 100px;
+            }
+        }
+    }
+}

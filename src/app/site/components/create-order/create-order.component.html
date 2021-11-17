@@ -1,0 +1,149 @@
+<section class="cart">
+  <div class="container">
+    <h2>Оформление заказа</h2>
+
+    <div class="sidebar-wrapper">
+      <form [formGroup]="form" class="column">
+        <h3>Ваши контактные данные</h3>
+        <div class="cart__desc">Сопровождающий текст</div>
+
+        <div class="form-field__text">
+          <input type="text" pInputText [ngClass]="{'error': hasError(f.firstName)}" formControlName="firstName" placeholder="Имя">
+        </div>
+
+        <div class="form-field__text">
+          <input type="text" pInputText [ngClass]="{'error': hasError(f.lastName)}" formControlName="lastName" placeholder="Фамилия">
+        </div>
+
+        <div class="form-field__text">
+          <input type="email" pInputText [ngClass]="{'error': hasError(f.email)}" formControlName="email"
+                 [attr.disabled]="isAuthorized ? '' : null" placeholder="Ваш E-mail">
+
+          <p *ngIf="hasError(f.email, 'isEmailNotFree')" class="error-text">Такой email уже зарегистрирован</p>
+          <p *ngIf="f.email.pending" class="warning-text">Идет проверка email</p>
+        </div>
+
+        <div class="form-field__text">
+          <input [ngClass]="{'error': hasError(f.phone)}"
+                 type="text"
+                 formControlName="phone"
+                 placeholder="Телефон"
+                 mask="+0(000) 000 00 00">
+        </div>
+
+        <div class="form-group checkbox form-field__checkbox">
+          <ng-container *ngIf="!isAuthorized">
+            <input type="checkbox" id="c1" formControlName="createAccount">
+            <label for="c1">{{orderGuestCreateAccountMessage}}</label>
+          </ng-container>
+        </div>
+
+        <h3>Выберите способ получения</h3>
+
+        <div class="form-group radio">
+          <input type="radio"
+                 name="r1"
+                 id="pickup"
+                 [checked]="deliveryType == 'Pickpoint'"
+                 (click)="setDeliveryType('Pickpoint')">
+          <label for="pickup">Самовывоз</label>
+        </div>
+
+        <div class="form-group radio">
+          <input type="radio"
+                 name="r1"
+                 id="delivery"
+                 [checked]="deliveryType == 'Address'"
+                 (click)="setDeliveryType('Address')">
+          <label for="delivery">Доставка</label>
+        </div>
+
+        <div class="cart__hidden pickup active" [style.display]="deliveryType == 'Pickpoint' ? 'block' : 'none'">
+          <app-pickpoints-map (onSelectionChange)="setSelectedPickpoint($event)"></app-pickpoints-map>
+        </div>
+
+        <div class="cart__hidden delivery" [style.display]="deliveryType == 'Address' ? 'block' : 'none'">
+          <h3>Укажите адрес доставки</h3>
+          <div class="cart__desc" [innerHTML]="cartOrderDeliveryNotice"></div>
+
+          <div class="form-field__text">
+            <input pInputText [ngClass]="{'error': hasError(f.deliveryRegion)}"
+                   formControlName="deliveryRegion" placeholder="Край / область" type="text">
+          </div>
+
+          <div class="form-field__text">
+            <input pInputText [ngClass]="{'error': hasError(f.deliveryCity)}"
+                   formControlName="deliveryCity" placeholder="Город" type="text">
+          </div>
+
+          <div class="form-field__text">
+            <input pInputText [ngClass]="{'error': hasError(f.deliveryPostIndex)}"
+                   formControlName="deliveryPostIndex" placeholder="Почтовый индекс" type="text">
+          </div>
+
+          <div class="form-field__text">
+            <input pInputText [ngClass]="{'error': hasError(f.deliveryStreet)}"
+                   formControlName="deliveryStreet" placeholder="Улица" type="text">
+          </div>
+
+          <div class="form-group flex">
+              <input pInputText [ngClass]="{'error': hasError(f.deliveryHouse)}"
+                     formControlName="deliveryHouse" placeholder="Дом" type="text">
+
+              <input pInputText [ngClass]="{'error': hasError(f.deliveryBuilding)}"
+                     formControlName="deliveryBuilding" placeholder="Корпус" type="text">
+
+              <input pInputText [ngClass]="{'error': hasError(f.deliveryApartment)}"
+                     formControlName="deliveryApartment" placeholder="Квартира" type="text">
+          </div>
+        </div>
+
+        <h3>Комментарий к заказу</h3>
+
+        <div class="cart__desc">Сообщите если у Вас есть особые пожелания</div>
+
+        <textarea placeholder="Начните писать текст" [ngClass]="{'error': hasError(f.comment)}" formControlName="comment"></textarea>
+      </form>
+      <div class="sidebar">
+        <div class="block">
+          <div class="block__header">
+            <div class="block__title">Корзина очистится через:</div>
+            <div class="block__time">{{countdownTime}}</div>
+          </div>
+          <div class="block__text">{{countdownMessage}}</div>
+        </div>
+        <div class="block">
+          <div class="block__title">Состав заказа</div>
+
+          <div class="block__list">
+            <div class="block__list-item" *ngFor="let row of visibleRows">
+              <div>
+                <div class="block__name">{{row.title}}</div>
+                <div class="block__text">{{row.path}}</div>
+              </div>
+              <ng-container *ngFor="let rowDetails of row.detailRows">
+                <div>{{rowDetails.quantity}}</div>
+                <div>{{rowDetails.detailPrice}} ₽</div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="block__list-item">
+            <div>
+              <div class="block__name">Итого:</div>
+            </div>
+            <div>{{totalPrice}} ₽</div>
+          </div>
+          <div class="block__tip">Чтобы изменить состав заказа - <a [routerLink]="['/cart']">вернитесь в Корзину</a></div>
+        </div>
+        <div class="block sticky">
+          <div class="block__header">
+            <div class="block__title">Итого:</div>
+            <div class="block__price">{{totalPrice}} ₽</div>
+          </div>
+          <button (click)="placeOrder()" [attr.disabled]="(sending || !isRBKMoneyEnabled) ? '' : null" class="btn btn-red">Оформить заказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

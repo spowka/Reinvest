@@ -1,0 +1,118 @@
+<section class="cart">
+    <div class="container">
+        <div class="blog-post rv-flex">
+            <div class="blog-post__post-section rv-flex rv-flex-column">
+                <ng-container *ngIf="isLoading">
+                    Идет загрузка...
+                </ng-container>
+
+                <ng-container *ngIf="blogPost">
+                    <div class="post-photo">
+                        <img *ngIf="blogPost.image" src="{{blogPost.image}}">
+                    </div>
+                    <h4 class="title rv-margin-t-30 rv-margin-b-20">{{blogPost.title}}</h4>
+
+                    <div class="post-info rv-flex rv-flex-align-center">
+                        <div class="post-info__inner rv-flex">
+                            <figure class="icon rv-margin-r-3 rv-margin-t-2">
+                                <img src="assets/images/icons/author.svg" alt="author.svg" />
+                            </figure>
+                            <span class="text small-13 rubinate">Святослав</span>
+                        </div>
+                        <div class="post-info__inner rv-flex">
+                            <figure class="icon rv-margin-r-3 rv-margin-t-2">
+                                <img src="assets/images/icons/time.svg" alt="time.svg" />
+                            </figure>
+                            <span class="text small-13 rubinate">{{blogPost.createDate | date:
+                                "d MMM, yy":null:'ru'}}</span>
+                        </div>
+                        <div class="post-info__inner rv-flex">
+                            <figure class="icon rv-margin-r-3 rv-margin-t-2">
+                                <img src="assets/images/icons/tag.svg" alt="tag.svg" />
+                            </figure>
+                            <span class="text small-13 rubinate">{{blogPost.tags}}</span>
+                        </div>
+                        <div class="post-info__inner rv-flex">
+                            <figure class="icon rv-margin-r-3 rv-margin-t-2">
+                                <img src="assets/images/icons/comment.svg" alt="comment.svg" />
+                            </figure>
+                            <span class="text small-13 rubinate">2 Комментария</span>
+                        </div>
+                    </div>
+
+                    <div class="post-content text rv-margin-t-20" [innerHTML]="blogPost.content"></div>
+
+                    <div class="post-comments rv-margin-t-50">
+                        <h5 class="small-subtitle">Оставить комментарий</h5>
+                        <div class="comments rv-margin-t-25">
+                            <div class="rv-flex rv-flex-column" *ngFor="let comment of comments">
+                                <div class="comment rv-flex rv-flex-align-center" [class.comment-answer]="comment.type === 'answer'">
+                                    <div class="comment__person-photo rv-margin-r-15">
+                                        <ng-container *ngIf="hasPhoto; else emptyPhoto">
+                                            <figure class="person-photo">
+                                                <img [src]="comment.photo" alt="person.jpg" />
+                                            </figure>
+                                        </ng-container>
+                                        <ng-template #emptyPhoto>
+                                            <figure class="person-photo">
+                                                <img src="../../../../assets/images/icons/blog-com-person.svg"
+                                                    alt="person.svg" />
+                                            </figure>
+                                        </ng-template>
+                                    </div>
+                                    <div class="comment__person-info rv-flex rv-flex-column rv-flex-start">
+                                        <p class="text small">{{comment.name}}</p>
+                                        <p class="text small">{{comment.comment}}</p>
+                                        <span class="text small-12 rubinate clickable">Ответить</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-add-comment rv-margin-t-30">
+                        <textarea placeholder="Начните писать текст" class="rv-margin-b-30" [(ngModel)]="comment"></textarea>
+                        <button type="submit" class="btn btn-red">Отправить</button>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="blog-post__helpful-section rv-flex rv-flex-column">
+                <div class="news-section card rv-flex rv-flex-column rv-padding-25">
+                    <h5 class="small-subtitle rv-margin-b-25">Последние новости</h5>
+                    <div class="news-section__new rv-flex rv-flex-btw rv-flex-align-center"
+                        *ngFor="let new of news | slice:3">
+                        <figure class="photo rv-margin-r-25">
+                            <img class="clickable" src="assets/images/new-post.png"
+                                (click)="gotoPost(blogPost)">
+                        </figure>
+                        <div class="info rv-flex rv-flex-column rv-flex-align-start">
+                            <h4 class="text rv-margin-b-0">Новые карточки уже в продаже </h4>
+                            <p class="text small rubinate">45 мин. назад</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="topics-section card rv-margin-t-30">
+                    <div class="topics">
+                        <h5 class="small-subtitle rv-margin-b-15">Важные темы</h5>
+                        <div class="tems">
+
+                        </div>
+                    </div>
+                    <div class="topics">
+                        <h5 class="small-subtitle rv-margin-b-15">Популярное</h5>
+                        <div class="tems">
+
+                        </div>
+                    </div>
+                    <div class="topics">
+                        <h5 class="small-subtitle rv-margin-b-15">Поиск по тегам</h5>
+                        <div class="form-field__text">
+                            <input type="text" placeholder="К примеру, Футбол"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,70 @@
+<section class="cart">
+  <div class="container">
+    <h2>Войти в аккаунт</h2>
+
+    <div class="sidebar-wrapper">
+      <div class="column">
+        <h3>Заполните все поля формы для регистрации</h3>
+        <div class="cart__desc">Еще нет аккаунта? <a [routerLink]="['/authorization']">Зарегистрируйтесь!</a></div>
+
+        <form [formGroup]="loginSiteForm">
+          <div class="form-field__text">
+            <input type="email" formControlName="email" placeholder="Ваш E-mail">
+          </div>
+ 
+          <div class="form-field__text">
+            <label *ngIf="loginSiteForm.get('email').invalid && loginSiteForm.get('email').touched"
+                   class="field-error">Поле заполнено неверно</label>
+
+            <input type="password" formControlName="password" placeholder="Пароль">
+          </div>
+
+          <div class="log-btn">
+            <label *ngIf="showError" class="field-error">{{error || 'Мы вас не знаем'}}</label>
+            <label *ngIf="infoMessage" class="field-error">{{infoMessage}}</label>
+
+            <button pButton class="ui-button-warning " label="Отправить письмо повторно" *ngIf="emailConfirmationError"
+                    (click)="resendConfirmEmail()">
+            </button>
+          </div>
+        </form>
+
+        <div class="cart__footer">
+          <a [routerLink]="['/restore-password']">Я не помню свой пароль</a>
+          <a href="javascript:void(0)" class="btn btn-red" (click)="login()">Войти в аккаунт</a>
+        </div>
+      </div>
+      <div class="sidebar mobile" style="margin-left: 126px;">
+        <div class="block" style="margin-top: 114px">
+          <div class="block__title center">Войти через социальную сеть</div>
+
+          <div class="social">
+            <a href="javascript:void(0)"
+               [attr.disabled]="socialSettings && socialSettings.vkAppId ? null : ''"
+               (click)="loginVK()">
+              <img src="/assets/images/icons/vk-black.svg" alt="">
+            </a>
+
+            <a href="javascript:void(0)"
+               [attr.disabled]="socialSettings && socialSettings.fbAppId ? null : ''"
+               (click)="loginFB()">
+              <img src="/assets/images/icons/fb-black.svg" alt="">
+            </a>
+
+            <a href="javascript:void(0)"
+               [attr.disabled]="socialSettings && socialSettings.googleAppId ? null : ''"
+               (click)="loginGoogle()">
+              <img src="/assets/images/icons/google.svg" alt="">
+            </a>
+
+            <a href="javascript:void(0)"
+               [attr.disabled]="socialSettings && socialSettings.okAppId ? null : ''"
+               (click)="loginOK()">
+              <img src="/assets/images/icons/ok.svg" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

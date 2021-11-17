@@ -1,0 +1,96 @@
+<div class="app-structure-catalog">
+  <h4>Структура каталога</h4>
+
+  <p-table [value]="treeValue" dataKey="id" (onRowReorder)="reorder_theme($event)">
+    <ng-template pTemplate="caption">
+      <div class="header-buttons">
+        <p-button icon="fa fa-plus" label="Добавить тематику" (onClick)="addThemeEvent()"></p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Тематика</th>
+        <th>Серия</th>
+        <th>Комплект</th>
+        <th width="100">Карточек</th>
+        <th width="45"></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-index="rowIndex">
+      <tr *ngIf="!rowData.id" class="first-row">
+        <td colspan="3"></td>
+        <td width="100"></td>
+        <td width="45"></td>
+        <td></td>
+      </tr>
+      <tr *ngIf="rowData.id" [pReorderableRow]="index">
+        <td colspan="3">
+          <span href="#" [pRowToggler]="rowData">
+            <i [ngClass]="expanded ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
+          </span>
+          {{rowData.name}}
+        </td>
+        <td class="center">{{rowData.activeCards}}/{{rowData.archiveCards}}</td>
+        <td width="45">
+          <i class="fa fa-sort" pReorderableRowHandle style="font-size: 3em"></i>
+        </td>
+        <td class="center">
+          <p-button label="Редактировать" (onClick)="edit(rowData)"></p-button>
+          <p-button label="Удалить" (onClick)="delete(rowData)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-index="rowIndex">
+      <tr>
+        <td colspan="6" class="expand-cell">
+          <p-table [value]="rowData.children" selectionMode="single" dataKey="id"
+            (onRowReorder)="reorder_serieset(index, $event)">
+            <ng-template pTemplate="body" let-rowNode let-rowData let-index="rowIndex">
+      <tr *ngIf="!rowData.id" class="first-row">
+        <td colspan="3"></td>
+        <td width="100"></td>
+        <td width="45"></td>
+        <td></td>
+      </tr>
+      <tr *ngIf="rowData.id" [pReorderableRow]="index">
+        <td></td>
+        <td>{{rowData.series}}</td>
+        <td>{{rowData.set}}</td>
+        <td width="100" class="center">{{rowData.activeCards}}/{{rowData.archiveCards}}</td>
+        <td width="45">
+          <i class="fa fa-sort" pReorderableRowHandle style="font-size: 3em"></i>
+        </td>
+        <td class="center">
+          <p-button label="Редактировать" (onClick)="edit(rowData)"></p-button>
+          <p-button label="Удалить" (onClick)="delete(rowData)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" let-columns>
+      <tr>
+        <td></td>
+        <td class="center">
+          <p-button icon="fa fa-plus" label="Добавить серию" (onClick)="addSeriesEvent(index)"></p-button>
+        </td>
+        <td class="center">
+          <p-button *ngIf="rowData.children.length>0" icon="fa fa-plus" label="Добавить комплект"
+            (onClick)="addSetEvent(index)"></p-button>
+        </td>
+        <td width="100"></td>
+        <td width="45"></td>
+        <td></td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </td>
+  </ng-template>
+  <ng-template pTemplate="footer" let-columns>
+    <tr>
+      <td class="header-buttons" colspan="6">
+        <p-button icon="fa fa-plus" label="Добавить тематику" (onClick)="addThemeEvent()"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,74 @@
+.container-login {
+  margin-left: 1.5rem;
+
+  h1 {
+    font-size: 32px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  
+    a {
+      color: dodgerblue;
+    }
+  }
+
+  .columns-container {
+    column-gap: 40px;
+
+    .register-form {
+      flex: 60%;
+    }
+    .social {
+      flex: 40%;
+      border-left: 2px solid #dedede;
+      padding-left: 25px;
+      display: flex;
+      
+      .social-button {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+      }
+    }
+  }
+
+  .log-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+  
+    button {
+      width: 60%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-radius: 3px;
+      font-size: 15px;
+  
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .forgot {
+    margin-top: 20px;
+    padding-left: 20%;
+  
+    a {
+      color: dodgerblue;
+      text-decoration: underline;
+      &:hover {
+        cursor:pointer;
+      }
+    }
+  }
+  .input-group--check {
+    padding-left: 20%;
+    margin-top: 20px;
+  }
+}

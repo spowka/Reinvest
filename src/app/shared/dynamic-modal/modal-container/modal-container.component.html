@@ -1,0 +1,12 @@
+<div class="overlay" (click)="onOverlayClicked($event)">
+  <div class="dialog" (click)="onDialogClicked($event)">
+    <div class="close-icon"> <span  (click)="onOverlayClicked($event)" class="close">&times;</span> </div>
+
+   <div class="caption">
+     <h2 class="caption-h2">{{config.header}}</h2>
+   </div>
+    <ng-template appInsertion>
+
+    </ng-template>
+  </div>
+</div>

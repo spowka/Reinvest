@@ -1,0 +1,15 @@
+<div class="image-upload" *ngIf="image">
+    <div class="input-group">
+        <label class="text">{{title}}<br />{{extensions}} - {{image.imageSizeLabel}}</label>
+
+        <img *ngIf="image.imageSrc" class="image" [src]="image.imageSrc">
+
+        <div class="actions" *ngIf="canEdit">
+            <p *ngIf="image.file" class="text">{{image.file.name}}</p>
+            <p-button *ngIf="image.file" label="Удалить файл" (click)="image.reset()"></p-button>
+            <p-button ngfSelect [(file)]="image.file" [accept]="acceptType" multiple="1"
+                [label]="image.selectButtonLabel">
+            </p-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+.container-card-number-print-template-card {
+  margin: 0 1.5rem;
+
+  justify-content: space-between;
+  .container-menu {
+    margin-right: 40px;
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      display: block;
+      margin: 4px 1px;
+      background-color: #e7e7e7;
+      border: none;
+      padding: 9px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      width: 225px;
+    }
+  }
+  .info {
+    flex: 2;
+
+    form {
+      width: 40rem;
+
+      .radio-buttons,
+      p-dropdown {
+        flex: 2;
+        display: flex;
+      }
+
+      h1 {
+        font-size: 30px;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: 24px;
+        margin-bottom: 1rem;
+      }
+      .date-create {
+        display: flex;
+        justify-content: space-between;
+        width: 40rem;
+        margin: 1rem 0;
+        p:first-child {
+          flex: 1;
+        }
+        p:last-child {
+          flex: 2;
+        }
+      }
+    }
+  }
+
+  div.radio-buttons .ui-radiobutton-label {
+    width: auto;
+    margin-right: 10px;
+  }
+
+  .save-info {
+    display: flex;
+  }
+
+  .ck.ck-content.ck-editor__editable {
+    height: 400px;
+  }
+
+  form .input-group label {
+    flex: 0 300px;
+  }
+
+  div.wrapper input[type="checkbox"] {
+    width: auto;
+  }
+
+  rs-image-upload .image-upload .input-group p.title {
+    flex: 0 300px;
+  }
+
+  .color-input-group {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    * {
+      flex: auto 0 0;
+    }
+
+    .color-preview {
+      width: 45px;
+      height: 45px;
+      border: 1px solid black;
+      border-radius: 7px;
+    }
+  }
+
+  .image-edit-box {
+    flex-direction: column;
+  }
+
+  .image-preview {
+    width: 360px;
+    height: 514px;
+    background: #aaa;    
+    position: relative;
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-outline {
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      top: 6px;
+      bottom: 6px;
+      border-radius: 15px;
+      border: 1.5px solid black;
+    }
+
+    .card-number {
+      position: absolute;
+      color: white;
+    }
+
+    .card-number-left, .card-number-right {
+      height: 100%;
+      text-align: center;
+      text-orientation: sideways;
+      writing-mode: vertical-rl;
+    }
+
+    .card-number-right {
+      right: 9px;
+    }
+
+    .card-number-left {
+      left: 9px;
+      transform: rotate(180deg);
+    }
+
+    .card-number-top, .card-number-bottom {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .card-number-top {
+      top: 6px;
+    }
+
+    .card-number-bottom {
+      bottom: 6px;
+    }
+  }
+}

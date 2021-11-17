@@ -1,0 +1,111 @@
+<div class="container-terminal-order layout-content">
+  <div class="columns-container">
+    <div class="column buyer">
+      <div class="header-terminal-orders">
+        <h4>Покупатель</h4>
+      </div>
+    </div>
+    <div class="column">
+      <div class="header-terminal-orders">
+        <h1 class="caption-h1">
+          Заказ №{{details.orderNumber}} от {{details.createDate | date: 'dd.MM.yyyy'}}</h1>
+      </div>
+
+      <div>
+        <div class="columns-container card">
+          <div class="column order-content">
+            <h4 class="caption-h4">
+              Состав заказа</h4>
+
+            <p-table [value]="details.rows">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="preview-cell">Фото</th>
+                  <th>Карточка</th>
+                  <th>Стоимость, ₽</th>
+                  <th>Кол-во</th>
+                  <th>Сумма</th>
+                  <th>Состояние карточки</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                <tr>
+                  <td>
+                    <img class="preview" src="{{rowData.previewImage}}" />
+                  </td>
+                  <td>
+                    <div>
+                      <h5>{{rowData.title}}</h5>
+                    </div>
+                    <div>
+                      {{rowData.path}}
+                    </div>
+                  </td>
+                  <td>{{rowData.price}}</td>
+                  <td>{{rowData.quantity}}</td>
+                  <td>{{rowData.sum}}</td>
+                  <td>
+                    <div [class.warning]="rowData.status.indexOf('Ошибка') != -1">
+                      {{rowData.status}}
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="footer">
+                <td colspan="4"></td>
+                <td>
+                  &nbsp; &nbsp;
+                  <span class="fact-sum">{{details.factSum}}</span> ( <span
+                    class="planned-sum">{{details.plannedSum}}</span>)
+                </td>
+              </ng-template>
+            </p-table>
+
+            <div class="mt-4 card">
+              <div class="status">
+                <h4 class="caption-h4">
+                  О получении</h4>
+              </div>
+
+              <table>
+                <tr>
+                  <td>
+                    Терминал
+                  </td>
+                  <td>{{details.terminal}}</td>
+                </tr>
+                <tr>
+                  <td>Адрес терминала</td>
+                  <td>
+                    {{details.terminalAddress}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Юридическое лицо</td>
+                  <td>{{details.legalEntity}}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="to-orders">
+              <p-button icon="fa fa-plus" label="Вернуться к списку заказов на терминалах"
+                [routerLink]="['/admin/main/terminal-orders']"></p-button>
+            </div>
+          </div>
+
+          <div class="column">
+            <h4>
+              Статус заказа</h4>
+
+
+            <p>
+              {{details.status}}
+            </p>
+            <p>{{details.statusUpdatedDate | date: 'dd.MM.yyyy'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

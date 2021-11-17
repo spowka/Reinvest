@@ -1,0 +1,47 @@
+.app-order {
+    margin: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+
+    .container-menu {
+      margin-right: 40px;
+    }
+  
+    .info {
+      flex: 2;
+      h1{
+        font-size: 30px;
+        margin-bottom: 1rem;
+      }
+      form {
+        width: 40rem;
+      }
+      h2{
+        font-size: 24px;
+        margin-bottom: 1rem;
+      }
+      .date-create {
+        display: flex;
+        justify-content: space-between;
+        width: 40rem;
+        margin: 1rem 0;
+        p:first-child { flex: 1}
+        p:last-child { flex: 2}
+      }
+    }
+}  
+  
+.profile-info {
+  p {
+    margin: 0 2px;
+  }
+}
+
+div.horizontal-container {
+  justify-content: flex-end;
+
+  input {
+      width: 100px;
+      flex: none;
+  }
+}

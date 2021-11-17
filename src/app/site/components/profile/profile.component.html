@@ -1,0 +1,33 @@
+<section class="cart">
+  <div class="container">
+
+    <div class="sidebar-wrapper">
+      <div class="sidebar small">
+        <h2>Личный кабинет</h2>
+
+        <div class="block">
+          <div class="block__header">
+            <div class="block__title">Аккаунт</div>
+          </div>
+          <a href="javascript:void(0)" (click)="selectTab(0);" class="btn btn-black">Личные данные</a>
+        </div>
+        <div class="block">
+          <div class="block__header">
+            <div class="block__title">Мои заказы</div>
+          </div>
+          <a href="javascript:void(0)" (click)="selectTab(1)" class="btn btn-black">Заказы в работе</a>
+          <a href="javascript:void(0)" (click)="selectTab(2)" class="btn btn-black">История заказов</a>
+        </div>
+      </div>
+      <ng-container *ngIf="tabIndex == 0">
+        <app-profile-info></app-profile-info>
+      </ng-container>
+      <ng-container *ngIf="tabIndex == 1">
+        <app-profile-active-orders></app-profile-active-orders>
+      </ng-container>
+      <ng-container *ngIf="tabIndex == 2">
+        <app-profile-finished-orders></app-profile-finished-orders>
+      </ng-container>
+    </div>
+  </div>
+</section>

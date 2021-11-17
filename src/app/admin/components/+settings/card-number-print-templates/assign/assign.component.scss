@@ -1,0 +1,95 @@
+.app-card-number-print-templates-assign {
+  margin: 1.5rem;
+
+  .catalog-level {
+    display: flex;
+    column-gap: 3px;
+    align-items: center;
+
+    .template-marker {
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      border: 1px solid gray;
+      background-color: white;
+    }
+    .template-marker.has-template {
+      background-color: green;
+    }
+  }
+
+  p-table {
+    tr td.expand-cell {
+      padding-left: 0px;
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      tr {
+        td:first-of-type {
+          border-left: 0px;
+        }
+        td:last-of-type {
+          border-right: 0px;
+        }
+      }
+      tr:first-of-type td {
+        border-top: 0px;
+      }
+      /deep/ tfoot tr:last-of-type td {
+        border-bottom: 0px;
+      }
+    }
+    .header-buttons {
+      text-align: left;
+    }
+    .center {
+      text-align: center;
+    }
+  }
+
+  p-button,
+  button {
+    margin: 3px;
+  }
+
+  td.settings {
+    .settings-label {
+      width: 180px;
+    }
+  }
+
+  td.image img {
+    max-width: 300px;
+    vertical-align: top;
+  }
+
+  .input-group label {
+    align-self: center;
+  }
+
+  table {  
+    thead {
+      background: #dedede;
+
+      td {
+        vertical-align: baseline;
+        padding: 4px 20px;
+    
+        p {
+          margin-bottom: 2px;
+        }
+      }
+    }
+
+    tbody {
+      td {
+        vertical-align: top;
+        padding: 4px 20px;
+    
+        p {
+          margin-bottom: 2px;
+        }
+      }
+    }  
+  }
+}

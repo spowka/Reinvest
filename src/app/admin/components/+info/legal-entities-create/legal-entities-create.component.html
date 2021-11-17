@@ -1,0 +1,69 @@
+<div class="container-legal-entities-card">
+  <div class="container-menu">
+    <button class="ui-button">Базовое описание</button>
+    <button disabled>Пункты самовывоза</button>
+    <button disabled>Настройки отображения ПС</button>
+    <button disabled>Терминалы</button>
+  </div>
+  <div class="info">
+    <h1>Добавление юридического лица</h1>
+
+    <form #cardForm="ngForm" name="cardForm">
+      <h2>Описание</h2>
+
+      <div>
+        <p class="info-text">Поле "Наименование" - обязательно для заполнения</p>
+
+        <div class="input-group">
+          <label>Наименование</label>
+          <input type="text" required [(ngModel)]="basicInfo.name" name="name">
+        </div>
+
+        <div class="input-group">
+          <label>Адрес офиса</label>
+          <input type="text" required [(ngModel)]="basicInfo.officeAddress" name="officeAddress">
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <h2>Контактное лицо</h2>
+
+        <div class="input-group">
+          <label>ФИО контактного лица</label>
+          <input [(ngModel)]="basicInfo.contactPersonName" name="contactPersonName">
+        </div>
+        <div class="input-group">
+          <label>Электронная почта</label>
+          <input [(ngModel)]="basicInfo.contactEmail" name="contactEmail">
+        </div>
+        <div class="input-group">
+          <label>Телефон контактного лица</label>
+          <input [(ngModel)]="basicInfo.contactPhone" name="contactPhone" pattern="^[0-9\s\)\(\-\+]*$"
+            a-pattern-restrict>
+        </div>
+      </div>
+
+
+      <div class="mt-5">
+        <h2>Регистрационные данные</h2>
+
+        <p class="info-text">E-mail и пароль - обязательны для заполнения</p>
+
+
+        <div class="input-group">
+          <label>Email</label>
+          <input required name="email" [(ngModel)]="basicInfo.email">
+        </div>
+        <div class="input-group">
+          <label>Пароль</label>
+          <input type="password" required name="pasword" [(ngModel)]="basicInfo.password">
+        </div>
+
+        <div class="save-info">
+          <button [disabled]="!cardForm.form.valid || (!cardForm.form.touched && !cardForm.form.dirty)"
+            (click)="create()" class="info-button">Добавить юридическое лицо</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

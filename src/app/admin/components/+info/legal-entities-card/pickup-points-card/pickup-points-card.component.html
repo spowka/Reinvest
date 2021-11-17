@@ -1,0 +1,82 @@
+<div *ngIf="form" class="container-pickup-points-card">
+  <h2>{{header}}</h2>
+
+  <div class="columns-container">
+    <div class="column">
+      <form [formGroup]="form">
+
+        <p *ngIf="!isArchived">Заполнение полей "Наименование" и "Адрес" - обязательны</p>
+        <div class="input-group">
+          <label>Наименование</label>
+          <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.name)}"
+            [attr.disabled]="isArchived ? '' : null" formControlName="name">
+        </div>
+        <div class="input-group">
+          <label>Адрес</label>
+          <div class="vertical">
+            <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.address)}"
+              formControlName="address" (change)="addressChanged()" [attr.disabled]="isArchived ? '' : null">
+            <p *ngIf="!isArchived" class="link-button" (click)="searchAddress(true)">Применить адрес снова</p>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Телефоны</label>
+          <textarea maxlength="500" pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.phones)}"
+            formControlName="phones" [attr.disabled]="isArchived ? '' : null">
+    </div>
+    <div class="input-group">
+      <label>Время работы</label>
+      <textarea maxlength="500" pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.schedule)}" formControlName="schedule" [attr.disabled]="isArchived ? '' : null">
+        </textarea>
+        </div>
+        <div class="input-group">
+          <label>Дополнительно</label>
+          <textarea maxlength="500" pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.comment)}"
+            formControlName="comment" [attr.disabled]="isArchived ? '' : null">
+      </textarea>
+        </div>
+        <div class="input-group">
+          <label>Доступность для заказа</label>
+          <div class="wrapper">
+            <input type="checkbox" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.name)}"
+              [attr.disabled]="isArchived ? '' : null" formControlName="isAvailable">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Является офисом</label>
+          <div class="wrapper">
+            <input type="checkbox" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.name)}"
+              [attr.disabled]="isArchived ? '' : null" formControlName="isOffice">
+          </div>
+        </div>
+
+        <h2>Учетная запись</h2>
+        <div class="input-group">
+          <label>E-mail</label>
+          <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.employeeEmail)}"
+            formControlName="employeeEmail" [attr.disabled]="isArchived ? '' : null">
+        </div>
+        <div class="input-group">
+
+          <label>Пароль</label>
+          <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.employeePassword)}"
+            formControlName="employeePassword" [attr.disabled]="isArchived ? '' : null">
+        </div>
+        <div class="send-data" *ngIf="!isArchived && pickupPointId">
+          <button [disabled]="form.dirty" (click)="sendRegData()" class="info-button">Отправить регистрационные
+            данные на почту</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="column" width="300px" height="300px">
+      <div class="yandex-map" [id]="mapElementId"></div>
+    </div>
+  </div>
+
+  <div class="save-info">
+    <button *ngIf="!isArchived" (click)="save()" class="info-button">Сохранить</button>
+    <button *ngIf="!isArchived" (click)="cancel()" class="info-button">Отменить</button>
+    <button *ngIf="isArchived" (click)="restore()" class="info-button">Восстановить</button>
+  </div>
+</div>

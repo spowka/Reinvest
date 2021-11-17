@@ -1,0 +1,22 @@
+<div class="custom-rich-editor">
+    <div class="tab-menu">
+        <div class="tabs">
+            <button [ngClass]="{'active': mode == 'visual'}" (click)="mode = 'visual'">
+                Визуальный редактор
+            </button>
+            <button [ngClass]="{'active': mode == 'raw'}" (click)="mode = 'raw'">
+                HTML редактор
+            </button>
+        </div>
+    </div>
+    <div class="content" [ngClass]="{'collapsed': mode != 'visual'}">
+        <ckeditor [editor]="ckeditor" [(ngModel)]="content" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="contentChanged()">
+        </ckeditor>
+    </div>
+    <div class="content" [ngClass]="{'collapsed': mode != 'raw'}">
+        <textarea [ngClass]="{'collapsed': mode != 'raw'}" [(ngModel)]="content" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="contentChanged()">
+        </textarea>
+    </div>
+</div>

@@ -1,0 +1,223 @@
+<div class="container-info" *ngIf="isDataReady">
+  <h1 *ngIf="terminal">Терминал {{terminal.connectId}}</h1>
+  <h1 *ngIf="!terminal">Создание терминала}}</h1>
+  <div class="info-data">
+    <h2>Данные терминала</h2>
+    <p *ngIf="!isArchived" class="info-text">Поле "Инвентарный номер" - обязательно для заполнения</p>
+    <form [formGroup]="terminalForm">
+      <div class="date-create" *ngIf="isEdit">
+        <p>Дата создания</p>
+        <p>{{terminal.createDate | date : "dd.MM.yyyy HH:mm" }}</p>
+      </div>
+      <div class="date-create" *ngIf="isArchived && isEdit">
+        <p>Дата архивирования</p>
+        <p>{{terminal.archiveDate | date : "dd.MM.yyyy HH:mm" }}</p>
+      </div>
+      <div class="input-group">
+        <label>Инвентарный номер</label>
+        <input pInputText placeholder="" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.inventoryNumber)}"
+          formControlName="inventoryNumber">
+      </div>
+      <div class="input-group">
+        <label>Connect id</label>
+        <input pInputText placeholder="" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.connectId)}"
+          formControlName="connectId">
+      </div>
+      <div class="input-group">
+        <label>Собственник</label>
+        <div>
+          <p-dropdown *ngIf="terminalOwners" [ngClass]="{'isArchive':isArchived}" [options]="terminalOwners"
+            [disabled]="isArchived" formControlName="terminalOwnerId" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Адрес расположения</label>
+        <input pInputText placeholder="" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.location)}"
+          formControlName="location">
+      </div>
+
+      <h2>Настройки бездействия системы</h2>
+      <div class="input-group">
+        <label>Предупреждение об очистке корзины при бездействии более</label>
+        <div class="horizontal">
+          <input pInputText placeholder=""
+            [ngClass]="{'isArchive':isArchived, 'error': hasError(f.cartCleanupWarningDelay)}"
+            formControlName="cartCleanupWarningDelay">
+          <label>сек</label>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Обратный отсчет</label>
+        <div class="horizontal">
+          <input pInputText placeholder=""
+            [ngClass]="{'isArchive':isArchived, 'error': hasError(f.cartCleanupCountdown)}"
+            formControlName="cartCleanupCountdown">
+          <label>сек</label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Промо-ролик<br />.mpeg4, не более {{promo.fileSizeLabel}}</label>
+        <div>
+          <div>
+            <a *ngIf="promo.url" href="{{promo.url}}">Загруженный файл</a>
+            <p *ngIf="promo.file">{{promo.file.name}}</p>
+          </div>
+          <div class="actions" *ngIf="!isArchived">
+            <p-button *ngIf="promo.file || promo.url" label="Удалить файл" (click)="promo.reset()"></p-button>
+            <p-button ngfSelect [(file)]="promo.file" accept=".mpeg4" multiple="1" [label]="promo.selectButtonLabel"
+              (click)="promo.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+
+      <h2>Настройка публикации</h2>
+      <p-table *ngIf="publishCatalogTree.length" [value]="publishCatalogTree" [autoLayout]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Тематика</th>
+            <th>Серия</th>
+            <th>Коллекция</th>
+            <th style="width: 90px;">Карточек</th>
+            <th style="width: 100px;">Публикация</th>
+            <th style="width: 90px;"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-theme>
+          <tr>
+            <td>{{theme.name}}</td>
+            <td></td>
+            <td></td>
+            <td>{{theme.activeCards}}/{{theme.archiveCards}}</td>
+            <td>
+              <input type="checkbox" [attr.checked]="theme.selected ? '' : null"
+                [attr.disabled]="isArchived ? '' : null" (change)="theme.selectedChanged($event.target)">
+            </td>
+            <td class="commands-column">
+              <p-button *ngIf="theme.canExpand" [label]="theme.expanded ? '[ - ]' : '[ + ]'"
+                (click)="theme.toggleExpand()"></p-button>
+            </td>
+          </tr>
+          <ng-container *ngIf="theme.expanded">
+            <ng-container *ngFor="let series of theme.children">
+              <tr>
+                <td></td>
+                <td>{{series.name}}</td>
+                <td></td>
+                <td>{{series.activeCards}}/{{series.archiveCards}}</td>
+                <td>
+                  <input type="checkbox" [attr.checked]="series.selected ? '' : null"
+                    [attr.disabled]="isArchived || series.disabled ? '' : null"
+                    (change)="series.selectedChanged($event.target)">
+                </td>
+                <td class="commands-column">
+                  <p-button *ngIf="series.canExpand" [label]="series.expanded ? '[ - ]' : '[ + ]'"
+                    (click)="series.toggleExpand()"></p-button>
+                </td>
+              </tr>
+              <ng-container *ngIf="series.expanded">
+                <ng-container *ngFor="let set of series.children">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{set.name}}</td>
+                    <td>{{set.activeCards}}/{{set.archiveCards}}</td>
+                    <td>
+                      <input type="checkbox" [attr.checked]="set.selected ? '' : null"
+                        [attr.disabled]="isArchived || set.disabled ? '' : null"
+                        (change)="set.selectedChanged($event.target)">
+                    </td>
+                    <td class="commands-column"></td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-table>
+
+      <h2>Настройка оформления</h2>
+      <h3>Фоны</h3>
+      <p-table *ngIf="imageCatalogTree.length" [value]="imageCatalogTree" [autoLayout]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Тематика</th>
+            <th>Серия</th>
+            <th style="width: 400px;">Фон</th>
+            <th style="width: 90px;"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-theme>
+          <tr>
+            <td>{{theme.name}}</td>
+            <td></td>
+            <td class="image-cell">
+              <label>
+                <input type="checkbox" [attr.checked]="theme.unique ? '' : null"
+                  [attr.disabled]="isArchived ? '' : null" (change)="theme.uniqueChanged($event.target)">
+                Уникальный
+              </label>
+              <ng-container *ngIf="theme.unique">
+                <img *ngIf="theme.image.imageSrc" src="/assets/images/u7439.png"
+                  (mouseenter)="showPreviewImage($event, theme)" (mouseleave)="hidePreviewImage()">
+                <ng-container *ngIf="!isArchived">
+                  <p-button *ngIf="theme.image.imageSrc" label="Удалить" (click)="theme.image.reset()"></p-button>
+                  <p-button ngfSelect [(file)]="theme.image.file" accept="image/*" multiple="1"
+                    [label]="theme.image.selectButtonLabel" (click)="theme.image.url='';"></p-button>
+                </ng-container>
+              </ng-container>
+            </td>
+            <td class="commands-column">
+              <p-button *ngIf="theme.canExpand" [label]="theme.expanded ? '[ - ]' : '[ + ]'"
+                (click)="theme.toggleExpand()"></p-button>
+            </td>
+          </tr>
+          <ng-container *ngIf="theme.expanded">
+            <ng-container *ngFor="let series of theme.children">
+              <tr>
+                <td></td>
+                <td>{{series.name}}</td>
+                <td class="image-cell">
+                  <label>
+                    <input type="checkbox" [attr.checked]="series.unique ? '' : null"
+                      [attr.disabled]="isArchived ? '' : null" (change)="series.uniqueChanged($event.target)">
+                    Уникальный
+                  </label>
+                  <ng-container *ngIf="series.unique">
+                    <img *ngIf="series.image.imageSrc" src="/assets/images/u7439.png"
+                      (mouseenter)="showPreviewImage($event, series)" (mouseleave)="hidePreviewImage()">
+                    <ng-container *ngIf="!isArchived">
+                      <p-button *ngIf="series.image.imageSrc" label="Удалить" (click)="series.image.reset()">
+                      </p-button>
+                      <p-button ngfSelect [(file)]="series.image.file" accept="image/*" multiple="1"
+                        [label]="series.image.selectButtonLabel" (click)="series.image.url='';"></p-button>
+                    </ng-container>
+                  </ng-container>
+                </td>
+                <td class="commands-column"></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </p-table>
+
+      <div class="save-info">
+        <button *ngIf="!isArchived" class="info-button"
+          (click)="isEdit ? saveTerminal() : registerTerminal()">{{isEdit? 'Сохранить изменения': 'Создать'}}</button>
+        <button *ngIf="isArchived" class="info-button" (click)="restoreTerminal()">Восстановить в ленту действующих
+          позиций</button>
+        <button class="info-button" [routerLink]="['/admin/main/terminals/']">Вернуться к
+          списку</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="previewImage" class="popover-container" [style.left.px]="popoverPosition.left"
+  [style.top.px]="popoverPosition.top">
+  <div class="popover-inner-container" (mousemove)="hidePreviewImage()">
+    <div class="popover" (mousemove)="cancelHidePreviewImage($event)">
+      <img *ngIf="previewImage.imageSrc" class="image-view" [src]="previewImage.imageSrc">
+    </div>
+  </div>
+</div>

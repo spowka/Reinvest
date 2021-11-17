@@ -1,0 +1,24 @@
+<div class="app-card-number-print-templates">
+  <h4>Шаблоны печати номеров карточек</h4>
+
+  <div>
+    <div class="tab-menu">
+      <p>Показать</p>
+      <div class="tabs">
+        <button [ngClass]="{'active': tab == 'list'}" (click)="setTab('list')">
+          Список
+        </button>
+        <button [ngClass]="{'active': tab == 'assign'}" (click)="setTab('assign')">
+          Назначение шаблонов карточкам
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="tab == 'list'">
+    <app-card-number-print-templates-list></app-card-number-print-templates-list>
+  </div>
+  <div *ngIf="tab == 'assign'">
+    <app-card-number-print-templates-assign></app-card-number-print-templates-assign>
+  </div>
+</div>

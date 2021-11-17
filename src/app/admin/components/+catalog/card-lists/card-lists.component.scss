@@ -1,0 +1,60 @@
+.app-card-list
+{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: flex-start;
+  margin: 1.5rem;
+
+  .side-menu {
+    margin-right: 1.5rem;
+    width: 15%;
+  }
+
+  .list-cards {
+    width: 85%;
+  }
+
+  .imagePreviewBox {
+    width: 100px;
+    text-align: center;
+    img {
+      width: 90px;
+    }
+  }
+
+  .actions {
+    width: 410px;
+    
+    p-button {
+      text-align: center;
+      margin: 0.25rem;
+    }
+  }
+
+  .summary {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: flex-start;
+    flex-flow: row;
+  }
+
+  .reverse {
+    flex-flow: row-reverse;
+  }
+
+  .container
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: flex-start;
+    margin: 1rem;
+
+    .label-1 {
+      margin-right: 1.5rem;
+      width: 100px;
+    }
+  }
+}

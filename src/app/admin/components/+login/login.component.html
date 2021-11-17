@@ -1,0 +1,35 @@
+<div class="login-container">
+  <div class="login-header">
+    <div class="logo">
+      <img src="/assets/images/u52.png">
+      <p>Коллекционные карточки</p>
+    </div>
+    <p>Вход в админ панель</p>
+  </div>
+  <div class="login-form">
+    <form name="loginForm" autocomplete="on" [formGroup]="loginForm" action="/admin/login" (ngSubmit)="logIn()">
+
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
+        <input type="text" name="email" pInputText placeholder="Username" class="form-control" formControlName="email">
+      </div>
+      <div *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)" class="error-text">
+        <span *ngIf="f.email?.errors?.email">Email не валидный</span>
+        <span *ngIf="f.email?.errors?.required">* Это поле обязательно</span>
+      </div>
+
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
+        <input type="password" name="password" pInputText placeholder="Password" class="form-control"
+          formControlName="password">
+      </div>
+      <div *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)" class="error-text">
+        <span *ngIf="f.password?.errors?.required">* Это поле обязательно</span>
+      </div>
+      <div class="container-button">
+        <label *ngIf="showError" class="button-error">Ошибка входа</label>
+        <button [disabled]="loginForm.invalid" type="submit">Войти</button>
+      </div>
+    </form>
+  </div>
+</div>

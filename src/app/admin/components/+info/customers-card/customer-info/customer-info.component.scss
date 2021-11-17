@@ -1,0 +1,16 @@
+.actions {
+  margin: 20px 0 10px 0;
+}
+
+div.horizontal-container {
+  justify-content: flex-end;
+
+  input {
+      width: 100px;
+      flex: none;
+  }
+}
+
+.error-text {
+  margin: 1rem;
+}

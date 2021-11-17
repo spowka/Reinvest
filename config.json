@@ -1,0 +1,6 @@
+{
+   "$schema": "./node_modules/ng-swagger-gen/ng-swagger-gen-schema.json",
+	"swagger": "http://localhost:5000/swagger/v1/swagger.json",
+	"apiModule": false,
+	"camelCase": true
+}

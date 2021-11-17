@@ -1,0 +1,91 @@
+<div class="container-info">
+  <h1>{{employee && employee.firstName || 'Создание сотрудника'}}</h1>
+  <div class="info-data">
+    <h2>Регистрационные данные</h2>
+    <p *ngIf="!isArchived" class="info-text">ФИО, E-mail и пароль - обязательны для заполнения</p>
+    <div class="date-create" *ngIf="isEdit">
+      <p>Дата создания</p>
+      <p>{{employee && employee.createDate | date : "dd.MM.yyyy HH:mm" }}</p>
+    </div>
+    <div class="date-create" *ngIf="isArchived && isEdit">
+      <p>Дата архивирования</p>
+      <p>{{employee && employee.archiveDate | date : "dd.MM.yyyy HH:mm" }}</p>
+    </div>
+    <form [formGroup]="employeeForm">
+      <div class="input-group">
+        <label>Имя</label>
+        <input pInputText placeholder="Имя" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.firstName)}"
+          formControlName="firstName">
+      </div>
+      <div class="input-group">
+        <label>Фамилия</label>
+        <input pInputText placeholder="Фамилия" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.lastName)}"
+          formControlName="lastName">
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input pInputText placeholder="Email" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.email)}"
+          formControlName="email">
+      </div>
+      <div class="input-group">
+        <label>Пароль</label>
+        <input pInputText placeholder="пароль" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.password)}"
+          formControlName="password">
+      </div>
+      <div class="send-data" *ngIf="!isArchived">
+        <button [disabled]="employeeForm.dirty" (click)="sendRegData()" class="info-button">Отправить регистрационные
+          данные на почту</button>
+      </div>
+      <h2>Личные данные</h2>
+      <div class="input-group">
+        <label>Должность</label>
+        <input pInputText placeholder="должность" [ngClass]="{'isArchive':isArchived, 'error': hasError(f.position)}"
+          formControlName="position">
+      </div>
+      <div class="input-group">
+        <label>Телефон</label>
+        <input pInputText placeholder="+766454654654"
+          [ngClass]="{'isArchive':isArchived, 'error': hasError(f.phoneNumber)}" formControlName="phoneNumber">
+      </div>
+      <h2>Матрица прав</h2>
+      <div [ngClass]="{'error': hasRolesError()}">
+        <p-table [value]="roleMatrix" [autoLayout]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Каталог</th>
+              <th>Подраздел</th>
+              <th>Уровни доступа</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row>
+            <tr>
+              <td></td>
+              <td style="vertical-align: top;">{{row.targetName}}</td>
+              <td>
+                <div class="rolesBlock">
+                  <div class="roleBlock" *ngFor="let role of row.roles">
+                    <label>
+                      <input type="checkbox" [attr.checked]="role.isChecked ? '' : null"
+                        (change)="role.isChecked = !role.isChecked" [attr.disabled]="isArchived ? '' : null" />
+                      {{role.accessRoleName}}
+                      <p>{{role.accessRoleDescription}}</p>
+                    </label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <div class="save-info">
+        <button *ngIf="!isArchived" class="info-button" (click)="isEdit ? saveEmployee() : registerEmployee()">{{isEdit?
+          'Сохранить изменения': 'Создать'}}</button>
+        <button *ngIf="isArchived" class="info-button" (click)="restoreEmployee()">Восстановить в ленту действующих
+          позиций</button>
+        <button class="info-button" [routerLink]="['/admin/main/employees/']">Вернуться к
+          списку</button>
+      </div>
+    </form>
+  </div>
+</div>

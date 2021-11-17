@@ -1,0 +1,85 @@
+<header>
+  <ng-container *ngIf="isEmployee">
+    <div class="header-logo">
+      <a [routerLink]="['/admin/main']">
+        <img src="/assets/images/u52.png">
+        <p>Коллекционные карточки</p>
+      </a>
+    </div>
+    <div class="header-menu">
+      <div class="dropdown">
+        <button class="dropbtn">Каталог</button>
+        <div class="dropdown-content">
+          <a class="nav-item" [routerLink]="['structure-catalog']">Структура каталога</a>
+          <a class="nav-item" [routerLink]="['card-lists']">Каталог карточек</a>
+          <a class="nav-item" [routerLink]="['publish-settings']">Настройка публикации на сайте</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Справочники</button>
+        <div class="dropdown-content info">
+          <!-- <p class="caption">Пользователи системы</p> -->
+          <a class="nav-item" [routerLink]="['employees']">Сотрудники</a>
+          <a class="nav-item" [routerLink]="['customers']">Покупатели</a>
+          <a class="nav-item" [routerLink]="['terminals']">Терминалы</a>
+          <a class="nav-item" [routerLink]="['legal-entities']">Юридические лица</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn" [routerLink]="['orders']">Заказы</button>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Отчеты</button>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn" [routerLink]="['terminal-orders']">Заказы в терминалах</button>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Настройки</button>
+        <div class="dropdown-content">
+          <a class="nav-item" [routerLink]="['test-print-settings']">Настройки тестовой печати</a>
+          <a class="nav-item" [routerLink]="['printers']">Принтеры</a>
+          <a class="nav-item" [routerLink]="['card-number-print-templates']">Шаблоны печати номеров карточек</a>
+          <a class="nav-item" [routerLink]="['edit-texts']">Редактируемые тексты</a>
+          <a class="nav-item" [routerLink]="['email-templates']">Шаблоны писем</a>
+          <a class="nav-item" [routerLink]="['service-settings']">Служебные</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Контент</button>
+        <div class="dropdown-content">
+          <a class="nav-item" [routerLink]="['promo-banners']">Промо-баннеры</a>
+          <a class="nav-item" [routerLink]="['text-pages']">Текстовые страницы</a>
+          <a class="nav-item" [routerLink]="['blog-posts']">Блог</a>
+        </div>
+      </div>
+    </div>
+    <div class="header-logout">
+      <div>
+        <p>{{ fullName }}</p>
+        <span>Реинвест</span>
+      </div>
+      <p class="logout" (click)="logOut()">Выход</p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isPickPointManager">
+    <div class="header-logo">
+      <a [routerLink]="['ppm']">
+        <img src="/assets/images/u52.png">
+        <p>Коллекционные карточки</p>
+      </a>
+    </div>
+    <div class="header-menu">
+      <div class="dropdown">
+        <button class="dropbtn" [routerLink]="['orders']">Заказы</button>
+      </div>
+    </div>
+    <div class="header-logout">
+      <div>
+        <p>{{ fullName }}</p>
+        <span>Реинвест</span>
+      </div>
+      <p class="logout" (click)="logOut()">Выход</p>
+    </div>
+  </ng-container>
+</header>

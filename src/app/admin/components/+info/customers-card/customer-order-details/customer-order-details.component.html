@@ -1,0 +1,157 @@
+<div class="customer-order-details-container">
+    <div *ngIf="loading">
+        Идет загрузка...
+    </div>
+    <ng-container *ngIf="!loading">
+        <div class="columns-container">
+            <div class="column">
+                <h4>Состав заказа</h4>
+
+                <table>
+                    <thead>
+                        <td>Фото</td>
+                        <td>Карточка</td>
+                        <td>Стоимость</td>
+                        <td>Кол-во</td>
+                        <td>Сумма</td>
+                        <td>Состояние карточки</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detailRow of details.rows" class="bordered">
+                            <td class="card-preview">
+                                <img [src]="detailRow.previewImage">
+                            </td>
+                            <td>
+                                <p class="title">{{detailRow.title}}</p>
+                                <p>{{detailRow.path}}</p>
+                            </td>
+                            <td>{{detailRow.price}}</td>
+                            <td>{{detailRow.quantity}}</td>
+                            <td>{{detailRow.sum}}</td>
+                            <td>{{detailRow.status}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{details.totalPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <h4>Статус заказа</h4>
+                <div class="info">
+                    <p>{{getCurrentStatus()}}</p>
+                    <p>{{details.statusDate | date : "dd.MM.yyyy"}}</p>
+                    <p class="link-button" (click)="showHistory()">История статусов</p>
+                </div>
+            </div>
+        </div>
+
+        <form [formGroup]="form">
+            <h4>О получении</h4>
+
+            <ng-container *ngIf="details.deliveryType == 'Pickpoint'">
+                <div class="input-group">
+                    <label style="align-self: flex-start;">Пункт самовывоза</label>
+                    <div class="info">
+                        <p class="bold">{{details.pickPointName}}</p>
+                        <p>{{details.pickPointAddress}}</p>
+
+                        <div class="columns-container" style="margin-top: 10px">
+                            <div *ngIf="details.pickPointPhones" class="column">
+                                <p>Телефоны:</p>
+                                <p>{{details.pickPointPhones}}</p>
+                            </div>
+                            <div *ngIf="details.pickPointSchedule" class="column">
+                                <p>Время работы:</p>
+                                <p>{{details.pickPointSchedule}}</p>
+                            </div>
+                            <div *ngIf="details.pickPointComment" class="column">
+                                <p>Дополнительно:</p>
+                                <p>{{details.pickPointComment}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="details.deliveryType == 'Address'">
+                <div class="input-group">
+                    <label>Край / Область</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryRegion)}"
+                        formControlName="deliveryRegion">
+                </div>
+                <div class="input-group">
+                    <label>Город</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryCity)}" formControlName="deliveryCity">
+                </div>
+                <div class="input-group">
+                    <label>Почтовый индекс</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryPostIndex)}"
+                        formControlName="deliveryPostIndex">
+                </div>
+                <div class="input-group">
+                    <label>Улица</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryStreet)}"
+                        formControlName="deliveryStreet">
+                </div>
+                <div class="horizontal-container">
+                    <label>Дом</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryHouse)}" formControlName="deliveryHouse">
+                    <label>Корпус</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryBuilding)}"
+                        formControlName="deliveryBuilding">
+                    <label>Квартира</label>
+                    <input pInputText [ngClass]="{'error': hasError(f.deliveryApartment)}"
+                        formControlName="deliveryApartment">
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="details.deliveryType == 'Terminal'">
+                Заказ напечатан на терминале
+            </ng-container>
+
+            <div class="input-group">
+                <label>Комментарий<br>к заказу</label>
+
+                <textarea *ngIf="!details.isFinished" pInputTextarea formControlName="comment"
+                    [ngClass]="{'error': hasError(f.comment)}"></textarea>
+                <p *ngIf="details.isFinished">{{f.comment.value}}</p>
+            </div>
+
+            <ng-container *ngIf="details.showProcessingBlock">
+                <h4 style="margin-top: 20px">Обработка заказа</h4>
+
+                <div class="input-group">
+                    <label>Текущий статус</label>
+                    <div>
+                        <p>{{getCurrentStatus()}} ({{details.statusDate | date : "dd.MM.yyyy HH:mm"}})</p>
+                        <p *ngIf="details.statusComment">Комментарий: {{details.statusComment}}</p>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Новый статус</label>
+                    <p-dropdown [options]="statuses" formControlName="newStatus"
+                        [ngClass]="{'error': hasError(f.newStatus)}" [style]="{'width':'100%'}"
+                        [disabled]="statuses.length <= 1"></p-dropdown>
+                </div>
+                <div *ngIf="isStatusChanged" class="input-group">
+                    <label>Комментарий</label>
+                    <textarea pInputTextarea placeholder="Обязательный комментарий к смене статуса"
+                        formControlName="newStatusComment"
+                        [ngClass]="{'error': hasError(f.newStatusComment)}"></textarea>
+                </div>
+            </ng-container>
+        </form>
+
+        <div class="save-info">
+            <button *ngIf="details.showProcessingBlock || !details.isFinished" pButton (click)="save()" label="Сохранить изменения"></button>
+            <button *ngIf="order" pButton (click)="cancel()" label="Закрыть"></button>
+            <button pButton (click)="gotoOrders()" label="Вернуться к списку заказов"></button>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,16 @@
+<i>Пожалуйста, загрузите иконки, которые будут показываться на сайте, отмечая принадлежащие вам пункты самовывоза</i>
+
+<div class="mt-2">
+  <rs-image-upload title="Иконка для карты (активная)" [image]="activeMapIcon" [canEdit]="!isArchived" extensions="png"
+    acceptType="image/png">
+  </rs-image-upload>
+  <rs-image-upload title="Иконка для карты (неактивная)" [image]="inactiveMapIcon" [canEdit]="!isArchived"
+    extensions="png" acceptType="image/png">
+  </rs-image-upload>
+</div>
+
+<div class="mt-2">
+  <button *ngIf="!isArchived"  class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" (click)="update()">
+    <span class="ui-button-text ui-clickable">Сохранить изменения</span>
+  </button>
+</div>

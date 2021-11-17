@@ -1,0 +1,97 @@
+<div>
+  <h3 class="column__title">Заказы в работе</h3>
+
+  <ng-container *ngFor="let order of orders">
+    <ng-container *ngIf="!order.detailsVisible">
+      <div class="block table">
+        <div class="block__title">Заказ №{{order.id}} от {{order.createDate | date : "dd.MM.yyyy"}}</div>
+        <div class="block__list table">
+          <div class="block__list-item">
+            <div>
+              <strong>Наименование</strong>
+            </div>
+            <div class="center">
+              <strong>Количество</strong>
+            </div>
+            <div>
+              <strong>Цена, ₽</strong>
+            </div>
+            <div>
+              <strong>Сумма, ₽</strong>
+            </div>
+            <div>
+              <strong>Статус заказа</strong>
+            </div>
+          </div>
+          <ng-container *ngFor="let row of order.rows">
+            <div class="block__list-item">
+              <div>{{row.title}}</div>
+              <div class="center">{{row.quantity}}</div>
+              <div>{{row.price}} ₽</div>
+              <div>{{row.sum}} ₽</div>
+              <div>
+                {{order.status}}
+                <br>
+                {{order.statusDate | date : "dd.MM.yyyy HH:mm"}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="block__footer">
+          <a href="javascript:void(0)" class="btn btn-black" (click)="order.toggleDetails()">Показать детали</a>
+          <div class="block__total">
+            <div>Итого:</div>
+            <div class="block__total-price">{{order.totalPrice}} ₽</div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="order.detailsVisible">
+      <div class="block">
+        <div class="block__title">Заказ №28 от 08.04.2021</div>
+        <div class="block__list table six center">
+          <div class="block__list-item">
+            <div><strong>Карточка</strong></div>
+            <div><strong>Наименование</strong></div>
+            <div class="center"><strong>Количество</strong></div>
+            <div><strong>Цена, ₽</strong></div>
+            <div><strong>Сумма, ₽</strong></div>
+            <div><strong>Статус заказа</strong></div>
+          </div>
+
+          <ng-container *ngIf="order.details?.rows">
+            <ng-container *ngFor="let row of order.details.rows">
+              <div class="block__list-item">
+                <div>
+                  <img [src]="row.previewImage" alt="">
+                </div>
+                <div class="cart__info">
+                  <div class="cart__name">{{row.title}}</div>
+                  <div class="cart__text">{{row.path}}</div>
+                </div>
+                <div class="center">{{row.quantity}}</div>
+                <div>{{row.price}} ₽</div>
+                <div>{{row.sum}} ₽</div>
+                <div>
+                  {{order.status}}
+                  <br>
+                  {{order.statusDate | date : "dd.MM.yyyy HH:mm"}}
+                  <br>
+                  <a href="javascript:void(0)" (click)="order.showHistory()">История статусов</a>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="block__footer">
+          <a href="javascript:void(0)" class="btn btn-black" (click)="order.toggleDetails()">скрыть детали</a>
+          <div class="block__total">
+            <div>Итого:</div>
+            <div class="block__total-price">{{order.totalPrice}} ₽</div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

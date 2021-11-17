@@ -1,0 +1,51 @@
+.container-terminal-order {
+    margin: 0 1.5rem;
+}
+
+.buyer {
+    margin-right: 30px;
+}
+
+.layout-content .card {
+    background   : var(--surface-e);
+    padding      : 2rem;
+    box-shadow   : 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    padding      : 10px;
+}
+
+.order-content {
+    width       : 80%;
+    margin-right: 55px;
+}
+
+.to-orders {
+    margin-top: 10px;
+}
+
+.status {
+    margin-bottom: 5px;
+}
+
+.planned-sum {
+    color: gray;
+}
+
+.fact-sum {
+    font-size  : 1rem;
+    font-weight: 900;
+    color      : black;
+}
+
+.warning {
+    color: #ffc107;
+}
+
+.preview {
+    max-width: 145px;
+}
+
+.preview-cell {
+    width: 170px;
+}

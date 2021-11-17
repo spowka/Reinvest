@@ -1,0 +1,63 @@
+<div class="container-editing">
+  <div class="section">
+    <h1>Служебные настройки</h1>
+
+    <div *ngIf="isLoading">
+      Загрузка данных...
+    </div>
+    <form *ngIf="!isLoading" [formGroup]="settingsForm">
+      <h3>Внутренняя почта</h3>
+      <div class="input-group">
+        <label>Электронная почта для оповещения о заказах</label>
+        <input pInputText [ngClass]="{'error': hasError(f.ordersNotifyEmail)}" formControlName="ordersNotifyEmail">
+      </div>
+
+      <h3>Адрес для самовывоза</h3>
+      <div class="input-group">
+        <label>Адрес для Яндекс-карт</label>
+        <input pInputText [ngClass]="{'error': hasError(f.pickpointOfficeAddress)}"
+          formControlName="pickpointOfficeAddress">
+      </div>
+      <div class="input-group">
+        <label>Комментарий об адресе</label>
+        <textarea pInputText [ngClass]="{'error': hasError(f.pickpointOfficeAddressComment)}"
+          formControlName="pickpointOfficeAddressComment" rows="5"></textarea>
+      </div>
+
+      <h3>Ценовые коэффициенты</h3>
+      <div class="input-group">
+        <label>Коэффициент для пропорциональной цены карточек</label>
+        <input pInputText [ngClass]="{'error': hasError(f.proportionalPriceFactor)}"
+          formControlName="proportionalPriceFactor">
+      </div>
+      <div class="input-group">
+        <label>Коэффициент для экспоненциальной цены карточек</label>
+        <textarea pInputText [ngClass]="{'error': hasError(f.exponentialPriceFactor)}"
+          formControlName="exponentialPriceFactor" rows="5"></textarea>
+      </div>
+
+      <h3>Таймеры для заказа карточек</h3>
+      <div class="input-group">
+        <label>Таймер для корзины, мин</label>
+        <input pInputText [ngClass]="{'error': hasError(f.cartClearInterval)}" formControlName="cartClearInterval">
+      </div>
+      <div class="input-group">
+        <label>Таймер для оформления / оплаты, мин</label>
+        <textarea pInputText [ngClass]="{'error': hasError(f.orderPaymentInterval)}"
+          formControlName="orderPaymentInterval" rows="5"></textarea>
+      </div>
+
+
+      <h3>Для терминалов</h3>
+      <div class="input-group">
+        <label>Переход в режим "бездействия" после печати заказа, с</label>
+        <input pInputText [ngClass]="{'error': hasError(f.timeAfterPrintingToInactionMode)}" formControlName="timeAfterPrintingToInactionMode">
+      </div>
+
+
+      <div class="save-info">
+        <button (click)="save()" class="info-button">Сохранить изменения</button>
+      </div>
+    </form>
+  </div>
+</div>

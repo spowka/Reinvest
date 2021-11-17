@@ -1,0 +1,77 @@
+<div class="app-publish-settings">
+  <h4>Настройка публикации на сайте</h4>
+
+  <p-table [value]="treeValue" dataKey="id" rowExpandMode="single">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Тематика</th>
+        <th>Серия</th>
+        <th>Комплект</th>
+        <th>Карточек</th>
+        <th>Публикация на сайте</th>
+        <th>Топ в каталоге</th>
+        <th>Топ в тематике</th>
+        <th>Топ в серии</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-index="rowIndex">
+      <tr>
+        <td colspan="3">
+          <span href="#" [pRowToggler]="rowData">
+            <i [ngClass]="expanded ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
+          </span>
+          {{rowData.name}}
+        </td>
+        <td class="center">{{rowData.activeCards}}/{{rowData.archiveCards}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="rowData.published" (ngModelChange)="publishedChange(rowData, $event)"
+            [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'theme'" type="checkbox" [(ngModel)]="rowData.themeTop"
+            (ngModelChange)="themeTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'series'" type="checkbox" [(ngModel)]="rowData.seriesTop"
+            (ngModelChange)="seriesTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'set'" type="checkbox" [(ngModel)]="rowData.setTop"
+            (ngModelChange)="setTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-rowData let-index="rowIndex">
+      <tr>
+        <td colspan="8" class="expand-cell">
+          <p-table [value]="rowData.children" selectionMode="single" dataKey="id">
+            <ng-template pTemplate="body" let-rowNode let-rowData let-index="rowIndex">
+      <tr>
+        <td></td>
+        <td>{{rowData.series}}</td>
+        <td>{{rowData.set}}</td>
+        <td class="center">{{rowData.activeCards}}/{{rowData.archiveCards}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="rowData.published" (ngModelChange)="publishedChange(rowData, $event)"
+            [disabled]="!treeValue || isLoading || !rowData.publishedEnabled() ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'theme'" type="checkbox" [(ngModel)]="rowData.themeTop"
+            (ngModelChange)="themeTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'series'" type="checkbox" [(ngModel)]="rowData.seriesTop"
+            (ngModelChange)="seriesTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+        <td>
+          <input *ngIf="rowData.type == 'set'" type="checkbox" [(ngModel)]="rowData.setTop"
+            (ngModelChange)="setTopChange(rowData)" [disabled]="!treeValue || isLoading ? '' : null" />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </td>
+  </tr>
+  </ng-template>
+  </p-table>
+</div>

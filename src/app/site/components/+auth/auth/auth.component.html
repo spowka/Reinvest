@@ -1,0 +1,140 @@
+<div class="container-login" *ngIf="false">
+  <h1>Регистрация</h1>
+  <div class="columns-container">
+    <div class="register-form">
+      <h2>Для регистрации нужно совсем немного ( <a [routerLink]="['/login']"> нет, у меня уже есть
+        аккаунт</a> )</h2>
+      <p class="text">Пожалуйста, заполните все поля формы</p>
+      <form [formGroup]="signUpForm">
+        <div>
+          <label>Имя</label>
+          <div>
+            <label *ngIf="signUpForm.get('firstName').invalid && signUpForm.get('firstName').touched"
+                   class="field-error">Поле заполнено неверно</label>
+            <input type="text" class="form-control" formControlName="firstName">
+          </div>
+        </div>
+        <div>
+          <label>Фамилия</label>
+          <div>
+            <label *ngIf="signUpForm.get('lastName').invalid && signUpForm.get('lastName').touched"
+                   class="field-error">Поле заполнено неверно</label>
+            <input type="text" class="form-control" formControlName="lastName">
+          </div>
+        </div>
+        <div>
+          <label>Ваш e-mail</label>
+          <div>
+            <label *ngIf="signUpForm.get('email').invalid && signUpForm.get('email').touched" class="field-error">Поле
+              заполнено неверно</label>
+            <input type="email" class="form-control" formControlName="email">
+          </div>
+        </div>
+        <div>
+          <label>Придумайте пароль</label>
+          <div>
+            <label *ngIf="signUpForm.get('password').invalid && signUpForm.get('password').touched"
+                   class="field-error">Поле заполнено неверно</label>
+            <input type="password" class="form-control" formControlName="password">
+          </div>
+        </div>
+        <div>
+          <label>Повторите пароль</label>
+          <div>
+            <label *ngIf="signUpForm.get('confirmPassword').invalid && signUpForm.get('confirmPassword').touched"
+                   class="field-error">Поле заполнено неверно</label>
+            <input type="password" class="form-control" formControlName="confirmPassword">
+          </div>
+        </div>
+        <div class="input-group--check">
+          <input type="checkbox" checked formControlName="checkbox">
+          <label>Разрешаю <a href="#">использовать мои персональные данные в рамках закона</a></label>
+        </div>
+        <div class="log-btn">
+          <button [disabled]="signUpForm.invalid" (click)="signUp()">Зарегистрироваться</button>
+        </div>
+        <p class="forgot"><a>Я забыл свой пароль!</a></p>
+      </form>
+    </div>
+    <div class="social">
+      <button class="social-button" [attr.disabled]="socialSettings && socialSettings.vkAppId ? null : ''"
+              (click)="loginVK()">
+        VK
+      </button>
+      <button class="social-button" [attr.disabled]="socialSettings && socialSettings.fbAppId ? null : ''"
+              (click)="loginFB()">FB</button>
+      <button class="social-button" [attr.disabled]="socialSettings && socialSettings.googleAppId ? null : ''"
+              (click)="loginGoogle()">G+</button>
+      <button class="social-button" [attr.disabled]="socialSettings && socialSettings.okAppId ? null : ''"
+              (click)="loginOK()">OK</button>
+    </div>
+  </div>
+</div>
+
+<section class="cart">
+  <div class="container">
+    <h2>Регистрация</h2>
+
+    <div class="sidebar-wrapper">
+      <div class="column">
+        <h3>Заполните все поля формы для регистрации</h3>
+        <div class="cart__desc">Уже есть аккаунт? <a [routerLink]="['/login']">Войти в аккаунт</a></div>
+
+        <form [formGroup]="signUpForm">
+          <div class="form-field__text">
+            <input type="text" class="form-control" formControlName="firstName" placeholder="Имя">
+            <label *ngIf="signUpForm.get('firstName').invalid && signUpForm.get('firstName').touched"
+                   class="field-error">Поле заполнено неверно</label>
+          </div>
+
+          <div class="form-field__text">
+            <input type="text" class="form-control" formControlName="lastName" placeholder="Фамилия">
+            <label *ngIf="signUpForm.get('lastName').invalid && signUpForm.get('lastName').touched"
+                   class="field-error">Поле заполнено неверно</label>
+          </div>
+
+          <div class="form-field__text">
+            <input type="email" class="form-control" formControlName="email" placeholder="Ваш E-mail">
+            <label *ngIf="signUpForm.get('email').invalid && signUpForm.get('email').touched" class="field-error">Поле
+              заполнено неверно</label>
+          </div>
+
+          <div class="form-field__text">
+            <input type="password" class="form-control" formControlName="password" placeholder="Пароль">
+            <label *ngIf="signUpForm.get('password').invalid && signUpForm.get('password').touched"
+                   class="field-error">Поле заполнено неверно</label>
+          </div>
+
+          <div class="form-field__text">
+            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Повторите пароль">
+            <label *ngIf="signUpForm.get('confirmPassword').invalid && signUpForm.get('confirmPassword').touched"
+                   class="field-error">Поле заполнено неверно</label>
+          </div>
+
+          <div class="form-group checkbox form-field__checkbox">
+            <input type="checkbox" checked formControlName="checkbox" id="c1">
+            <label for="c1">Разрешаю использовать мои данные в <a href="#">рамках закона</a></label>
+          </div>
+
+        </form>
+
+        <div class="cart__footer">
+          <!--<a [routerLink]="['/restore-password']">Я не помню свой пароль</a>-->
+          <button type="submit" class="btn btn-red btn-login" [disabled]="signUpForm.invalid" (click)="signUp()">Зарегистрироваться</button>
+        </div>
+      </div>
+      <div class="sidebar mobile" style="margin-left: 126px;">
+        <div class="block" style="margin-top: 114px">
+          <div class="block__title center">Войти через социальную сеть</div>
+
+          <div class="social">
+            <a href="javascript:void(0)"><img src="/assets/images/icons/vk-black.svg" alt=""></a>
+            <a href="javascript:void(0)"><img src="/assets/images/icons/fb-black.svg" alt=""></a>
+            <a href="javascript:void(0)"><img src="/assets/images/icons/google.svg" alt=""></a>
+            <a href="javascript:void(0)"><img src="/assets/images/icons/ok.svg" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

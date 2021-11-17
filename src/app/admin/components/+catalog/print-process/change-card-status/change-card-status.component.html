@@ -1,0 +1,16 @@
+<div class="subject-data">
+  <h3>{{title}}</h3>
+  <p>{{message}}</p>
+
+  <form>
+    <div class="input-group">
+      <label>{{commentLabel}}</label>
+      <textarea maxlength="500" [(ngModel)]="comment" name="comment" pInputText [ngClass]="{'error': !comment}" rows="5"></textarea>
+    </div>
+
+    <div class="buttons-group">
+      <p-button (click)="save()" [label]="'ОК'" [disabled]="!isValid"></p-button>
+      <p-button (click)="closeModal()" [label]="'Отмена'"></p-button>
+    </div>
+  </form>
+</div>

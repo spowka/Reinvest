@@ -1,0 +1,141 @@
+.title {
+   font-size: 30px;
+   line-height: 38px;
+   font-weight: 600;
+   color: $colorDark;
+
+   &.white {
+      color: $colorWhite;
+   }
+
+   &.bold {
+      font-weight: bold;
+   }
+
+   &.normal {
+      font-weight: normal;
+   }
+}
+
+.subtitle {
+   font-size: 24px;
+   line-height: 30px;
+   font-weight: normal;
+   color: $colorDark;
+
+   &.bold {
+      font-weight: bold;
+   }
+
+   &.thin {
+      font-weight: 300;
+   }
+
+   &.bold-middle {
+      font-weight: 600;
+   }
+
+   &.white {
+      color: $colorWhite;
+   }
+}
+
+.small-subtitle {
+   font-size: 20px;
+   line-height: 26px;
+   font-weight: normal;
+   color: $colorDark;
+
+   &.bold {
+      font-weight: bold;
+   }
+
+   &.bold-middle {
+      font-weight: 600;
+   }
+
+   &.thin {
+      font-weight: 300;
+   }
+
+   &.line-height {
+      line-height: 30px;
+   }
+}
+
+.text {
+   line-height: 24px;
+   font-size: 16px;
+   font-weight: 400;
+   color: $colorDark;
+
+   &.old-price {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: bold;
+      text-decoration: line-through;
+   }
+
+   &.new-price {
+      font-weight: bold;
+      color: $colorIbis;
+   }
+
+   &.green {
+      color: $colorGreen;
+   }
+
+   &.small {
+      font-size: 14px;
+      font-style: normal;
+   }
+
+   &.small-13 {
+      font-size: 13px;
+      font-style: normal;
+      font-weight: normal;
+   }
+
+   &.small-12 {
+      font-size: 12px;
+      font-style: normal;
+      font-weight: normal;
+   }
+
+   &.new-sale-small {
+      font-size: 10px;
+      line-height: 8px;
+      font-weight: normal;
+      color: $colorGreen;
+   }
+
+   &.bold {
+      font-weight: bold;
+   }
+
+   &.bold-middle {
+      font-weight: 600;
+   }
+
+   &.notification-message {
+      line-height: 13px;
+      font-size: 10px;
+      margin: 5px 0;
+
+      &.error {
+         color: $colorRubinate;
+      }
+
+      &.success {
+         color: $colorGreen;
+      }
+   }
+
+   &.rubinate {
+      color: $colorRubinate;
+   }
+}
+
+.line-height-20 {
+   line-height: 20px;
+}

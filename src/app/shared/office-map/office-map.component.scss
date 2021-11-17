@@ -1,0 +1,12 @@
+.office-map-container {
+    position: relative;
+    height: 500px;
+
+    .map-container {
+        div.yandex-map {            
+            margin-left: 20px;
+            width: 500px;
+            height: 500px;
+        }
+    }
+}

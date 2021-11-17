@@ -1,0 +1,70 @@
+.app-print-preparation {   
+    margin: 0 1.5rem;
+
+    .error-text {
+        margin: 1rem;
+    }
+
+    .card-name {
+        font-weight: bold;
+    }
+    
+    .order-cell {
+        vertical-align: top;
+    }
+    
+    td {
+        vertical-align: top;
+    }
+    td.diagnostics p {    
+        margin-bottom: 1px;
+    }
+    
+    .buttons-group p.error-text {
+        height: 24px;
+        margin: 0 0 8px 8px;
+    }
+
+    .card-status {
+        padding: 4px;
+    
+        .text {
+            position: relative;
+        }
+    }
+    
+    .card-completed {
+        border: 1px dashed #7a817a;
+        position: relative;
+        
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background:  #00cc00;
+        }
+    }
+
+    .card-error {
+        border: 1px dashed #7a817a;
+        position: relative;
+        
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background:  #ff9900;
+        }
+    }
+    
+    .card-rejected {
+        color: #cc0000;
+        .background {
+            display: none;
+        }
+    }
+}

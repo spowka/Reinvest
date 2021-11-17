@@ -1,0 +1,116 @@
+<div class="app-orders">
+  <h4>Заказы</h4>
+  <div class="tab-menu">
+    <p>Показать</p>
+    <div class="tabs">
+      <button [ngClass]="{'active': filters.feed == 'Receiving'}" (click)="setFeed('Receiving')">Ожидают
+        приемки</button>
+      <button [ngClass]="{'active': filters.feed == 'Delivering'}" (click)="setFeed('Delivering')">Ожидают
+        выдачи</button>
+      <button [ngClass]="{'active': filters.feed == 'Completed'}" (click)="setFeed('Completed')">Завершенные</button>
+    </div>
+  </div>
+
+  <div class="buttons-header">
+    <div>
+      <p-button label="Сбросить фильтры" (onClick)="resetFilters()"></p-button>
+    </div>
+  </div>
+  <p-table #dt [value]="orders" [autoLayout]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="sortable">
+          <p>#</p>
+          <input type="text" pInputText [(ngModel)]="filters.id" (ngModelChange)="reloadOrders()" class="form-control"
+            placeholder="">
+          <sortArrows [order]="getSortOrder('id')" (onChange)="onSort($event, 'id')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Покупатель</p>
+          <input type="text" pInputText [(ngModel)]="filters.customerName" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('customerName')" (onChange)="onSort($event, 'customerName')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Delivering'" class="sortable">
+          <p>E-mail</p>
+          <input type="text" pInputText [(ngModel)]="filters.customerEmail" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('customerEmail')" (onChange)="onSort($event, 'customerEmail')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Delivering'" class="sortable">
+          <p>Телефон</p>
+          <input type="text" pInputText [(ngModel)]="filters.customerPhone" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('customerPhone')" (onChange)="onSort($event, 'customerPhone')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Позиций >=</p>
+          <input type="text" pInputText [(ngModel)]="filters.itemsCount" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('itemsCount')" (onChange)="onSort($event, 'itemsCount')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Сумма, Р >=</p>
+          <input type="text" pInputText [(ngModel)]="filters.totalPrice" (ngModelChange)="reloadOrders()"
+            class="form-control" placeholder="">
+          <sortArrows [order]="getSortOrder('totalPrice')" (onChange)="onSort($event, 'totalPrice')"></sortArrows>
+        </th>
+        <th class="sortable">
+          <p>Статус</p>
+          <p-dropdown [options]="statuses" [(ngModel)]="filters.status" [style]="{'width':'100%'}"
+            (ngModelChange)="reloadOrders()"></p-dropdown>
+          <sortArrows [order]="getSortOrder('status')" (onChange)="onSort($event, 'status')"></sortArrows>
+        </th>
+        <th *ngIf="filters.feed == 'Receiving'">
+          <p>Выбрать для приемки</p>
+        </th>
+        <th>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+      <tr>
+        <td>{{rowData.id}}</td>
+        <td>{{rowData.customerName}}</td>
+        <td *ngIf="filters.feed == 'Delivering'">{{rowData.customerEmail}}</td>
+        <td *ngIf="filters.feed == 'Delivering'">{{rowData.customerPhone}}</td>
+        <td>{{rowData.itemsCount}}</td>
+        <td>{{rowData.totalPrice}}</td>
+        <td>
+          {{rowData.status | substitute: totalStatuses }}
+          <br>
+          {{rowData.statusDate | date : "dd.MM.yyyy"}}
+        </td>
+        <td *ngIf="filters.feed == 'Receiving'">
+          <input type="checkbox" [(ngModel)]="rowData.selected" (ngModelChange)="selectedChange()" />
+        </td>
+        <td>
+          <p-button class="view-button" label="Просмотр" (click)="gotoOrderView(rowData)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <label *ngIf="totalRecords" class="summary">Позиций: {{totalRecords}}</label>
+  </div>
+</div>
+
+<div *ngIf="selectedOrders && selectedOrders.length > 0" class="selected-orders-popover">
+  <h4>Приемка заказов (выбрано - {{selectedOrders.length}})</h4>
+  <div class="orders">
+    <div *ngFor="let orderRow of selectedOrders" class="order-item">
+      №{{orderRow.id}}
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>Комментарий</label>
+    <textarea pInputTextarea [(ngModel)]="changeStatusComment" [ngClass]="{'error': !canMoveToAwaitingDelivery}"
+      rows="3"></textarea>
+  </div>
+
+  <p-button label='Присвоить статус "Ожидает выдачи"' (onClick)="moveToAwaitingDelivery()"
+    [disabled]="!canMoveToAwaitingDelivery"></p-button>
+  <p-button label="Отмена" (onClick)="resetSelection()"></p-button>
+</div>

@@ -1,0 +1,80 @@
+<h1>{{customer.firstName}}</h1>
+<h2>Регистрационные данные</h2>
+<p *ngIf="!isArchived">ФИО, E-mail и пароль - обязательны для заполнения</p>
+<div class="date-create">
+    <p>Дата регистрации</p>
+    <p>{{customer.registrationDate | date : "dd.MM.yyyy HH:mm" }}</p>
+</div>
+<div class="date-create" *ngIf="isArchived">
+    <p>Дата архивирования</p>
+    <p>{{customer.archiveDate | date : "dd.MM.yyyy HH:mm" }}</p>
+</div>
+<form [formGroup]="form">
+    <div class="input-group">
+        <label>Имя</label>
+        <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.firstName)}"
+            formControlName="firstName">
+    </div>
+    <div class="input-group">
+        <label>Фамилия</label>
+        <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.lastName)}"
+            formControlName="lastName">
+    </div>
+    <div class="input-group">
+        <label>Телефон</label>
+        <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.phoneNumber)}"
+            formControlName="phoneNumber">
+    </div>
+    <div class="input-group">
+        <label>Email</label>
+        <div>
+            <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.email)}" formControlName="email">
+            <label *ngIf="customer.isEmailConfirmed">Адрес подтвержден</label>
+            <label *ngIf="!customer.isEmailConfirmed" class="error-text">Адрес не подтвержден</label>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Пароль</label>
+        <input pInputText [ngClass]="{'isArchive':isArchived, 'error': hasError(f.password)}"
+            formControlName="password">
+    </div>
+    <div class="send-data" *ngIf="!isArchived">
+        <button [disabled]="form.dirty" (click)="sendRegData()" class="info-button">Отправить регистрационные
+            данные на почту</button>
+    </div>
+
+    <h3>Адрес доставки</h3>
+    <div class="input-group">
+        <label>Край / Область</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryRegion)}" formControlName="deliveryRegion">
+    </div>
+    <div class="input-group">
+        <label>Город</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryCity)}" formControlName="deliveryCity">
+    </div>
+    <div class="input-group">
+        <label>Почтовый индекс</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryPostIndex)}" formControlName="deliveryPostIndex">
+    </div>
+    <div class="input-group">
+        <label>Улица</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryStreet)}" formControlName="deliveryStreet">
+    </div>
+    <div class="horizontal-container">
+        <label>Дом</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryHouse)}" formControlName="deliveryHouse">
+        <label>Корпус</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryBuilding)}" formControlName="deliveryBuilding">
+        <label>Квартира</label>
+        <input pInputText [ngClass]="{'error': hasError(f.deliveryApartment)}" formControlName="deliveryApartment">
+    </div>
+
+    <div class="save-info">
+        <button *ngIf="!isArchived" (click)="save()" class="info-button">Сохранить изменения</button>
+        <button *ngIf="isArchived" class="info-button" (click)="restoreCustomer()">Восстановить в ленту действующих
+            позиций</button>
+        <button class="info-button" [routerLink]="['/admin/main/customers/']">Вернуться к
+            списку</button>
+    </div>
+</form>

@@ -1,0 +1,111 @@
+<div class="subject-data">
+  <form>
+    <div class="input-group" *ngIf="parentTheme">
+      <label>Тематика</label>
+      <p>{{parentTheme.name}}</p>
+    </div>
+    <div class="input-group" *ngIf="childrenTheme">
+      <label>Для серии</label>
+      <p-dropdown [options]="childrenTheme" [(ngModel)]="parentId" [ngClass]="{'error': !isValid && !parentId}"
+        placeholder="Выберите серию" [ngModelOptions]="{standalone: true}"></p-dropdown>
+    </div>
+    <div class="input-group">
+      <label>{{(!childrenTheme && parentTheme) ? 'Название серии': !parentTheme ? 'Название тематики' : 'Название комплекта'}}</label>
+      <input [(ngModel)]="subjectForm.name" type="text" pInputText [ngClass]="{'error': !isValid && !subjectForm.name}"
+        name="name" rows="5">
+    </div>
+
+    <h3>Отображение на сайте</h3>
+    <div class="settings-block">
+      <div class="input-group">
+        <label>Краткое описание</label>
+        <textarea pInputTextarea [(ngModel)]="subjectForm.shortDescription"
+          [ngClass]="{'error': !isValid && !subjectForm.shortDescription}" name="shortDescription" rows="5"></textarea>
+      </div>
+      <div class="input-group">
+        <label>Расширенное описание</label>
+        <textarea pInputTextarea [(ngModel)]="subjectForm.extendedDescription"
+          [ngClass]="{'error': !isValid && !subjectForm.extendedDescription}" name="extendedDescription"
+          rows="5"></textarea>
+      </div>
+      <div class="input-group">
+        <label>Изображение<br />jpg, png, gif - {{image.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="image.imageSrc" class="image" [src]="image.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="image.reset()"></p-button>
+            <p-button ngfSelect [(file)]="image.file" accept="image/*" multiple="1" [label]="image.selectButtonLabel"
+              (click)="image.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Отображение на терминалах</h3>
+    <div class="settings-block">
+      <div *ngIf="terminalThemeListImage" class="input-group">
+        <label>Изображение для списка тематик<br />jpg, png, gif - {{terminalThemeListImage.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="terminalThemeListImage.imageSrc" class="image" [src]="terminalThemeListImage.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="terminalThemeListImage.reset()"></p-button>
+            <p-button ngfSelect [(file)]="terminalThemeListImage.file" accept="image/*" multiple="1"
+              [label]="terminalThemeListImage.selectButtonLabel" (click)="terminalThemeListImage.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="terminalSeriesListImage" class="input-group">
+        <label>Изображение для списка серий<br />jpg, png, gif - {{terminalSeriesListImage.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="terminalSeriesListImage.imageSrc" class="image" [src]="terminalSeriesListImage.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="terminalSeriesListImage.reset()"></p-button>
+            <p-button ngfSelect [(file)]="terminalSeriesListImage.file" accept="image/*" multiple="1"
+              [label]="terminalSeriesListImage.selectButtonLabel" (click)="terminalSeriesListImage.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="terminalBackgroundImage" class="input-group">
+        <label>Фон<br />jpg, png, gif - {{terminalBackgroundImage.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="terminalBackgroundImage.imageSrc" class="image" [src]="terminalBackgroundImage.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="terminalBackgroundImage.reset()"></p-button>
+            <p-button ngfSelect [(file)]="terminalBackgroundImage.file" accept="image/*" multiple="1"
+              [label]="terminalBackgroundImage.selectButtonLabel" (click)="terminalBackgroundImage.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="terminalCollectionsListImage" class="input-group">
+        <label>Изображение для списка коллекций<br />jpg, png, gif -
+          {{terminalCollectionsListImage.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="terminalCollectionsListImage.imageSrc" class="image"
+            [src]="terminalCollectionsListImage.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="terminalCollectionsListImage.reset()"></p-button>
+            <p-button ngfSelect [(file)]="terminalCollectionsListImage.file" accept="image/*" multiple="1"
+              [label]="terminalCollectionsListImage.selectButtonLabel" (click)="terminalCollectionsListImage.url='';">
+            </p-button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="terminalCardsListImage" class="input-group">
+        <label>Изображение для списка карточек<br />jpg, png, gif - {{terminalCardsListImage.imageSizeLabel}}</label>
+        <div class="image-edit-box">
+          <img *ngIf="terminalCardsListImage.imageSrc" class="image" [src]="terminalCardsListImage.imageSrc">
+          <div class="actions">
+            <p-button label="Удалить файл" (click)="terminalCardsListImage.reset()"></p-button>
+            <p-button ngfSelect [(file)]="terminalCardsListImage.file" accept="image/*" multiple="1"
+              [label]="terminalCardsListImage.selectButtonLabel" (click)="terminalCardsListImage.url='';"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons-group" *ngIf="!isPending">
+      <p-button (click)="save()" [label]="id ? 'Обновить':'Добавить'"></p-button>
+      <p-button (click)="closeModal()" label="Отмена"></p-button>
+    </div>
+  </form>
+</div>

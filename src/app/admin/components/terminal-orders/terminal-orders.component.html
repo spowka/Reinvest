@@ -1,0 +1,105 @@
+<div class="container-terminal-orders">
+  <div class="header-terminal-orders">
+    <h1 class="caption-h1">Заказы в терминалах</h1>
+  </div>
+
+  <div class="container-table">
+    <rs-table-info [rows]="orders" (resetFiltersEvent)="resetFilters()" [totalRecords]="totalRecords" [headerTemplate]="headerTemplate"
+      [rowsTemplate]="rowsTemplate">
+
+      <ng-template #headerTemplate let-parentContext>
+        <tr *ngIf="filters">
+          <th class="sortable">
+            <p>#</p>
+            <input type="text" pInputText [(ngModel)]="filters.orderNumber" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('orderNumber')" (onChange)="onSort($event, 'orderNumber')">
+            </sortArrows>
+          </th>
+
+          <th class="sortable dates-range">
+            <p>Дата</p>
+            от
+            <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.createDateFrom" (ngModelChange)="search()" [readonlyInput]="true">
+            </p-calendar>
+            <br>
+            до
+            <p-calendar [locale]="parentContext.calendarLocale" dateFormat="dd.mm.yy"
+              [(ngModel)]="filters.createDateTo" [minDate]="filters.createDateFrom" (ngModelChange)="search()"
+              [readonlyInput]="true">
+            </p-calendar>
+            <sortArrows [order]="getSortOrder('createDate')" (onChange)="onSort($event, 'createDate')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>​
+              Юр. лицо</p>
+            <input type="text" pInputText [(ngModel)]="filters.legalEntity" (ngModelChange)="search()" class="form-control"
+              placeholder="">
+            <sortArrows [order]="getSortOrder('legalEntity')" (onChange)="onSort($event, 'legalEntity')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Терминал</p>
+            <input type="text" pInputText [(ngModel)]="filters.terminal" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('terminal')" (onChange)="onSort($event, 'terminal')">
+            </sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Позиций ></p>
+            <input type="text" pInputText [(ngModel)]="filters.itemsCount" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('itemsCount')" (onChange)="onSort($event, 'itemsCount')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Сумма 1, Р  ></p>
+            <input type="text" pInputText [(ngModel)]="filters.plannedSum" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+            <sortArrows [order]="getSortOrder('plannedSum')" (onChange)="onSort($event, 'plannedSum')"></sortArrows>
+          </th>
+          <th class="sortable">
+            <p>Сумма 2, Р  ></p>
+            <input type="text" pInputText [(ngModel)]="filters.factSum" class="form-control"
+              (ngModelChange)="search()" placeholder="">
+              <sortArrows [order]="getSortOrder('plannedSum')" (onChange)="onSort($event, 'factSum')"></sortArrows>
+          </th>
+          <th class="pickup-points-count">
+            <p>Статус</p>
+
+            <select  [(ngModel)]="filters.status" class="form-control" (ngModelChange)="search()">
+              <option value="">Все</option>
+              <option [value]="1">
+                Выдан
+              </option>
+              <option [value]="2">
+                Выдан частично
+              </option>
+              <option [value]="3">
+                Ошибка на старте печати
+              </option>
+            </select>
+
+            <sortArrows [order]="getSortOrder('status')" (onChange)="onSort($event, 'status')"></sortArrows>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #rowsTemplate let-row>
+        <tr *ngIf="row">
+          <td>{{ row.orderNumber }}</td>
+          <td>{{ row.createDate | date : "dd.MM.yyyy HH:mm" }}</td>
+          <td>{{ row.legalEntity }}</td>
+          <td>{{ row.terminal }}</td>
+          <td>{{ row.itemsCount }}</td>
+          <td>{{ row.plannedSum }}</td>
+          <td>{{ row.factSum }}</td>
+          <td>{{ row.status }}</td>
+          <td class="commands-column">
+            <p-button label="Просмотр"  [routerLink]="['/admin/main/terminal-order/'+ row.id]"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </rs-table-info>
+  </div>
+</div>

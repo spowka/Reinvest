@@ -1,0 +1,71 @@
+.create-order-container {
+    .countdown-box {
+        padding: 10px;
+        border: 5px solid #f99;
+
+        .header {
+            color: #f99;
+        }
+    }
+    
+    .contact-form {
+        margin-right: 200px;
+        display: inline-block;
+        width: 620px;
+
+        .create-account {
+            input {
+                width: auto;
+                flex: auto;
+                margin: 5px;
+            }
+
+            .create-account-message {
+                font-size: small;
+            }
+        }
+    }
+
+    .order-list {
+        vertical-align: top;
+        padding: 10px;
+        border: 5px solid #aaa;    
+        display: inline-block;
+
+        .order-item {
+            padding: 2px;
+            margin-top: 6px;
+            border-bottom: 1px dotted gray;
+
+            * {
+                margin: 0;
+                font-size: 13px;
+            }
+
+            .title {
+                font-weight: bold;
+                text-decoration: underline;
+            }
+        }
+
+        .total {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    }
+
+    .order-actions {
+        margin-top: 50px;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    div.horizontal-container {
+        justify-content: flex-end;
+
+        input {
+            width: 100px;
+            flex: none;
+        }
+    }
+}

@@ -1,0 +1,79 @@
+<div class="finished-orders-container">
+    <h1>История заказов</h1>
+
+    <ng-container *ngIf="years">
+        <div class="tab-menu">
+            <p>Показать</p>
+            <div class="tabs">
+                <button [ngClass]="{'active': !currentYear}" (click)="setYear(undefined)">
+                    Все
+                </button>
+                <button *ngFor="let year of years" [ngClass]="{'active': currentYear == year}" (click)="setYear(year)">
+                    {{year}}
+                </button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="themes">
+        <div class="tab-menu">
+            <p>Показать</p>
+            <div class="tabs">
+                <button (click)="setTheme(undefined)" [ngClass]="{'active': allThemesDeselected}">
+                    Все
+                </button>
+                <button *ngFor="let theme of themes" [ngClass]="{'active': theme.isSelected}" (click)="setTheme(theme)">
+                    {{theme.name}}
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="orders && !orders.length">
+        Пока заказов нет
+    </ng-container>
+
+    <ng-container *ngIf="orders">
+        <div *ngFor="let order of orders" class="order-container" [id]="order.detailsElementId">
+            <h3>Заказ №{{order.id}} от {{order.createDate | date : "dd.MM.yyyy"}}</h3>
+
+            <ng-container *ngIf="!order.detailsVisible">
+                <table width="100%" class="bordered">
+                    <thead>
+                        <td>В заказе</td>
+                        <td>Стоимость, Р</td>
+                        <td>Кол-во</td>
+                        <td>Сумма</td>
+                        <td>Итого</td>
+                        <td>Статус</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of order.rows; let first = first;">
+                            <td>{{row.title}}</td>
+                            <td>{{row.price}}</td>
+                            <td>{{row.quantity}}</td>
+                            <td>{{row.sum}}</td>
+                            <td *ngIf="first" [attr.rowspan]="order.rows.length">
+                                <p>{{order.totalPrice}}</p>
+                            </td>
+                            <td *ngIf="first" [attr.rowspan]="order.rows.length">
+                                <p>{{getStatusLabel(order.status)}}</p>
+                                <p>{{order.statusDate | date : "dd.MM.yyyy HH:mm"}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button (click)="order.toggleDetails()">
+                    Показать детали
+                </button>
+            </ng-container>
+
+            <div *ngIf="order.detailsVisible" class="detailed-order">
+
+                <button *ngIf="order.detailsVisible" (click)="order.toggleDetails()">
+                    Скрыть детали
+                </button>
+                <app-customer-order-details [order]="order" (onUpdated)="reload()"></app-customer-order-details>
+            </div>
+        </div>
+    </ng-container>
+</div>

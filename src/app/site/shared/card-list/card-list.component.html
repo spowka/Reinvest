@@ -1,0 +1,25 @@
+<section class="section">
+  <div class="container">
+    <h3 [innerHTML]="cardsTitle"></h3>
+
+    <div class="card__list">
+      <ng-container *ngFor="let card of cardList">
+        <div [ngClass]="cardClass ? cardClass : ''">
+          <rs-card-item>
+            <a [routerLink]="['/catalog/' + card.id]" class="card__item" [style.background-image]="'url(' + card.image + ')'">
+              <div class="card__name" [innerHTML]="card.name"></div>
+              <div class="card__hidden card__show">
+                <div class="card__text show" [innerHTML]="card.shortDescription"></div>
+                <div class="btn show" [innerHTML]="cardLinkTitle"></div>
+              </div>
+            </a>
+          </rs-card-item>
+        </div>
+      </ng-container>
+    </div>
+
+    <a href="javascript:void(0)" class="btn btn-black full" *ngIf="showMoreTitle" (click)="onShowMore()">
+      <span>Показать все серии</span>
+    </a>
+  </div>
+</section>

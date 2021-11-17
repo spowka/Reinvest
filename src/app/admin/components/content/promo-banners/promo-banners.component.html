@@ -1,0 +1,77 @@
+<div class="app-promo-banners">
+  <h4>Промо-баннеры</h4>
+
+  <p-table [value]="banners" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th width="300px">Изображение</th>
+        <th width="210px">Файл</th>
+        <th>Настройка публикации</th>
+        <th width="100px">Порядок</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row let-index="rowIndex">
+      <tr *ngIf="row.isFirstRow" class="first-row">
+        <td style="padding: 0" colspan="4"></td>
+      </tr>
+      <tr *ngIf="!row.isFirstRow" [pReorderableRow]="index">
+        <td class="image" style="padding: 0">
+          <img *ngIf="row.imageFile.imageSrc" [src]="row.imageFile.imageSrc">
+        </td>
+        <td>
+          <p-button label="Удалить файл" (click)="delete(row)"></p-button>
+          <p-button ngfSelect [(file)]="row.imageFile.file" accept="image/*" multiple="1"
+            [label]="row.imageFile.selectButtonLabel" (click)="row.imageFile.url='';"></p-button>
+        </td>
+        <td class="settings">
+          <table>
+            <tbody>
+              <tr>
+                <td>Показывать на сайте</td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="row.show" />
+                </td>
+              </tr>
+              <tr>
+                <td>Показывать на сайте</td>
+                <td>
+                  <label style="margin: 0 15px 0 0;">от</label>
+                  <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="row.showFrom"
+                    [readonlyInput]="true">
+                  </p-calendar>
+                  <label style="margin: 0 15px 0 20px;">до</label>
+                  <p-calendar [locale]="calendarLocale" dateFormat="dd.mm.yy" [(ngModel)]="row.showTo"
+                    [readonlyInput]="true">
+                  </p-calendar>
+                </td>
+              </tr>
+              <tr>
+                <td>Длительность показа, С</td>
+                <td>
+                  <input [(ngModel)]="row.showSeconds" mask="999" />
+                </td>
+              </tr>
+              <tr>
+                <td>Ссылка</td>
+                <td>
+                  <input style="width:100%" [(ngModel)]="row.link" (ngModelChange)="row.link = $event" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <i class="fa fa-sort" pReorderableRowHandle style="font-size: 3em"></i>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div>
+    <span id="newFileButton" ngfSelect [(file)]="newFile" accept="image/*" multiple="1" class="text-button"
+      (click)="clearFileInput()">Добавить промо-баннер</span>
+    <p>jpg, png, gif - до 1920x1080</p>
+  </div>
+
+  <button (click)="save()" class="info-button">Сохранить изменения</button>
+</div>

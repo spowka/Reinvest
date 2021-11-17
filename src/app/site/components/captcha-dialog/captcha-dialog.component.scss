@@ -1,0 +1,22 @@
+.captcha-dialog-container {
+    position: relative;    
+    min-width: 250px;
+    min-height: 80px;
+
+    div.load {
+        position: absolute;
+        z-index: 0;
+
+        width: auto;
+        height: auto;
+        left: 50%;
+        margin-left: -15px;
+        top: 50%;
+        margin-top: -15px;
+    }
+
+    re-captcha {
+        position: relative;
+        z-index: 10;
+    }
+}

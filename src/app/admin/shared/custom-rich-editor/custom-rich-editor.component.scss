@@ -1,0 +1,48 @@
+.custom-rich-editor {
+  display: flex;
+  flex-direction: column;
+
+  .tab-menu {
+    flex: auto;
+  }
+
+  .content {
+    height: 300px;
+    flex: 100%;
+    background: red;
+
+    ckeditor {
+      .ck.ck-editor {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    
+        .ck.ck-editor__top {
+          flex: auto;
+        }
+      
+        .ck.ck-content.ck-editor__editable {
+          height: 100%;
+        }
+      }
+    }
+
+    textarea {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  
+  .collapsed {
+    flex: 0px;
+    height: 0px;
+  }
+}
+
+//чтобы оверрайдить общие стили
+form .input-group ckeditor {
+  flex: 1;
+  height: 100%;
+}

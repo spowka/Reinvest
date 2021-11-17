@@ -1,0 +1,112 @@
+<div *ngIf="form" class="container-card-number-print-template-card">
+  <h2>{{header}}</h2>
+
+  <form [formGroup]="form">
+
+    <h3>Описание</h3>
+    <p>Поле "Наименование" обязательно для заполнения</p>
+
+    <div class="date-create" *ngIf="model.createDate">
+      <p>Дата создания</p>
+      <p>{{model.createDate | date : "dd.MM.yyyy HH:mm" }}</p>
+    </div>
+    <div class="input-group">
+      <label>Наименование</label>
+      <input pInputText [ngClass]="{'error': hasError(f.name)}" formControlName="name">
+    </div>
+    <div class="input-group">
+      <label>Комментарий</label>
+      <input pInputText [ngClass]="{'error': hasError(f.comment)}" formControlName="comment">
+    </div>
+
+    <h3>Настройка шаблона</h3>
+    <p>Все поля обязательны для заполнения</p>
+
+    <div class="columns-container">
+      <div class="column">
+        <h4>Положение плашки с номером</h4>
+        <div class="input-group">
+          <label>Ориентация плашки</label>
+          <div class="radio-buttons" [ngClass]="{'error': hasError(f.placementHorizontal)}">
+            <p-radioButton name="placementHorizontal" label="Горизонтально" [value]="true"
+              formControlName="placementHorizontal">
+            </p-radioButton>
+            <p-radioButton name="placementHorizontal" label="Вертикально" [value]="false"
+              formControlName="placementHorizontal">
+            </p-radioButton>
+          </div>
+        </div>
+        <div class="input-group" [ngClass]="!f.placementHorizontal.value ? '' : 'collapsed'">
+          <label>Расположение плашки</label>
+          <div class="radio-buttons" [ngClass]="{'error': hasError(f.placementLeft)}">
+            <p-radioButton name="placementLeft" label="Слева" [value]="true" formControlName="placementLeft">
+            </p-radioButton>
+            <p-radioButton name="placementLeft" label="Справа" [value]="false" formControlName="placementLeft">
+            </p-radioButton>
+          </div>
+        </div>
+        <div class="input-group" [ngClass]="f.placementHorizontal.value ? '' : 'collapsed'">
+          <label>Расположение плашки</label>
+          <div class="radio-buttons" [ngClass]="{'error': hasError(f.placementTop)}">
+            <p-radioButton name="placementTop" label="Сверху" [value]="true" formControlName="placementTop">
+            </p-radioButton>
+            <p-radioButton name="placementTop" label="Снизу" [value]="false" formControlName="placementTop">
+            </p-radioButton>
+          </div>
+        </div>
+
+        <h4>Шрифт</h4>
+        <div class="input-group">
+          <label>Шрифт</label>
+          <div>
+            <p-dropdown [options]="fonts" formControlName="fontName" [ngClass]="{'error': hasError(f.fontName)}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Начертание</label>
+          <div>
+            <p-dropdown [options]="fontStyles" formControlName="fontStyle" [ngClass]="{'error': hasError(f.fontStyle)}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Цвет</label>
+          <div class="color-input-group">
+            #
+            <input pInputText [ngClass]="{'error': hasError(f.fontHexColor)}" formControlName="fontHexColor"
+              style="width: 100px">
+            <div class="color-preview" [ngStyle]="{'background-color': '#' + f.fontHexColor.value}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <h4>Визуализация</h4>
+
+        <div class="columns-container" style="column-gap: 15px;">
+          <div class="column">
+            <label>Тестовое изображение:<br />jpg, png - {{ file.imageSizeLabel }}</label>
+          </div>
+
+          <div class="column image-edit-box">
+            <label *ngIf="!file">Отсутствует</label>
+            <p-button *ngIf="file.file" label="Удалить файл" (click)="file.reset()"></p-button>
+            <p-button ngfSelect [(file)]="file.file" accept="image/*" multiple="1" label="Загрузить файл"></p-button>
+          </div>
+        </div>
+
+        <div class="margin-top-30 image-preview">
+          <img *ngIf="file.imageSrc" [src]="file.imageSrc" />
+          <div class="card-outline"></div>
+          <label class="card-number" [ngClass]="getCardNumberClass()"
+            [ngStyle]="{'color': '#' + f.fontHexColor.value}">12345</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="save-info">
+    <button (click)="save()" class="info-button">Сохранить</button>
+    <button (click)="goBack()" class="info-button">Вернуться к списку</button>
+  </div>
+</div>

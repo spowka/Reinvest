@@ -1,0 +1,73 @@
+<section class="cart">
+  <div class="container">
+    <h2>Корзина (<span>{{rows?.length}}</span>)</h2>
+
+    <div class="sidebar-wrapper">
+      <div class="column">
+
+        <div class="block cart__sort">
+          <a href="javascript:void(0)">Карточка</a>
+          <a href="javascript:void(0)">Наименование</a>
+          <div>
+            <a href="javascript:void(0)" class="cart__sort__count">Количество</a>
+            <a href="javascript:void(0)" class="cart__sort__price">Цена, ₽</a>
+            <a href="javascript:void(0)" class="cart__sort__sum">Сумма, ₽</a>
+          </div>
+        </div>
+
+        <div class="block cart__item" *ngFor="let row of rows" [ngClass]="{'remove': row.isDeleted}">
+          <button type="button" class="btn-close" *ngIf="!row.isDeleted" (click)="remove(row)"></button>
+
+          <img [src]="row.previewImage" alt="" class="cart__img" (click)="cardClick($event, row)">
+          <div class="cart__info">
+            <div class="cart__name" (click)="cardClick($event, row)">{{row.title}}</div>
+            <div class="cart__text">{{row.path}}</div>
+          </div>
+          <div class="counter">
+            <div class="counter__btn counter__btn-minus" (click)="decrementRowQuantity(row)" [ngClass]="{'is-visible': updating}"></div>
+
+            <input type="number"
+                   class="counter__input"
+                   [(ngModel)]="row.rowQuantity"
+                   (ngModelChange)="quantityChange(row, $event)">
+
+            <div class="counter__btn counter__btn-plus" (click)="incrementRowQuantity(row)" [ngClass]="{'is-visible': updating}"></div>
+          </div>
+
+            <div class="cart__prices" *ngFor="let rowDetails of row.detailRows">
+              <div class="cart__price">{{rowDetails.price}} ₽</div>
+              <div class="cart__price">
+
+                <ng-container *ngIf="!updating">
+                  {{rowDetails.detailPrice}} ₽
+                </ng-container>
+
+                <ng-container *ngIf="updating">
+                  <i class="fa fa-spinner fa-spin"></i>
+                </ng-container>
+              </div>
+            </div>
+
+          <a href="javascript:void(0)" (click)="restore(row)" class="btn cart__restore">Восстановить</a>
+        </div>
+
+      </div>
+      <div class="sidebar">
+        <div class="block">
+          <div class="block__header">
+            <div class="block__title">{{countdownTime ? 'Корзина очистится через:':'Корзина - пока пуста'}}</div>
+            <div class="block__time">{{countdownTime}}</div>
+          </div>
+          <div class="block__text">{{countdownMessage}}</div>
+        </div>
+        <div class="block sticky">
+          <div class="block__header">
+            <div class="block__title">Итого:</div>
+            <div class="block__price">{{cart?.totalPrice}} ₽</div>
+          </div>
+          <a href="javascript:void(0)" (click)="startCheckout()" class="btn btn-red">Оформить заказ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

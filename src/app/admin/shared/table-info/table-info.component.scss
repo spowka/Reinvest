@@ -1,0 +1,21 @@
+.summary {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: flex-start;
+}
+
+.buttons-header {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: visible;
+
+  div {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 16px;
+  }
+}
+

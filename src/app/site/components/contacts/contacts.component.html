@@ -1,0 +1,90 @@
+<section class="cart">
+  <div class="container">
+    <div class="contacts rv-flex">
+      <div class="contacts__helpful-section">
+        <sidebar-helpful></sidebar-helpful>
+      </div>
+      <div class="contacts__info-section rv-flex rv-flex-column">
+        <div class="header-section">
+          <h2 class="title normal">Мы всегда на связи</h2>
+          <h4 class="subtitle">Свяжитесь с нами любым способом</h4>
+        </div>
+        <div class="address-section rv-flex rv-flex-column rv-margin-b-30">
+          <div class="address-section__inner rv-flex rv-flex-align-center">
+            <figure class="address-section__inner__icon">
+              <img src="assets/images/icons/point.svg" alt="point.svg" />
+            </figure>
+            <div class="address-section__inner__label">
+              <h4 class="small-subtitle thin">105523, Москва, Щелковское шоссе 100к1, подъезд 3, офис 4027</h4>
+            </div>
+          </div>
+
+          <div class="address-section__inner rv-flex rv-flex-align-center">
+            <figure class="address-section__inner__icon">
+              <img src="assets/images/icons/phone.svg" alt="phone.svg" />
+            </figure>
+            <div class="address-section__inner__label">
+              <h4 class="small-subtitle thin">+ 7 (495) 663 32 26</h4>
+              <h4 class="small-subtitle thin">+ 7 (916) 260 02 66</h4>
+            </div>
+          </div>
+
+          <div class="address-section__inner rv-flex rv-flex-align-center">
+            <figure class="address-section__inner__icon">
+              <img src="assets/images/icons/whatsapp.svg" alt="whatsapp.svg" />
+            </figure>
+            <div class="address-section__inner__label">
+              <h4 class="small-subtitle thin">+ 7 (916) 260 02 66</h4>
+            </div>
+          </div>
+
+          <div class="address-section__inner rv-flex rv-flex-align-center">
+            <figure class="address-section__inner__icon">
+              <img src="assets/images/icons/mail.svg" alt="mail.svg" />
+            </figure>
+            <div class="address-section__inner__label">
+              <h4 class="small-subtitle thin">Reinvest-service@mail.ru</h4>
+            </div>
+          </div>
+
+          
+        </div>
+        <div class="get-us-section rv-margin-b-50">
+          <h4 class="subtitle rv-margin-b-25">Как до нас добраться</h4>
+          <!-- <app-pickpoints-map (onSelectionChange)="setSelectedPickpoint($event)"></app-pickpoints-map> -->
+          <div class="get-us-section__map">
+            <img src="../../../../assets/images/map.png" alt="map.png" />
+          </div>
+        </div>
+        <div class="write-us-email-section">
+          <h4 class="subtitle">Остались вопросы?</h4>
+          <h4 class="subtitle">Напишите нам письмо</h4>
+          <form class="rv-margin-t-30" [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+            <div class="form-field__text select">
+              <select formControlName="subjectAppeal">
+                <option  disabled selected class="placeholder">Тема обращения</option>
+                <option *ngFor="let subject of subjectAppeals" [value]="subject.value">{{subject.label}}</option>
+              </select>
+            </div>
+
+            <div class="form-field__text">
+              <input type="text" pInputText formControlName="firstName" placeholder="Имя">
+            </div>
+
+            <div class="form-field__text">
+              <input type="text" pInputText formControlName="lastName" placeholder="Фамилия">
+            </div>
+
+            <div class="form-field__text">
+              <input type="email" pInputText formControlName="email" placeholder="Ваш E-mail">
+            </div>
+
+            <textarea placeholder="Начните писать сообщение" formControlName="message"></textarea>
+            
+            <button type="submit" class="btn btn-red">Отправить сообщение</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

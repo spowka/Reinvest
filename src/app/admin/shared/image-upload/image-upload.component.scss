@@ -1,0 +1,38 @@
+.image-upload {
+  .input-group {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+
+    .text {
+      min-width: 150px;  
+    }
+
+    .image {
+      object-fit: contain;
+      max-width: 300px;
+      max-height: 300px;
+    }
+    
+    .actions {
+      margin: 1px 1px 1px 10px;
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+    
+      p-button {
+        margin: 1px;
+      }
+    }
+
+    .image {
+      align-self: flex-start;
+    }
+  }
+
+  :host {
+    img.image {
+      max-height: 1000px;
+    }
+  }
+}

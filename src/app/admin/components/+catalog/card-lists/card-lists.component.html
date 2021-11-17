@@ -1,0 +1,105 @@
+<div class="app-card-list">
+  <div class="side-menu">
+    <h5>Структура каталога</h5>
+    <p-treeTable [value]="tree" selectionMode="single" [(selection)]="selectedNode" dataKey="id"
+      (onNodeSelect)="nodeSelect($event)">
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+        <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+          <td>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            {{rowData.name}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
+
+  <div class="list-cards">
+    <h4>Каталог карточек</h4>
+    <div class="container">
+      <div class="label-1">Показать</div>
+      <div>
+        <p-selectButton [options]="activeElements" [(ngModel)]="active" (onChange)="reloadCards()"></p-selectButton>
+      </div>
+    </div>
+    <div class="container">
+      <div class="label-1">Статус</div>
+      <div>
+        <p-selectButton [options]="statuses" [(ngModel)]="status"
+          (onChange)="dt.filter($event.value, 'status', 'equals')"></p-selectButton>
+      </div>
+    </div>
+    <p-table #dt [columns]="cols" [value]="cards" [reorderableColumns]="true" [autoLayout]="true"
+      (onRowReorder)="reorder($event)">
+      <ng-template pTemplate="caption">
+        <div class="summary reverse">
+          <p-button icon="fa fa-times" style="float:right" (onClick)="clearFilter(); dt.reset()"
+            label="Сбросить фильтры"></p-button>
+          <p-button *ngIf="canAddCard" icon="fa fa-plus"
+            [routerLink]="['/admin/main/catalog/'+ selectedLevelId + '/add']" label="Добавить карточку"></p-button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th></th>
+          <th *ngFor="let col of columns" pReorderableColumn>
+            {{col.header}}
+          </th>
+          <th style="width:2.5em"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th *ngFor="let col of columns" [ngSwitch]="col.field">
+            <input *ngSwitchCase="'title'" pInputText type="text" [(ngModel)]="title"
+              (input)="dt.filter($event.target.value, col.field, 'contains')">
+            <input *ngSwitchCase="'printCount'" pInputText type="text" [(ngModel)]="printCountFilter"
+              (input)="dt.filter($event.target.value, col.field, 'gte')">
+            <p-dropdown *ngSwitchCase="'status'" [options]="statuses" [(ngModel)]="status" [style]="{'width':'100%'}"
+              (onChange)="dt.filter($event.value, 'status', 'equals')"></p-dropdown>
+          </th>
+          <th style="width:2.5em"></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
+        <tr *ngIf="!rowData.id" class="first-row">
+          <td colspan="7"></td>
+        </tr>
+        <tr *ngIf="rowData.id" [pReorderableRow]="index">
+          <td class="imagePreviewBox">
+            <img *ngIf="rowData['previewImage']" src="{{rowData['previewImage']}}">
+          </td>
+          <td>{{rowData['title']}}</td>
+          <td>{{rowData['printCount']}}</td>
+          <td>{{rowData['status'] | substitute: statuses }}</td>
+          <td>
+            <i *ngIf="rowData.canMoveOrReorder" class="fa fa-sort" pReorderableRowHandle style="font-size: 3em"></i>
+            <i *ngIf="!rowData.canMoveOrReorder" class="fa fa-sort" style="font-size: 3em; opacity: 0.4;" disabled></i>
+          </td>
+          <td class="actions">
+            <p-button *ngIf="rowData.canMoveOrReorder && rowData.isActive" label="Переместить"
+              (onClick)="move(rowData['id'])">
+            </p-button>
+            <p-button label="{{rowData.canEdit ? 'Редактировать': 'Просмотреть'}}"
+              [routerLink]="['/admin/main/card/' + rowData.id]"></p-button>
+            <p-button *ngIf="rowData.canArchive" label="В архив" (onClick)="archive(rowData.id)">
+            </p-button>
+            <p-button *ngIf="rowData.canDelete" label="Удалить" (onClick)="delete(rowData.id)">
+            </p-button>
+            <p-button *ngIf="rowData.canRestore" label="Восстановить" (onClick)="restore(rowData.id)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <div class="summary reverse">
+          <span style="text-align:right">
+            Позиций: {{cards != null ? cards.length - 1 : 0}}
+          </span>
+          <button *ngIf="canAddCard" type="button" pButton icon="fa fa-plus"
+            [routerLink]="['/admin/main/catalog/'+ selectedLevelId + '/add']" label="Добавить карточку"></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

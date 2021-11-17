@@ -1,0 +1,62 @@
+<section class="cart">
+    <div class="container">
+        <div class="blog-feed rv-flex">
+            <div class="blog-feed__inner-section">
+                <ng-container *ngIf="isLoading">
+                    Идет загрузка...
+                </ng-container>
+
+                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+                    [scrollWindow]="true">
+                    <div *ngFor="let yearPosts of posts" class="posts rv-margin-t-20">
+                        <div *ngFor="let post of yearPosts" class="post rv-flex rv-flex-column">
+                            <div class="post__img-section">
+                                <div *ngIf="!post.image" class="image-stub clickable" (click)="gotoPost(post)"></div>
+                                <img *ngIf="post.image" class="clickable" src="{{post.image}}" (click)="gotoPost(post)">
+                                <div class="date rv-flex rv-flex-center">{{post.createDate | date: "d MMM":null: 'ru' |
+                                    titlecase }}
+                                </div>
+                            </div>
+                            <div class="post__description-section rv-flex rv-flex-column rv-flex-btw rv-padding-25">
+                                <h4 class="clickable subtitle bold rv-margin-b-25" (click)="gotoPost(post)">
+                                    {{post.title}}</h4>
+                                <p class="text short-desc rv-margin-b-10">{{post.text}}</p>
+                                <a class="clickable text small rubinate underlined" (click)="gotoPost(post)">Читать полностью</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="!nextPost" class="margin-bottom-20">
+                    <span>Посты закончились.</span>
+                    &nbsp;
+                    <span *ngIf="nextYear" class="link-button" (click)="gotoNextYear()">
+                        Показать записи за {{nextYear}} год.
+                    </span>
+                </div> -->
+
+            </div>
+
+            <div class="blog-feed__helpful-section rv-margin-t-20">
+                <div class="topics">
+                    <h5 class="small-subtitle">Важные темы</h5>
+                    <div class="tems">
+
+                    </div>
+                </div>
+                <div class="topics">
+                    <h5 class="small-subtitle">Популярное</h5>
+                    <div class="tems">
+
+                    </div>
+                </div>
+                <div class="topics">
+                    <h5 class="small-subtitle">Поиск по тегам</h5>
+                    <div class="form-field__text">
+                        <input type="text" placeholder="К примеру, Футбол"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,492 @@
+<div class="container-editing">
+  <div class="section">
+    <h1>Справочники</h1>
+    <p-panel header="Сотрудники" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'employees')">
+      <div *ngIf="context['employees'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['employees'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['employees'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку сотрудника в архив</label>
+          <textarea maxlength="500" [(ngModel)]="context['employees'].messages['EmployeeArchiving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий восстановление архивного сотрудника в ленту действующих позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['employees'].messages['EmployeeRestoring']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление архивного сотрудника из ленты архивных позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['employees'].messages['EmployeeDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку регистрационных данных на почту сотруднику</label>
+          <textarea maxlength="500" [(ngModel)]="context['employees'].messages['EmployeeSendingRegData']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('employees')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Покупатели" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'customers')">
+      <div *ngIf="context['customers'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['customers'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['customers'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку покупателя в архив</label>
+          <textarea maxlength="500" [(ngModel)]="context['customers'].messages['CustomerArchiving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий восстановление архивного покупателя в ленту действующих позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['customers'].messages['CustomerRestoring']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление архивного покупателя из ленты архивных позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['customers'].messages['CustomerDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку регистрационных данных на почту покупателю</label>
+          <textarea maxlength="500" [(ngModel)]="context['customers'].messages['CustomerSendingRegData']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('customers')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Терминалы" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'terminals')">
+      <div *ngIf="context['terminals'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['terminals'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['terminals'].showData">
+        <div class="panel-content">
+          <label>Текст, поясняющий невозможность отправить терминал в архив, так как он прикреплен к юридическому
+            лицу</label>
+          <textarea maxlength="500" [(ngModel)]="context['terminals'].messages['TerminalHasOwner']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку терминала в архив в случае, если он не прикреплен к юридическому
+            лицу</label>
+          <textarea maxlength="500" [(ngModel)]="context['terminals'].messages['TerminalArchiving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий восстановление архивного терминала в ленту действующих позиций
+          </label>
+          <textarea maxlength="500" [(ngModel)]="context['terminals'].messages['TerminalRestoring']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('terminals')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Юридические лица" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'legalEntities')">
+      <div *ngIf="context['legalEntities'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['legalEntities'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['legalEntities'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку юридического лица в архив</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['legalEntities'].messages['LegalEntitiesArchiving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий восстановление юридического лица в ленту действующих позиций
+          </label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['legalEntities'].messages['LegalEntitiesRestoring']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Пояснение, сопровождающее отправку регистрационных данных на почту юридического лица
+          </label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['legalEntities'].messages['LegalEntitiesSendingRegData']"></textarea>
+        </div>
+
+        <div class="panel-content">
+          <label>Текст, сопровождающий отвязку терминала от юр. лица (в карточке собственника)
+          </label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['legalEntities'].messages['LegalEntitiesTerminalDetach']"></textarea>
+        </div>
+
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку пункт самовывоза в архив
+          </label>
+          <textarea maxlength="500" [(ngModel)]="context['legalEntities'].messages['PickupPointArchiving']"></textarea>
+        </div>
+
+        <div class="panel-content">
+          <label>Пояснение, сопровождающее возврат пункт самовывоза в ленту Действующих
+          </label>
+          <textarea maxlength="500" [(ngModel)]="context['legalEntities'].messages['PickupPointRestoring']"></textarea>
+        </div>
+
+        <div class="save-changes">
+          <button (click)="save('legalEntities')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Корзина и заказ</h1>
+
+    <p-panel header="Сообщения для корзины и заказа" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'сart')">
+      <div *ngIf="context['сart'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['сart'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['сart'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий форму «Ваши контактные данные» для неавторизованного пользователя</label>
+          <textarea maxlength="500" [(ngModel)]="context['сart'].messages['CartGuestContactsNotice']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий форму «Ваши контактные данные» для авторизованного пользователя</label>
+          <textarea maxlength="500" [(ngModel)]="context['сart'].messages['CartCustomerContactsNotice']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий вкладку «Заберу в пункте самовывоза»</label>
+          <textarea maxlength="500" [(ngModel)]="context['сart'].messages['CartOrderPickupNotice']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий вкладку «Нужна доставка»</label>
+          <textarea maxlength="500" [(ngModel)]="context['сart'].messages['CartOrderDeliveryNotice']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('сart')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Заказы</h1>
+
+    <p-panel header="Лента «Ожидают приемки из ПС»" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'orders')">
+      <div *ngIf="context['orders'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['orders'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['orders'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий пакетное присвоение статуса «Возвращен в офис из ПС»</label>
+          <textarea maxlength="500" [(ngModel)]="context['orders'].messages['OrderReturnFromPickPoint']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('orders')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Интерфейс пункта самовывоза</h1>
+
+    <p-panel header="Лента «Ожидают приемки»" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'pickupOwnerARM')">
+      <div *ngIf="context['pickupOwnerARM'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['pickupOwnerARM'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['pickupOwnerARM'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий пакетное присвоение статуса «Ожидает выдачи»</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['pickupOwnerARM'].messages['PickPointArmAwaitingDelivery']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('pickupOwnerARM')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Каталог</h1>
+    <p-panel header="Структура каталога" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'catalogStructure')">
+      <div *ngIf="context['catalogStructure'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['catalogStructure'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['catalogStructure'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление тематики</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['catalogStructure'].messages['CatalogStructureThemeDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление второго уровня</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['catalogStructure'].messages['CatalogStructureSeriesDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление третьего уровня</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['catalogStructure'].messages['CatalogStructureSetDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, поясняющий невозможность удаления тематики, второго и третьего уровня, если у них есть карточки
+            (универсальное пояснение для всех трех случаев)</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['catalogStructure'].messages['CatalogStructureDeleteImpossibleWhenHaveCards']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('catalogStructure')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Каталог карточек" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'cardCatalog')">
+      <div *ngIf="context['cardCatalog'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['cardCatalog'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['cardCatalog'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку карточки в архив</label>
+          <textarea maxlength="500" [(ngModel)]="context['cardCatalog'].messages['CardCatalogArchiving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий перенос карточки на другой уровень</label>
+          <textarea maxlength="500" [(ngModel)]="context['cardCatalog'].messages['CardCatalogMoving']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий отправку карточки в ленту архивных позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['cardCatalog'].messages['CardCatalogDeleting']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий восстановление архивной карточки в ленту действующих позиций</label>
+          <textarea maxlength="500" [(ngModel)]="context['cardCatalog'].messages['CardCatalogRestoring']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст о невозможности отправить карточку в архив в виду ее статуса или недостаточности прав
+            Сотрудника</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cardCatalog'].messages['CardCatalogCannotArchiveNoAccess']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст о невозможности отправить карточку в архив в виду ее наличия в заказах, ожидающих
+            обработки</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cardCatalog'].messages['CardCatalogCannotArchiveActiveOrders']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий присвоение карточке статуса «Активная»</label>
+          <textarea maxlength="500" [(ngModel)]="context['cardCatalog'].messages['CardCatalogActivateCard']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий уход карточки из статуса «Активная»</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cardCatalog'].messages['CardCatalogDeactivateCard']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('cardCatalog')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Сообщения на терминалах</h1>
+
+    <p-panel header="Сообщения на терминалах" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'terminalEmbedded')">
+      <div *ngIf="context['terminalEmbedded'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['terminalEmbedded'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['terminalEmbedded'].showData">
+        <div class="panel-content">
+          <label>Текст всплывающего окна с обратным отсчетом, предупреждающий о скорой очистке корзины.</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['terminalEmbedded'].messages['TerminalEmbeddedCountdown']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('terminalEmbedded')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Печать заказов</h1>
+
+    <p-panel header="Сообщения печати" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'printing')">
+      <div *ngIf="context['printing'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['printing'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['printing'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий запуск печати на странице «Подготовка к печати»</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingStart']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, поясняющий невозможность перехода к странице «Подготовка к печати», потому что процесс уже
+            запущен другой учетной записью</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingAlreadyStarted']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий остановку принтера</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingStopPrinter']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий остановку всех принтеров</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingStopAllPrinters']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий заявление брака</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingReject']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий заявление отмены печати</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingCancel']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий завершение работы на странице «Процесс печати»</label>
+          <textarea maxlength="500" [(ngModel)]="context['printing'].messages['PrintingComplete']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий инициацию экстренного завершения сессии печати</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['printing'].messages['PrintingForceShutdownMessage']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий ожидание завершения принтерами текущих заданий на печать при экстренном
+            завершении сессии печати</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['printing'].messages['PrintingForceShutdownDelayedMessage']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('printing')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Корзина и заказ</h1>
+
+    <p-panel header="Корзина и заказ" [toggleable]="true" [style]="{'margin-bottom':'20px'}" [collapsed]="true"
+      (onAfterToggle)="onToggle($event, 'cartAndOrders')">
+      <div *ngIf="context['cartAndOrders'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['cartAndOrders'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['cartAndOrders'].showData">
+        <div class="panel-content">
+          <label>Текст в плашке, сопровождающий факт добавления карточки в корзину</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['CartAddCard']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий обратный отсчет на странице «Корзина»</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['CartCountdown']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, во всплывающем окне при очистке корзины при истечении «таймера для корзины»</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['CartCountdownEnd']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий обратный отсчет на странице оформления заказа</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['OrderCountdown']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, во всплывающем окне при очистке корзины при истечении «таймера для оформления / оплаты»</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['OrderCountdownEnd']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий чекбокс об автоматическом создании учетной записи (для гостя)</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cartAndOrders'].messages['OrderGuestCreateAccount']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст ошибки при попытке создания учетной записи на уже зарегистрированный e-mail</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cartAndOrders'].messages['OrderGuestCreateAccountErrorDuplicateEmail']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий заголовок «Оплата заказа» на странице оформления заказа</label>
+          <textarea maxlength="500" [(ngModel)]="context['cartAndOrders'].messages['OrderPayment']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, сопровождающий невозможность добавить карточку в корзину, если тираж закончился в «фоновом
+            режиме»</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cartAndOrders'].messages['CatalogAddCardSoldoutError']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('cartAndOrders')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+
+  <div class="section">
+    <h1>Шаблоны печати номеров карточек</h1>
+
+    <p-panel header="Шаблоны печати номеров карточек" [toggleable]="true" [style]="{'margin-bottom':'20px'}"
+      [collapsed]="true" (onAfterToggle)="onToggle($event, 'cardNumberPrintTemplates')">
+      <div *ngIf="context['cardNumberPrintTemplates'].isLoading">
+        Идет загрузка...
+      </div>
+      <div *ngIf="context['cardNumberPrintTemplates'].showError">
+        Ошибка загрузки данных.
+      </div>
+      <div *ngIf="context['cardNumberPrintTemplates'].showData">
+        <div class="panel-content">
+          <label>Текст, сопровождающий удаление шаблона печати номера карточки</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cardNumberPrintTemplates'].messages['CardNumberPrintTemplateDelete']"></textarea>
+        </div>
+        <div class="panel-content">
+          <label>Текст, поясняющий невозможность удаления шаблона печати номера карточки</label>
+          <textarea maxlength="500"
+            [(ngModel)]="context['cardNumberPrintTemplates'].messages['CardNumberPrintTemplateDeleteError']"></textarea>
+        </div>
+        <div class="save-changes">
+          <button (click)="save('cardNumberPrintTemplates')">Сохранить изменения</button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<section class="cart">
+  <div class="container">
+    <div class="FAQ rv-flex">
+      <div class="FAQ__helpful-section">
+        <sidebar-helpful></sidebar-helpful>
+      </div>
+      <div class="FAQ__info-section rv-flex rv-flex-column">
+        <div class="rv-flex rv-flex-column">
+          <div class="FAQ-header-section">
+            <h2 class="title normal">Нужна помощь?</h2>
+            <h4 class="subtitle">Здесь можно найти ответы на интересующие Вас вопросы:</h4>
+
+            <div class="questions-answers-section" *ngFor="let FAQ of FAQs">
+              <h4 class="subtitle bold-middle rv-margin-b-15">{{FAQ.subject}}</h4>
+              <div class="custom-accordion" *ngFor="let QA of FAQ.QuesttionAnswer">
+                <div class="custom-accordion-header rv-flex rv-flex-btw rv-flex-align-center"
+                  (click)="QA.isCollapsed = !QA.isCollapsed">
+                  <span class="small-subtitle rv-margin-r-15" [class.bold-middle-transition]="QA.isCollapsed">{{QA.questtion}}</span>
+                  <figure class="icon" [class.isCollapsed]="QA.isCollapsed">
+                    <img src="../../../../assets/images/icons/arrow-bottom.svg" />
+                  </figure>
+                </div>
+                <div class="custom-accordion-body" [@expandCollapseEnterLeave] *ngIf="QA.isCollapsed">
+                  <p class="text rv-margin-t-10">
+                   {{QA.answer}}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="contacts rv-flex rv-flex-column">
+          <div class="header-section">
+            <h2 class="title">Не нашли ответа на вопрос?</h2>
+            <h4 class="subtitle">Свяжитесь с нами и мы ответим на все Ваши вопросы</h4>
+          </div>
+          <div class="address-section rv-flex rv-flex-column rv-margin-b-30">
+            <div class="address-section__inner rv-flex rv-flex-align-center">
+              <figure class="address-section__inner__icon">
+                <img src="assets/images/icons/point.svg" alt="point.svg" />
+              </figure>
+              <div class="address-section__inner__label">
+                <h4 class="small-subtitle thin">105523, Москва, Щелковское шоссе 100к1, подъезд 3, офис 4027</h4>
+              </div>
+            </div>
+
+            <div class="address-section__inner rv-flex rv-flex-align-center">
+              <figure class="address-section__inner__icon">
+                <img src="assets/images/icons/phone.svg" alt="phone.svg" />
+              </figure>
+              <div class="address-section__inner__label">
+                <h4 class="small-subtitle thin">+ 7 (495) 663 32 26</h4>
+                <h4 class="small-subtitle thin">+ 7 (916) 260 02 66</h4>
+              </div>
+            </div>
+
+            <div class="address-section__inner rv-flex rv-flex-align-center">
+              <figure class="address-section__inner__icon">
+                <img src="assets/images/icons/whatsapp.svg" alt="whatsapp.svg" />
+              </figure>
+              <div class="address-section__inner__label">
+                <h4 class="small-subtitle thin">+ 7 (916) 260 02 66</h4>
+              </div>
+            </div>
+
+            <div class="address-section__inner rv-flex rv-flex-align-center">
+              <figure class="address-section__inner__icon">
+                <img src="assets/images/icons/mail.svg" alt="mail.svg" />
+              </figure>
+              <div class="address-section__inner__label">
+                <h4 class="small-subtitle thin">Reinvest-service@mail.ru</h4>
+              </div>
+            </div>
+          </div>
+          <div class="get-us-section rv-margin-b-50">
+            <h4 class="subtitle rv-margin-b-25">Как до нас добраться</h4>
+            <!-- <app-pickpoints-map (onSelectionChange)="setSelectedPickpoint($event)"></app-pickpoints-map> -->
+            <div class="get-us-section__map">
+              <img src="../../../../assets/images/map.png" alt="map.png" />
+            </div>
+          </div>
+          <div class="write-us-email-section">
+            <h4 class="subtitle">Остались вопросы?</h4>
+            <h4 class="subtitle">Напишите нам письмо</h4>
+            <form class="rv-margin-t-30" [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+              <div class="form-field__text select">
+                <select formControlName="subjectAppeal">
+                  <option disabled selected class="placeholder">Тема обращения</option>
+                  <option *ngFor="let subject of subjectAppeals" [value]="subject.value">{{subject.label}}</option>
+                </select>
+              </div>
+
+              <div class="form-field__text">
+                <input type="text" pInputText formControlName="firstName" placeholder="Имя">
+              </div>
+
+              <div class="form-field__text">
+                <input type="text" pInputText formControlName="lastName" placeholder="Фамилия">
+              </div>
+
+              <div class="form-field__text">
+                <input type="email" pInputText formControlName="email" placeholder="Ваш E-mail">
+              </div>
+
+              <textarea placeholder="Начните писать сообщение" formControlName="message"></textarea>
+
+              <button type="submit" class="btn btn-red">Отправить сообщение</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

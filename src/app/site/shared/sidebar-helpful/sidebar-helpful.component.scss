@@ -1,0 +1,34 @@
+@import "../../../../styles/variables";
+
+.sidebar-helpful {
+    width: 100%;
+
+    ul {
+        padding: 0;
+        margin: 0;
+
+        li {
+            list-style: none;
+
+            &:not(:last-child) {
+                margin-bottom: 8px;
+            }
+        }
+    }
+
+    .text {
+        &:hover {
+            color: $colorDark;
+            opacity: 0.9;
+        }
+    }
+
+    .active-link {
+        text-decoration: underline !important;
+        font-weight: 600;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,106 @@
+.detailed-order {
+  padding: 5px;
+  border: 5px solid #cdcdcd;  
+  border-radius: 3px;  
+}
+
+table {  
+  thead {
+    background: #dedede;
+
+    td {
+      vertical-align: baseline;
+      padding: 4px 20px;
+  
+      p {
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  tbody {
+    td {
+      vertical-align: top;
+      padding: 4px 20px;
+  
+      p {
+        margin-bottom: 2px;
+      }
+    }
+  }  
+}
+
+.bordered {
+  border-bottom: 2px dotted #cdcdcd;
+}
+
+td.card-preview {  
+  padding: 4px 20px 4px 0;
+
+  img {
+    width: 70px;
+  }
+}
+
+.new-block {
+  margin-top: 25px;
+}
+
+h4.new-block {
+  margin-top: 40px;
+}
+
+.title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+button {
+  margin-top: 3px;
+}
+
+.columns-container {
+  width: auto;
+
+  .column {
+    margin: 1px 30px 1px 0;
+  }
+}
+
+form {
+  margin-top: 10px;
+  width: 700px;
+
+  .input-group label {
+    flex: 0 150px;
+  }
+}
+
+.column {
+  padding: 2px;
+}
+
+div.horizontal-container {
+  justify-content: flex-end;
+
+  input {
+      width: 100px;
+      flex: none;
+  }
+}
+
+input {
+  flex: 400px;
+}
+p-dropdown {
+  flex: 400px;
+}
+
+.save-info {
+  text-align: left;
+  margin-bottom: 1px;
+
+  button {
+    margin-right: 10px;
+  }
+}

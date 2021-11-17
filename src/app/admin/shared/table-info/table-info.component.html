@@ -1,0 +1,34 @@
+<div *ngIf="showArchive" class="tab-menu">
+  <p>Показать</p>
+  <div class="tabs">
+    <button [class.ui-button]="!archiveMode" (click)="_setShowArchive(false)">Действующие</button>
+    <button [class.ui-button]="archiveMode" (click)="_setShowArchive(true)">Архивные</button>
+  </div>
+</div>
+
+<div class="buttons-header">
+  <div>
+    <p-button label="Сбросить фильтры" (onClick)="_resetFilters()"></p-button>
+  </div>
+</div>
+
+<ng-template #defaultHeaderTemplate>
+</ng-template>
+
+<ng-template #defaultRowsTemplate let-row>
+</ng-template>
+
+<p-table [value]="rows">
+  <ng-template pTemplate="header">
+    <ng-container
+      *ngTemplateOutlet="headerTemplate ? headerTemplate : defaultHeaderTemplate; context: {$implicit: this}">
+    </ng-container>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <ng-container *ngTemplateOutlet="rowsTemplate ? rowsTemplate : defaultRowsTemplate; context: {$implicit: row}">
+    </ng-container>
+  </ng-template>
+</p-table>
+<div>
+  <label *ngIf="totalRecords" class="summary">Позиций: {{totalRecords}}</label>
+</div>
