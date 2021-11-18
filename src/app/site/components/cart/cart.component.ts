@@ -54,7 +54,6 @@ export class CartComponent implements OnInit {
     this._subscriptions.push(this.cartService.cartState.subscribe(
       value => {
         this.cart = value;
-        console.log("🚀 ~ file: cart.component.ts ~ line 57 ~ CartComponent ~ value", value)
         
         if (value) {
           this.rows = value.rows && value.rows.map(t => ({ ...t, isDeleted: false }) as FormCartRow) || [];
@@ -182,7 +181,6 @@ export class CartComponent implements OnInit {
       return;
 
     const ref = this.dialogService.open(CardComponent, {
-      // header: card.title,
       style: { 'max-height': '95%', overflow: 'auto' },
       data: card.id
     });

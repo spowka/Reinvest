@@ -1,15 +1,21 @@
 <div class="modal-body">
-  <div *ngIf="card" class="info">
+  <div *ngIf="card" class="info rv-flex">
+    <figure class="info__close" (click)="close()">
+      <img src="assets/images/icons/close-modal.svg" alt="close.svg" />
+    </figure>
     <div class="info__cards">
-      <div class="info__front"><img src="{{sidesTurned ? card.backImage: card.frontImage}}" alt=""></div>
-      <div class="info__back"><img src="{{sidesTurned ? card.frontImage: card.backImage}}" alt=""></div>
+      <div class="info__front card" [class.active]="!sidesTurned" [@rollCard]="sidesTurned ? 'back': 'front'">
+        <img [src]="card.frontImage" [alt]="card.frontImage">
+      </div>
+      <div class="info__back card" [class.active]="sidesTurned" [@rollCard]="sidesTurned  ? 'front': 'back'">
+        <img [src]="card.backImage" [alt]="card.backImage">
+      </div>
       <div class="info__rotate"><img src="/assets/images/icons/rotate.svg" alt="" (click)="switchSides()"></div>
     </div>
-    <div class="info__body">
+    <div class="info__body rv-flex rv-flex-column rv-flex-btw">
       <div class="info__block">
         <div class="info__name" [innerHTML]="card.title"></div>
         <div class="info__text" [innerHTML]="card.description"></div>
-
         <ul>
           <li><strong>Тираж:</strong> {{card.unlimited ? 'не ограничен' : card.printCount}} шт.</li>
           <li><strong>Остаток:</strong> {{card.printCountLeft}} шт.</li>
@@ -17,12 +23,15 @@
         </ul>
       </div>
       <div class="info__block info__controls">
-        <div class="info__price"><strong>Стоимость:</strong> {{card.price}} ₽</div>
+        <div class="info__price"><strong>Стоимость:</strong> {{cardPrice}} ₽</div>
         <div>
           <div class="counter">
-            <div class="counter__btn counter__btn-minus" (click)="decrementQuantity()"></div>
-            <input type="number" class="counter__input" [(ngModel)]="quantity" min="1">
-            <div class="counter__btn counter__btn-plus" (click)="incrementQuantity()"></div>
+            <div class="counter__btn counter__btn-minus" [class.disabled]="quantity === 1"
+              (click)="decrementQuantity()"></div>
+            <input type="number" class="counter__input" onlyNumbers disabledInputValue [maxValue]="card?.printCountLeft"
+              [quantity]="quantity" [(ngModel)]="quantity" (blur)="getOld($event)" (ngModelChange)="getCounterChange()">
+            <div class="counter__btn counter__btn-plus" [class.disabled]="quantity === card?.printCountLeft"
+              (click)="incrementQuantity()"></div>
           </div>
           <a href="javascript:void(0)" (click)="addToCart()" class="btn btn-red">В корзину</a>
         </div>
@@ -30,4 +39,3 @@
     </div>
   </div>
 </div>
-

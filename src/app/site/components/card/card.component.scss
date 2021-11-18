@@ -1,73 +1,228 @@
-.card-info {
-    .card-images {
+@import "../../../../styles/mixins";
+@import "../../../../styles/variables";
+
+.info {
+    padding: 15px 10px 15px 10px;
+
+    @include r(1023) {
+        display: block;
+    }
+
+    &__close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+    }
+
+    &__body {
+        min-width: 600px;
+
+        @include r(767) {
+            min-width: 300px;
+        }
+
+        @include r(450) {
+            min-width: auto;
+        }
+    }
+
+    &__cards {
+        @include r(1279) {
+            margin-right: 65px;
+        }
+
+        @include r(1150) {
+            margin-right: 45px;
+        }
+
+        @include r(1023) {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+        }
+
+        @include r(767) {
+            margin-top: 20px;
+            margin-right: 35px;
+            width: 280px;
+            height: 367px;
+            margin-bottom: 70px;
+        }
+
         position: relative;
-        height: 550px;
-        margin-top: 20px;
-
+        width: 295px;
+        height: 415px;
         flex-shrink: 0;
-        flex-basis: 380px; 
+        margin-right: 125px;
 
-        .card-top-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 300px;
-            border: 2px solid gray;
+        .info__front,
+        .info__back {
+            img {
+                @include r(767) {
+                    width: 210px;
+                }
+
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+                border-radius: 9px;
+                width: 245px;
+                pointer-events: none;
+                user-select: none;
+            }
         }
 
-        .card-bottom-image {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            width: 300px;
-            border: 2px solid gray;
-        }
+        &.show-back {
+            .info__front {
+                top: 0;
+                left: 50px;
+                z-index: 1;
+            }
 
-        .card-sides-switch {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            cursor: pointer;
+            .info__back {
+                top: 50px;
+                left: 0;
+                z-index: 2;
+            }
         }
     }
 
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
+    .card {
+        position: absolute;
+        transform: translate(65px, 0px);
+        max-width: 245px;
+        min-height: 354px;
+        object-fit: cover;
+        filter: drop-shadow(0px 20px 20px rgba(0, 0, 0, 0.25));
 
-    .info-element {
-        font-size: 12;
-        margin: 0 15px 0 0;
-    }
-
-    .price-container {
-        border: 2px solid gray;
-    }
-
-    .info-elements, .description {
-        margin-top: 12px;
-    }
-
-    .price-container {
-        margin-top: 25px;
-        align-items: stretch;
-        padding: 5px;
-
-        h3 {
-            margin: 0;
-        }
-
-        input {
+        img {
             width: 100%;
         }
 
-        button { 
-            margin-top: 5px;
-            width: 100%;
+        &.active {
+            transform: translate(0px, 65px);
+            z-index: 1;
         }
     }
 
-    h3 {
-        margin: 30px 0 0 0;
+    &__rotate {
+        position: absolute;
+        bottom: 0;
+        right: -10px;
+        cursor: pointer;
+
+        @include r(767) {
+            bottom: -50px;
+            right: -25px;
+        }
+    }
+
+    &__block {
+        background: #ffffff;
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 30px 40px 35px 40px;
+
+        @include r(1023) {
+            padding: 20px 40px 20px 40px;
+        }
+
+        @include r(767) {
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        & + .info__block {
+            margin-top: 20px;
+        }
+    }
+
+    &__controls {
+        @include r(767) {
+            display: block;
+            padding: 0;
+        }
+
+        padding: 15px 40px;
+        @include fcsb;
+
+        & > div {
+            @include r(767) {
+                @include fcsb;
+            }
+
+            @include fcn;
+        }
+
+        .btn {
+            font-size: 20px;
+            margin-left: 10px;
+            padding: 12px 25px;
+
+            @include r(767) {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+        }
+    }
+
+    &__price {
+        @include r(767) {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        font-size: 20px;
+
+        strong {
+            margin-right: 5px;
+        }
+    }
+
+    &__name {
+        @include r(767) {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        font-weight: bold;
+        font-size: 30px;
+        margin-bottom: 20px;
+        line-height: 39px;
+    }
+
+    &__text {
+        @include r(767) {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        width: 100%;
+        height: 108px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        max-width: 515px;
+        overflow: hidden;
+        display: -webkit-box;
+        line-clamp: 4;
+        -webkit-line-clamp: 4;
+        overflow-wrap: break-word;
+        line-height: 26px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            @include r(767) {
+                font-size: 16px;
+            }
+
+            font-size: 20px;
+            line-height: 26px;
+        }
     }
 }

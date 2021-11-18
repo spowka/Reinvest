@@ -179,6 +179,7 @@ export class CardSiteDetails {
   public price: number;
   public frontImage: string;
   public backImage: string;
+  public printCountLeft?: number;
 }
 
 //Запись истории изменения статусов

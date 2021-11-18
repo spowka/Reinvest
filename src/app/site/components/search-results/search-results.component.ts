@@ -123,6 +123,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   public openCard(card) {
+    console.log("🚀 ~ file: search-results.component.ts ~ line 126 ~ SearchResultsComponent ~ openCard ~ card", card)
     const ref = this.dialogService.open(CardComponent, {
       style: { 'max-height': '95%', overflow: 'auto' },
       data: card.id

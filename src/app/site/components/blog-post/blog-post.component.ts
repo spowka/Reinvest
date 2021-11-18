@@ -49,9 +49,7 @@ export class BlogPostComponent implements OnInit {
   loadPost(post: string) {
     this.blogPostsService.getContent(post).subscribe(
       response => {
-        this.blogPost = response;
-        console.log("🚀 ~ file: blog-post.component.ts ~ line 52 ~ BlogPostComponent ~ loadPost ~ this.blogPost", this.blogPost)
-        
+        this.blogPost = response;        
         this.isLoading = false;
 
         response.titleTag && this.titleService.setTitle(response.titleTag);

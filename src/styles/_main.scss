@@ -443,7 +443,7 @@ body .ui-dialog {
 }
 
 body .ui-dialog .ui-dialog-titlebar {
-	background-color: #fff !important;
+	display: none;
 }
 
 .center {
@@ -1423,193 +1423,11 @@ body .ui-dialog .ui-dialog-titlebar {
 	}
 }
 
-.info {
-	@include r(1023) {
-		display: block;
-	}
-
-	@include fcn;
-
-	&__body {
-		min-width: 600px;
-
-		@include r(767) {
-			min-width: 300px;
-		}
-
-		@include r(450) {
-			min-width: auto;
-		}
-	}
-
-	&__cards {
-		@include r(1279) {
-			margin-right: 65px;
-		}
-
-		@include r(1023) {
-			margin-left: auto;
-			margin-right: auto;
-			margin-bottom: 20px;
-		}
-
-		@include r(767) {
-			margin-top: 40px;
-			margin-left: auto;
-			margin-right: auto;
-			width: 260px;
-			height: 367px;
-			margin-bottom: 60px;
-		}
-
-		position: relative;
-		width: 295px;
-		height: 415px;
-		flex-shrink: 0;
-		margin-right: 125px;
-
-		.info__front,
-		.info__back {
-			img {
-				@include r(767) {
-					width: 210px;
-				}
-
-				box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-				border-radius: 9px;
-				width: 245px;
-				pointer-events: none;
-				user-select: none;
-			}
-		}
-
-		&.show-back {
-			.info__front {
-				top: 0;
-				left: 50px;
-				z-index: 1;
-			}
-
-			.info__back {
-				top: 50px;
-				left: 0;
-				z-index: 2;
-			}
-		}
-	}
-
-	&__front {
-		position: absolute;
-		top: 50px;
-		left: 0;
-		z-index: 2;
-		transition: $trans;
-	}
-
-	&__back {
-		position: absolute;
-		top: 0;
-		left: 50px;
-		z-index: 1;
-		transition: $trans;
-	}
-
-	&__rotate {
-		position: absolute;
-		bottom: 15px;
-		right: 0;
-		cursor: pointer;
-	}
-
-	&__block {
-		@include r(767) {
-			padding: 0;
-			box-shadow: none;
-			border-radius: 0;
-			background: transparent;
-		}
-
-		background: #ffffff;
-		box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-		border-radius: 10px;
-		padding: 40px;
-
-		& + .info__block {
-			margin-top: 20px;
-		}
-	}
-
-	&__controls {
-		@include r(767) {
-			display: block;
-			padding: 0;
-		}
-
-		padding: 15px 40px;
-		@include fcsb;
-
-		& > div {
-			@include r(767) {
-				@include fcsb;
-			}
-
-			@include fcn;
-		}
-
-		.btn {
-			font-size: 20px;
-			margin-left: 10px;
-			padding: 12px 25px;
-		}
-	}
-
-	&__price {
-		@include r(767) {
-			margin-bottom: 20px;
-		}
-
-		font-size: 20px;
-
-		strong {
-			margin-right: 5px;
-		}
-	}
-
-	&__name {
-		@include r(767) {
-			font-size: 18px;
-			margin-bottom: 10px;
-		}
-
-		font-weight: bold;
-		font-size: 30px;
-		margin-bottom: 20px;
-	}
-
-	&__text {
-		@include r(767) {
-			font-size: 16px;
-			margin-bottom: 10px;
-		}
-
-		font-size: 20px;
-		margin-bottom: 20px;
-	}
-
-	ul {
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-
-		li {
-			@include r(767) {
-				font-size: 16px;
-			}
-
-			font-size: 20px;
-		}
-	}
+.modal-body {
+    position: relative;
 }
+
+
 
 .modal {
 	.modal-dialog {
@@ -1688,10 +1506,22 @@ body .ui-dialog .ui-dialog-titlebar {
 
 		&-minus {
 			background-image: url(/assets/images/icons/minus.svg);
+
+			&.disabled {
+				user-select: none;
+				opacity: 0.6;
+				pointer-events: none;
+			}
 		}
 
 		&-plus {
 			background-image: url(/assets/images/icons/plus.svg);
+
+			&.disabled {
+				user-select: none;
+				pointer-events: none;
+				opacity: 0.6;
+			}
 		}
 	}
 
@@ -1711,6 +1541,10 @@ body .ui-dialog .ui-dialog-titlebar {
 		border-radius: 9px;
 		appearance: none;
 		border: 0;
+		
+		@include r(767) {
+			font-size: 18px;
+		}
 	}
 }
 
@@ -3042,7 +2876,6 @@ body .ui-dialog .ui-dialog-titlebar {
 }
 
 // accordion start
-
 .custom-accordion {
 	max-width: 700px;
 	width: 100%;
@@ -3077,9 +2910,6 @@ body .ui-dialog .ui-dialog-titlebar {
 				transition: 950ms;
 			}
 		}
-	}
-
-	&-body {
 	}
 }
 

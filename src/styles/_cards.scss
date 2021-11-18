@@ -5,15 +5,12 @@
 .player {
     &__list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 3fr));
+        grid-template-columns: repeat(auto-fill, minmax(238px, 4fr));
         grid-gap: 30px;
         align-items: start;
 
-        @media screen and (max-width: 775px) {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 3fr));
-        }
-
-        @media screen and (max-width: 481px) {
+        @media screen and (max-width: 1098px) {
+            grid-template-columns: repeat(auto-fill, minmax(238px, 3fr));
             justify-items: center;
             align-items: center;
         }
@@ -36,6 +33,14 @@
             background-repeat: no-repeat;
             overflow: hidden;
             transition: $trans;
+
+            @media screen and (max-width: 821px) {
+                max-width: none;
+            }
+
+            @media screen and (max-width: 566px) {
+                max-width: 325px;
+            }
 
             &.isActive {
                 &:hover {
@@ -90,6 +95,14 @@
                 z-index: 99;
                 opacity: 0.5;
                 pointer-events: none;
+
+                @media screen and (max-width: 821px) {
+                    max-width: none;
+                }
+
+                @media screen and (max-width: 566px) {
+                    max-width: 325px;
+                }
             }
         }
     }
@@ -101,6 +114,14 @@
         border-radius: 9px;
         margin-bottom: 10px;
 
+        @media screen and (max-width: 821px) {
+            max-width: none;
+        }
+
+        @media screen and (max-width: 566px) {
+            max-width: 325px;
+        }
+
         .img-default {
             position: relative;
             max-width: 215px;
@@ -111,6 +132,14 @@
             border-radius: 9px;
             background: linear-gradient(180deg, rgba(41, 41, 41, 0) -13.33%, #292929 99.8%);
             filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+
+            @media screen and (max-width: 821px) {
+                max-width: none;
+            }
+
+            @media screen and (max-width: 566px) {
+                max-width: 325px;
+            }
         }
 
         .img {
@@ -121,6 +150,14 @@
             height: 100%;
             border-radius: 9px;
             filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+
+            @media screen and (max-width: 821px) {
+                max-width: none;
+            }
+
+            @media screen and (max-width: 566px) {
+                max-width: 325px;
+            }
         }
 
         .sale {

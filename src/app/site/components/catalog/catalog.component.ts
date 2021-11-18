@@ -118,7 +118,6 @@ export class CatalogComponent implements OnInit {
 
   public openCard(card) {
     const ref = this.dialogService.open(CardComponent, {
-      // header: card.title,
       style: { 'max-height': '95%', overflow: 'auto' },
       data: card.id
     });

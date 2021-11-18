@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { CardSiteDetails } from 'src/app/admin/shared/cards/card.model';
 import { CardService } from 'src/app/admin/shared/cards/card.service';
-import { MessageService, DynamicDialogConfig } from 'primeng/api';
+import { MessageService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { CartService } from 'src/app/admin/shared/cart/cart.service';
 import { EditTextService } from 'src/app/admin/shared/edit-texts/edit-text.service';
 import { MessageGroupEnum } from 'src/app/admin/shared/edit-texts/MessageGroupEnum';
 import { CaptchaCancelledError } from 'src/app/admin/shared/cart/cart.model';
 import { ServerErrorHelper } from 'src/app/admin/shared/helpers/server-error-helper';
+import { rollCardAnimation } from 'src/app/shared/animations/reloadCard.animation';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  animations: [rollCardAnimation],
   encapsulation: ViewEncapsulation.None
 })
 export class CardComponent implements OnInit {
@@ -23,12 +23,15 @@ export class CardComponent implements OnInit {
   public adding: boolean = false;
 
   cardId: string;
+  cardPrice: number;
+  activeCard: boolean;
   addToCartEnabled: boolean = true;
   addCardMessage: string;
   addCardSoldoutErrorMessage: string;
 
   constructor(
     public config: DynamicDialogConfig,
+    public ref: DynamicDialogRef,
     protected cardService: CardService,
     private cartService: CartService,
     private msg: MessageService,
@@ -49,7 +52,9 @@ export class CardComponent implements OnInit {
   }
 
   switchSides() {
-    this.sidesTurned = !this.sidesTurned;
+    setTimeout(() => {
+      this.sidesTurned = !this.sidesTurned;
+    }, 300)
   }
 
   addToCart() {
@@ -78,13 +83,39 @@ export class CardComponent implements OnInit {
   }
 
   incrementQuantity(): void {
-    this.quantity++;
+    if (this.quantity < this.card.printCountLeft) {
+      this.quantity++;
+      this.cardPrice = this.card.price * this.quantity
+    }
   }
 
   decrementQuantity(): void {
-    if (this.quantity > 0) {
+    if (this.quantity >= 1) {
       this.quantity--;
+      this.cardPrice = this.card.price * this.quantity
     }
+  }
+
+  getOld(e: any) {
+    if (e.currentTarget.value.length < 1) {
+      this.quantity = 1;
+      this.cardPrice = this.card.price * this.quantity;
+    }
+  }
+
+  getCounterChange() {
+    if (this.quantity >= this.card.printCountLeft) {
+      this.quantity = this.card.printCountLeft;
+    }
+
+    if (this.quantity > 0) {
+      this.cardPrice = this.card.price * this.quantity;
+    }
+  }
+
+  close() {
+    this.adding = false;
+    this.ref.close(null)
   }
 
   private loadData() {
@@ -93,6 +124,7 @@ export class CardComponent implements OnInit {
       this.cardService.getCardDetails(this.cardId).subscribe(
         (response: CardSiteDetails) => {
           this.card = response;
+          this.cardPrice = response.price;
         });
     }
   }
