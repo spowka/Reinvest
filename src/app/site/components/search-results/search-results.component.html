@@ -126,7 +126,7 @@
                   </ng-container>
                 </div>
                 <div class="search__info__desc themes">
-                  <div class="children-group" *ngFor="let series of theme.children">
+                  <div class="children-group rv-flex rv-flex-column" *ngFor="let series of theme.children">
                     <a class="link-button small-subtitle bold"
                       [routerLink]="['/catalog/' + series.id]">{{series.name}}</a>
                     <ng-container *ngFor="let set of series.children">
