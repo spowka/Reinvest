@@ -7,12 +7,13 @@ import { OrderService } from 'src/app/admin/shared/order/order.service';
 import { Consts } from 'src/app/consts';
 import { SiteAuthService } from '../../shared/auth-service/auth.service';
 import { CardComponent } from '../card/card.component';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { FormCartRow } from './FormCartRow';
 import { EditTextService } from 'src/app/admin/shared/edit-texts/edit-text.service';
 import { MessageGroupEnum } from 'src/app/admin/shared/edit-texts/MessageGroupEnum';
 import { padNumber } from 'src/app/admin/shared/helpers/format-helper';
 import { ServerErrorHelper } from 'src/app/admin/shared/helpers/server-error-helper';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cart',
@@ -32,6 +33,16 @@ export class CartComponent implements OnInit {
   countdownMessage: string;
   addCardSoldoutErrorMessage: string;
 
+  // for promo code  
+  isNotification: boolean = false;
+  isError: boolean = false;
+  isPromoSalePercent: any = 25;
+  promocode: string = '';
+  withPromoUpdating: boolean = false;
+  isSelectCard: any;
+  // *********************************
+
+  private _debounceCode = new Subject<FormCartRow>();
   private _subscriptions: Subscription[] = [];
 
   constructor(
@@ -54,7 +65,7 @@ export class CartComponent implements OnInit {
     this._subscriptions.push(this.cartService.cartState.subscribe(
       value => {
         this.cart = value;
-        
+
         if (value) {
           this.rows = value.rows && value.rows.map(t => ({ ...t, isDeleted: false }) as FormCartRow) || [];
           if (this.lastDeletedRow && !this.rows.filter(t => t.id == this.lastDeletedRow.id).length) {
@@ -65,6 +76,14 @@ export class CartComponent implements OnInit {
     this._subscriptions.push(this.cartService.cartCountdownState.subscribe(
       value => this.countdownTime = value
     ));
+
+    this._debounceCode.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe(value => {
+      if (value)
+        this.quantityChange(value);
+    });
   }
 
   ngOnInit() {
@@ -118,13 +137,17 @@ export class CartComponent implements OnInit {
   }
 
   incrementRowQuantity(rowData: FormCartRow): void {
+    this.isSelectCard = rowData.id
     rowData.rowQuantity++;
-    this.quantityChange(rowData);
+    this._debounceCode.next(rowData)
   }
 
   decrementRowQuantity(rowData: FormCartRow): void {
-    rowData.rowQuantity--;
-    this.quantityChange(rowData);
+    if (rowData.rowQuantity > 0) {      
+      this.isSelectCard = rowData.id
+      rowData.rowQuantity--;
+      this._debounceCode.next(rowData)
+    }
   }
 
   remove(rowData: FormCartRow) {
@@ -199,5 +222,15 @@ export class CartComponent implements OnInit {
         this.msg.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось начать оформление заказа. Пожалуйста, обратитесь в службу поддержки.' });
       }
     );
+  }
+
+  // for promo code
+  applyCode() {
+    this.updating = true;
+    this.withPromoUpdating = true;
+    setTimeout(() => {
+      this.updating = false;
+      this.withPromoUpdating = false;
+    }, 500)
   }
 }

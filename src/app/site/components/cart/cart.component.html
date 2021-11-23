@@ -4,10 +4,9 @@
 
     <div class="sidebar-wrapper">
       <div class="column">
-
         <div class="block cart__sort">
           <a href="javascript:void(0)">Карточка</a>
-          <a href="javascript:void(0)">Наименование</a>
+          <a href="javascript:void(0)" class="rv-margin-r-20">Наименование</a>
           <div>
             <a href="javascript:void(0)" class="cart__sort__count">Количество</a>
             <a href="javascript:void(0)" class="cart__sort__price">Цена, ₽</a>
@@ -15,55 +14,122 @@
           </div>
         </div>
 
-        <div class="block cart__item" *ngFor="let row of rows" [ngClass]="{'remove': row.isDeleted}">
-          <button type="button" class="btn-close" *ngIf="!row.isDeleted" (click)="remove(row)"></button>
+        <div class="cart__items rv-margin-t-20">
+          <div class="block cart__item" *ngFor="let row of rows" [ngClass]="{'remove': row.isDeleted}">
+            <button type="button" class="btn-close" [class.disabled]="updating" *ngIf="!row.isDeleted" (click)="remove(row)"></button>
 
-          <img [src]="row.previewImage" alt="" class="cart__img" (click)="cardClick($event, row)">
-          <div class="cart__info">
-            <div class="cart__name" (click)="cardClick($event, row)">{{row.title}}</div>
-            <div class="cart__text">{{row.path}}</div>
-          </div>
-          <div class="counter">
-            <div class="counter__btn counter__btn-minus" (click)="decrementRowQuantity(row)" [ngClass]="{'is-visible': updating}"></div>
+            <img [src]="row.previewImage" [alt]="row.previewImage" class="cart__img" (click)="cardClick($event, row)">
+            <div class="cart__info">
+              <div class="cart__name" (click)="cardClick($event, row)">{{row.title}}</div>
+              <div class="cart__text">{{row.path}}</div>
+            </div>
+            <div class="counter">
+              <div class="counter__btn counter__btn-minus" [class.disabled]="row.rowQuantity === 1"
+                (click)="decrementRowQuantity(row)" [ngClass]="{'is-visible': updating}"></div>
 
-            <input type="number"
-                   class="counter__input"
-                   [(ngModel)]="row.rowQuantity"
-                   (ngModelChange)="quantityChange(row, $event)">
+              <input type="number" class="counter__input" [class.disabled]="updating" [disabled]="updating" onlyNumbers [(ngModel)]="row.rowQuantity"
+                (ngModelChange)="quantityChange(row, $event)">
 
-            <div class="counter__btn counter__btn-plus" (click)="incrementRowQuantity(row)" [ngClass]="{'is-visible': updating}"></div>
-          </div>
+              <div class="counter__btn counter__btn-plus" (click)="incrementRowQuantity(row)"
+                [ngClass]="{'is-visible': updating}"></div>
+            </div>
 
             <div class="cart__prices" *ngFor="let rowDetails of row.detailRows">
-              <div class="cart__price">{{rowDetails.price}} ₽</div>
               <div class="cart__price">
-
-                <ng-container *ngIf="!updating">
-                  {{rowDetails.detailPrice}} ₽
+                <ng-container *ngIf="(!updating || (row.id !== isSelectCard)) && !withPromoUpdating; else isSpinnerVisible">
+                  <ng-container *ngIf="true && isNotification || withPromoUpdating; else default">
+                    <div class="subtitle green is-sale-price">
+                      150 ₽
+                      <p class="text new-sale-small green is-sale-percent">
+                        (-25%)
+                      </p>
+                    </div>
+                  </ng-container>
+                  <ng-template #default>
+                    <p class="subtitle price">{{rowDetails.price}} ₽</p>
+                  </ng-template>
                 </ng-container>
 
-                <ng-container *ngIf="updating">
+                <ng-template #isSpinnerVisible>
                   <i class="fa fa-spinner fa-spin"></i>
+                </ng-template>
+              </div>
+              <div class="cart__price">
+                <ng-container *ngIf="(!updating || (row.id !== isSelectCard)) && !withPromoUpdating; else isSpinnerVisible">
+                  <ng-container *ngIf="true && isNotification; else default">
+                    <div class="subtitle green">
+                      150 ₽
+                    </div>
+                  </ng-container>
+                  <ng-template #default>
+                    <p class="subtitle price">{{rowDetails.detailPrice}} ₽</p>
+                  </ng-template>
                 </ng-container>
+
+                <ng-template #isSpinnerVisible>
+                  <i class="fa fa-spinner fa-spin"></i>
+                </ng-template>
               </div>
             </div>
 
-          <a href="javascript:void(0)" (click)="restore(row)" class="btn cart__restore">Восстановить</a>
-        </div>
-
-      </div>
-      <div class="sidebar">
-        <div class="block">
-          <div class="block__header">
-            <div class="block__title">{{countdownTime ? 'Корзина очистится через:':'Корзина - пока пуста'}}</div>
-            <div class="block__time">{{countdownTime}}</div>
+            <a href="javascript:void(0)" *ngIf="row.isDeleted" (click)="restore(row)"
+              class="btn cart__restore">Восстановить</a>
           </div>
-          <div class="block__text">{{countdownMessage}}</div>
         </div>
-        <div class="block sticky">
+      </div>
+
+      <div class="sidebar info-section rv-flex rv-flex-column rv-flex-btw">
+        <div class="rv-flex rv-flex-column">
+          <div class="block info">
+            <div class="block__info">
+              <div class="block__header">
+                <div class="block__title">{{countdownTime ? 'Корзина очистится через:':'Корзина - пока пуста'}}</div>
+                <div class="block__time">{{countdownTime}}</div>
+              </div>
+              <div class="block__text">{{countdownMessage}}</div>
+            </div>
+          </div>
+          <div class="block promo-code wg-flex wg-flex-column">
+            <p class="small-subtitle">Введите промокод на скидку</p>
+            <div class="notification" [class.hasNotification]="isNotification">
+              <div *ngIf="isNotification">
+                <ng-container *ngIf="isError; else isSuccess">
+                  <p class="text notification-message error">Промокод недействителен</p>
+                </ng-container>
+                <ng-template #isSuccess>
+                  <p class="text notification-message success">Применена скидка {{isPromoSalePercent}} %</p>
+                </ng-template>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="promocode" class="form-control" placeholder="Введите промокод" />
+            </div>
+            <button (click)="applyCode()" class="btn btn-black">
+              <ng-container *ngIf="!withPromoUpdating">
+                Применить код
+              </ng-container>
+
+              <ng-container *ngIf="updating && withPromoUpdating">
+                <i class="fa fa-spinner fa-spin"></i>
+              </ng-container>
+            </button>
+          </div>
+        </div>
+        <div class="block sticky rv-margin-t-20">
           <div class="block__header">
             <div class="block__title">Итого:</div>
-            <div class="block__price">{{cart?.totalPrice}} ₽</div>
+            <ng-container *ngIf="!updating; else isSpinnerVisible">
+              <ng-container *ngIf="!isNotification; else isSale">
+                <p class="subtitle price">{{cart?.totalPrice}} ₽</p>
+              </ng-container>
+              <ng-template #isSale>
+                <p><span class="subtitle old-price">{{cart?.totalPrice}} ₽</span><span class="subtitle green rv-margin-l-20">180 ₽</span>
+                </p>
+              </ng-template>
+            </ng-container>
+            <ng-template #isSpinnerVisible>
+              <i class="fa fa-spinner fa-spin"></i>
+            </ng-template>
           </div>
           <a href="javascript:void(0)" (click)="startCheckout()" class="btn btn-red">Оформить заказ</a>
         </div>

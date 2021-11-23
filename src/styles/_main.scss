@@ -1424,10 +1424,8 @@ body .ui-dialog .ui-dialog-titlebar {
 }
 
 .modal-body {
-    position: relative;
+	position: relative;
 }
-
-
 
 .modal {
 	.modal-dialog {
@@ -1541,7 +1539,7 @@ body .ui-dialog .ui-dialog-titlebar {
 		border-radius: 9px;
 		appearance: none;
 		border: 0;
-		
+
 		@include r(767) {
 			font-size: 18px;
 		}
@@ -1715,6 +1713,8 @@ body .ui-dialog .ui-dialog-titlebar {
 	}
 }
 
+// *******************************************************************************************************************
+
 .cart {
 	@include r(1023) {
 		padding: 70px 0;
@@ -1740,10 +1740,6 @@ body .ui-dialog .ui-dialog-titlebar {
 			}
 		}
 	}
-
-	//&__hidden.show {
-	//  display: block;
-	//}
 
 	h3 {
 		font-weight: normal;
@@ -1790,9 +1786,10 @@ body .ui-dialog .ui-dialog-titlebar {
 			transition: $trans;
 			font-size: 16px;
 			font-weight: 300;
+			cursor: default;
 
 			&:hover {
-				color: $red;
+				color: inherit;
 			}
 		}
 
@@ -1869,6 +1866,7 @@ body .ui-dialog .ui-dialog-titlebar {
 		border-radius: 5px;
 		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
 		width: 100px;
+		height: 145px;
 		transition: $trans;
 		cursor: pointer;
 	}
@@ -1897,19 +1895,31 @@ body .ui-dialog .ui-dialog-titlebar {
 
 		font-size: 16px;
 		font-weight: 30;
-		max-width: 115px;
+		max-width: 150px;
 	}
 
 	&__prices {
 		display: flex;
 		justify-content: space-between;
 		min-width: 130px;
+		user-select: none;
 	}
 
 	&__price {
 		font-size: 20px;
 		transition: $trans;
 		min-width: 45px;
+		user-select: none;
+
+		.is-sale-price {
+			position: relative;
+		}
+
+		.is-sale-percent {
+			position: absolute;
+			left: 20px;
+			bottom: -10px;
+		}
 	}
 
 	.counter {
@@ -1963,6 +1973,8 @@ body .ui-dialog .ui-dialog-titlebar {
 		}
 	}
 }
+
+// *******************************************************************************************************************
 
 .block {
 	padding: 20px 30px;
@@ -2026,6 +2038,54 @@ body .ui-dialog .ui-dialog-titlebar {
 		.block__title {
 			padding-right: 20px;
 		}
+	}
+
+	&.promo-code {
+		width: 100%;
+		height: 210px;
+		margin-top: 20px;
+		padding: 25px;
+		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+		border-radius: 10px;
+
+		.notification {
+			height: 20px;
+
+			&.hasNotification {
+				height: 30px;
+			}
+		}
+
+		.form-group {
+			margin-top: 2px;
+
+			.form-control {
+				width: 100%;
+				height: 40px;
+				padding: 10px 20px;
+				font-weight: normal;
+				font-size: 16px;
+				line-height: 20px;
+				border: 1px solid $colorDark;
+				color: $colorDark;
+				border-radius: 9px;
+				outline: none;
+				color: #808080;
+			}
+		}
+
+		.btn-dark {
+			width: 100%;
+			margin-top: 15px;
+		}
+	}
+
+	&.info {
+		height: 195px;
+	}
+
+	&.sticky {
+		height: 137px;
 	}
 
 	&__footer {
