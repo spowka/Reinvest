@@ -581,6 +581,10 @@ body .ui-dialog .ui-dialog-titlebar {
 .header {
 	padding: 15px 0;
 
+	@include r(1023) {
+		padding: 30px 0;
+	}
+
 	.container {
 		@include fcsb;
 	}
@@ -668,14 +672,44 @@ body .ui-dialog .ui-dialog-titlebar {
 			transition: $trans;
 			visibility: hidden;
 			opacity: 0;
+
+			&.more-catalog-tree {
+				.header__menu__container {
+					width: fit-content;
+				}
+
+				.header__menu__close-block {
+					width: auto;
+				}
+			}
 		}
 
 		&__links {
-			display: flex;
-			flex-wrap: wrap;
-			padding-bottom: 40px;
-			justify-content: space-between;
 			width: 100%;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 10px 50px;
+			padding-bottom: 40px;
+		}
+
+		&__link {
+			&.other {
+				margin-left: 20px;
+				cursor: pointer;
+			}
+		}
+
+		&__item {
+			&:not(:last-child) {
+				margin-right: 20px;
+			}
+
+			@include r(1023) {
+				&:not(:last-child) {
+					margin-right: 0;
+				}
+			}
 		}
 
 		&__close-block {
@@ -1007,7 +1041,7 @@ body .ui-dialog .ui-dialog-titlebar {
 			}
 
 			padding: 12px 0;
-			width: 16%;
+			width: fit-content;
 			color: #fff;
 			transition: $trans;
 			text-align: center;
@@ -1118,6 +1152,7 @@ body .ui-dialog .ui-dialog-titlebar {
 
 			@include r(767) {
 				width: 100%;
+				margin-top: -20px;
 			}
 
 			border-bottom: 1px solid;

@@ -36,44 +36,40 @@
       <ng-container *ngIf="isAuthenticated">
         <div class="header__controls">
           <div class="header__controls__dropdown">
-           <a [routerLink]="['/profile']" class="btn btn-black">
-            <img src="/assets/images/icons/login.svg" alt="">
-            <span>{{fullName}}</span>
+            <a [routerLink]="['/profile']" class="btn btn-black">
+              <img src="/assets/images/icons/login.svg" alt="">
+              <span>{{fullName}}</span>
 
-            <div class="header__profile__content">
+              <div class="header__profile__content">
 
-              <div class="header__profile__inner">
-                <p class="header__profile__title">Аккаунт</p>
-                <div class="header__profile__link">
-                  <a class="btn btn-black" [routerLink]="['/profile']">Личные данные</a>
+                <div class="header__profile__inner">
+                  <p class="header__profile__title">Аккаунт</p>
+                  <div class="header__profile__link">
+                    <a class="btn btn-black" [routerLink]="['/profile']">Личные данные</a>
+                  </div>
                 </div>
-              </div>
 
-              <div class="header__profile__inner">
-                <p class="header__profile__title">Мои заказы</p>
-                <div class="header__profile__link">
-                  <a class="btn btn-black"
-                     href="javascript:void(0)"
-                     (click)="goToProfile($event, 'orders')">
-                    Заказы в работе ({{ (activeOrders$ | async)?.orders.length }})
-                  </a>
+                <div class="header__profile__inner">
+                  <p class="header__profile__title">Мои заказы</p>
+                  <div class="header__profile__link">
+                    <a class="btn btn-black" href="javascript:void(0)" (click)="goToProfile($event, 'orders')">
+                      Заказы в работе ({{ (activeOrders$ | async)?.orders.length }})
+                    </a>
 
-                  <a class="btn btn-black"
-                     href="javascript:void(0)"
-                     (click)="goToProfile($event, 'ordersHistory')">
-                    История заказов ({{ (finishedOrders$ | async)?.orders.length }})
-                  </a>
+                    <a class="btn btn-black" href="javascript:void(0)" (click)="goToProfile($event, 'ordersHistory')">
+                      История заказов ({{ (finishedOrders$ | async)?.orders.length }})
+                    </a>
+                  </div>
                 </div>
-              </div>
 
-              <div class="header__profile__inner">
-                <div class="header__profile__link--silver">
-                  <a href="javascript:void(0)" class="btn-silver" (click)="logout()">Выйти из аккаунта</a>
+                <div class="header__profile__inner">
+                  <div class="header__profile__link--silver">
+                    <a href="javascript:void(0)" class="btn-silver" (click)="logout()">Выйти из аккаунта</a>
+                  </div>
                 </div>
-              </div>
 
-            </div>
-          </a>
+              </div>
+            </a>
           </div>
 
           <div class="header__cart" [routerLink]="['/cart']">
@@ -105,16 +101,9 @@
           <use xlink:href="/assets/images/symbol-defs.svg#icon-search"></use>
         </svg>
       </button>
-      <input type="text"
-             #searchInput
-             placeholder="Поиск"
-             id="searchInput"
-             class="form-control"
-             matInput
-             (keydown.enter)="search()"
-             [(ngModel)]="searchString"
-             [ngModelOptions]="{ standalone: true }"
-             [matAutocomplete]="auto"/>
+      <input type="text" #searchInput placeholder="Поиск" id="searchInput" class="form-control" matInput
+        (keydown.enter)="search()" [(ngModel)]="searchString" [ngModelOptions]="{ standalone: true }"
+        [matAutocomplete]="auto" />
 
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchSuggestSelected($event)">
         <mat-option *ngFor="let suggest of searchSuggests" [value]="suggest">
@@ -133,16 +122,20 @@
   <section class="submenu">
     <div class="container header__menu__inner" *ngIf="catalogTree">
 
-      <ng-container *ngFor="let theme of catalogTree; let index = index">
-        <a class="header__menu__link"
-           (click)="deselectTheme()"
-           (mouseenter)="expandTheme(theme)"
-           [routerLink]="['/catalog/' + theme.id]">
+      <div *ngFor="let theme of (isMobile ? catalogTree : (catalogTree | slice:0:5)); let index = index" class="header__menu__item">
+        <a class="header__menu__link" (click)="deselectTheme()" (mouseenter)="expandTheme(theme)" (mouseleave)="collapseCatalogTreee()"
+          [routerLink]="['/catalog/' + theme.id]">
           <span>{{theme.name}}</span>
         </a>
-      </ng-container>
+      </div>
+      <div *ngIf="catalogTree.length > 5 && !isMobile" class="rv-flex rv-flex-align-center other header__menu__link" (mouseenter)="expandCatalogTree(catalogTree)" (mouseleave)="collapseTheme()">
+        <a class="header__menu__link">Ещё</a>
+        <figure class="rv-margin-l-5 header__menu__link">
+          <img src="assets/images/icons/others.svg" alt="others.svg"/>
+        </figure>
+      </div>
 
-      <div class="header__menu__content" *ngIf="selectedTheme">
+      <div class="header__menu__content" *ngIf="selectedTheme && !isMobile">
         <div class="header__menu__links">
 
           <ng-container *ngFor="let series of selectedTheme.children">
@@ -151,7 +144,7 @@
                 {{series.name}}
               </span>
               <span class="header__menu__desc" *ngFor="let childTheme of series.children"
-                    [routerLink]="['/catalog/' + childTheme.id]">
+                [routerLink]="['/catalog/' + childTheme.id]">
                 {{childTheme.name}}
               </span>
             </div>
@@ -160,7 +153,24 @@
         </div>
         <div class="header__menu__close-block">
           <div class="header__menu__close-icon" (click)="deselectTheme()">
-            <img src="/assets/images/icons/close-white.svg" alt="">
+            <img src="/assets/images/icons/close-white.svg" alt="close-white.svg">
+          </div>
+        </div>
+      </div>
+
+      <div class="header__menu__content more-catalog-tree" *ngIf="selectedCatalogTree">
+        <div class="header__menu__links">
+          <ng-container *ngFor="let theme of moreCatalogTree">
+            <div class="header__menu__container" (click)="deselectCatalogTree()">
+              <span class="header__menu__title" [routerLink]="['/catalog/' + theme.id]">
+                {{theme.name}}
+              </span>
+            </div>
+          </ng-container>
+        </div>
+        <div class="header__menu__close-block">
+          <div class="header__menu__close-icon" (click)="deselectCatalogTree()">
+            <img src="/assets/images/icons/close-white.svg" alt="close-white.svg">
           </div>
         </div>
       </div>

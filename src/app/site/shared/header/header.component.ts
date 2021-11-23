@@ -12,7 +12,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CatalogService } from 'src/app/admin/shared/catalog/catalog.service';
 import { TextPageMenuModel } from 'src/app/admin/shared/catalog/catalog.model';
 import { CartService } from 'src/app/admin/shared/cart/cart.service';
-import {Subscription, fromEvent, Observable} from 'rxjs';
+import { Subscription, fromEvent, Observable } from 'rxjs';
 import { SiteSearchService } from 'src/app/admin/shared/site-search/site-search.service';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { GetActiveOrdersResponse, GetFinishedOrdersResponse } from '../profile/profile.model';
@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isLoading: boolean;
+  isMobile: boolean;
   fullName: string;
   cartItems: number;
   cartPrice: number;
@@ -47,6 +48,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   searchSuggests: string[] = [];
   mobileScreenWidth: number = 1030;
   isPageIncludesBanner: boolean;
+  moreCatalogTree: any[];
+  selectedCatalogTree: boolean;
 
   activeOrders$: Observable<GetActiveOrdersResponse>;
   finishedOrders$: Observable<GetFinishedOrdersResponse>;
@@ -122,7 +125,28 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  expandCatalogTree(catalogTree: any) {
+    if (catalogTree.length > 5) {
+      this.moreCatalogTree = catalogTree.slice(5);
+      this.selectedCatalogTree = true;
+    } else {
+      this.selectedCatalogTree = false;
+    }
+  }
+
+  collapseTheme() {
+    this.deselectTheme();
+  }
+
+  collapseCatalogTreee() {
+    this.deselectCatalogTree();
+  }
+
   makeMobileMenu(currentWidth: number): void {
+    if (currentWidth <= this.mobileScreenWidth) {
+      this.isMobile = true;
+    }
+
     this.headerControlsMobile.nativeElement.innerHTML = currentWidth >= this.mobileScreenWidth
       ? ''
       : (`<div class="hamburger"><span></span></div>`);
@@ -139,6 +163,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deselectTheme() {
     this.selectedTheme = null;
+  }
+
+  deselectCatalogTree() {
+    this.selectedCatalogTree = false;
   }
 
   loadData() {
@@ -185,7 +213,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     if (type) {
       event.stopPropagation();
     }
-    this.router.navigate(['/profile'], { queryParams: { type }});
+    this.router.navigate(['/profile'], { queryParams: { type } });
   }
 
   loadSearchSuggests() {
