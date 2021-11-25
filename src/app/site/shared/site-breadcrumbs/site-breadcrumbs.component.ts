@@ -23,7 +23,9 @@ export class SiteBreadcrumbsComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
+
   public getWay(path: string) {
     const arrPath = path.slice(1).split('/');
 

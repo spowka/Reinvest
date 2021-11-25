@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, ViewEncapsulation, Input, Inject } from '@angular/core';
 import { CarouselItem } from './CarouselItem';
 
 @Component({
@@ -19,21 +20,29 @@ export class CarouselComponent implements OnInit {
         dots: this.isMultiple,
         arrows: false,
         autoplay: this.isMultiple,
-        autoplaySpeed: value[0].showSeconds * 1000,
+        autoplaySpeed: value[0].showSeconds * 2000,
         slidesToShow: 1,
         slidesToScroll: 1,
       };
     }
   }
 
+  private allItems: CarouselItem[];
+  public slideConfig;
+
   get items() {
     return this.allItems;
   }
 
-  private allItems: CarouselItem[];
-  public slideConfig;
+  constructor(
+    @Inject(DOCUMENT) private document: Document
 
-  constructor() { }
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  hrefInfo(item: CarouselItem) {
+    let href = item.link;
+    this.document.location.href = href;
+  }
 }

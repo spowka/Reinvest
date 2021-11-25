@@ -95,7 +95,7 @@
   <div class="container">
     <rs-site-breadcrumbs></rs-site-breadcrumbs>
 
-    <form class="search">
+    <form class="search" [class.is-search-page]="isSearchPage">
       <button>
         <svg class="icon">
           <use xlink:href="/assets/images/symbol-defs.svg#icon-search"></use>
@@ -140,7 +140,7 @@
 
           <ng-container *ngFor="let series of selectedTheme.children">
             <div class="header__menu__container" (click)="deselectTheme()">
-              <span class="header__menu__title" [routerLink]="['/catalog/' + series.id]">
+              <span class="header__menu__title rv-margin-b-5" [routerLink]="['/catalog/' + series.id]">
                 {{series.name}}
               </span>
               <span class="header__menu__desc" *ngFor="let childTheme of series.children"

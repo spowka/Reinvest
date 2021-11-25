@@ -15,26 +15,6 @@
         }
     }
 
-    .cards-result__filter {
-        input[type="checkbox"] {
-            width: 40px;
-            height: 40px;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
-            border-radius: 9px;
-        }
-
-        input[type="checkbox"]:checked {
-            background-size: 20px;
-        }
-
-        .label {
-            font-weight: normal;
-            font-size: 20px;
-            line-height: 26px;
-            color: $colorDark;
-        }
-    }
-
     .subject-info {
         display: flex;
         justify-content: left;

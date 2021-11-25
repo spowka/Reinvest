@@ -1,0 +1,75 @@
+<section class="section card-list">
+  <div class="container">
+    <h3 [innerHTML]="cardsTitle"></h3>
+
+    <div *ngFor="let card of cardList | slice: 0:cardQuantity" class="rv-card" [class.isActive]="card.printCountLeft">
+      <div class="isDisabled" *ngIf="!card.printCountLeft"></div>
+      <div class="cards-result__item rv-padding-20" [ngClass]="{'out': !card.printCountLeft}">
+        <div class="cards-result__photo">
+          <ng-container *ngIf="card.previewImage; else default">
+            <img [src]="card.previewImage" [alt]="card.previewImage" class="img">
+          </ng-container>
+          <ng-template #default>
+            <div class="img-default"></div>
+          </ng-template>
+          <!-- for example -->
+          <!-- <div class="sale rv-flex rv-flex-center" *ngIf="card.isSale > 0">
+            {{card.isSalePercent}}%
+          </div> -->
+          <div class="sale rv-flex rv-flex-center">
+            -25%
+          </div>
+          <div class="cart-quantity rv-flex rv-flex-center" *ngIf="card.cartQuantity > 0">
+            <img src="assets/images/icons/cart.svg" class="rv-margin-r-2" alt="cart.svg" />
+            {{card.cartQuantity}}
+          </div>
+        </div>
+        <ul class="cards-result__desc">
+          <li class="cards-result__name line-height-20" [innerHtml]="card.title"></li>
+
+          <ng-container *ngIf="!card.unlimited">
+            <li class="cards-result__count text line-height-20">Осталось: <span>{{card.printCountLeft}}</span>
+              шт.</li>
+          </ng-container>
+
+          <ng-container *ngIf="card.printCount">
+            <li class="cards-result__reating text line-height-20">Рейтинг: <span>{{card.printCount}}</span>
+            </li>
+          </ng-container>
+
+          <li class="cards-result__price">
+            <ng-container *ngIf="card.printCountLeft; else isSalePrice">
+              <span class="price line-height-20">{{card.price}}</span> ₽
+            </ng-container>
+
+            <ng-template #isSalePrice>
+              <div class="rv-flex rv-flex-besline">
+                <p class="text old-price line-height-20">
+                  <!-- {{card.currnetPrice}} ₽ -->
+                  200 ₽
+                </p>
+                <p class="text new-price rv-margin-l-18 line-height-20">
+                  <!-- {{card.isSale}} ₽ -->
+                  150 ₽
+                </p>
+              </div>
+            </ng-template>
+
+            <ng-container *ngIf="!card.printCountLeft">
+              <p class="ended line-height-20">Закончились</p>
+            </ng-container>
+          </li>
+        </ul>
+        <div class="cards-result__controls">
+          <a href="javascript:void(0)" class="btn btn-red" *ngIf="card.unlimited || card.printCountLeft > 0"
+            (click)="addToCart($event, card)">
+
+            <span *ngIf="card.cartQuantity">В корзине - {{card.cartQuantity}} шт</span>
+            <span *ngIf="!card.cartQuantity">В корзину</span>
+          </a>
+          <a href="javascript:void(0)" class="btn" (click)="openCard(card)">Просмотр</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

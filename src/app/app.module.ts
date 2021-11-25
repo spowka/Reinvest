@@ -85,6 +85,8 @@ import { ShippingComponent } from './site/components/shipping/shipping.component
 import { FAQComponent } from './site/components/faq/faq.component';
 import { ContactsComponent } from './site/components/contacts/contacts.component';
 import { SidebarHelpfulComponent } from './site/shared/sidebar-helpful/sidebar-helpful.component';
+import { CardListCardsComponent } from './site/shared/card-list-cards/card-list-cards.component';
+import { BlogListComponent } from './site/shared/blog-list/blog-list.component';
 
 registerLocaleData(localeRu, 'ru')
 
@@ -145,6 +147,8 @@ registerLocaleData(localeRu, 'ru')
     FAQComponent,
     ContactsComponent,
     SidebarHelpfulComponent,
+    CardListCardsComponent,
+    BlogListComponent,
   ],
   imports: [
     CommonModule,

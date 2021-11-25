@@ -574,6 +574,10 @@ body .ui-dialog .ui-dialog-titlebar {
 		padding: 0 15px;
 	}
 
+	.divider {
+		margin-top: 80px;
+	}
+
 	margin: 0 auto;
 	max-width: 1109px;
 }
@@ -664,6 +668,7 @@ body .ui-dialog .ui-dialog-titlebar {
 			background-color: $grey;
 			min-width: 160px;
 			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			border-radius: 0px 0px 9px 9px;
 			z-index: 100;
 			top: 50px;
 			width: 97.25%;
@@ -675,7 +680,7 @@ body .ui-dialog .ui-dialog-titlebar {
 
 			&.more-catalog-tree {
 				.header__menu__container {
-					width: fit-content;
+					width: 200px;
 				}
 
 				.header__menu__close-block {
@@ -719,7 +724,7 @@ body .ui-dialog .ui-dialog-titlebar {
 		}
 
 		&__close-icon {
-			padding: 50px;
+			padding: 45px 50px 50px 50px;
 
 			img {
 				cursor: pointer;
@@ -733,6 +738,7 @@ body .ui-dialog .ui-dialog-titlebar {
 		}
 
 		&__inner {
+			padding: 0 45px;
 			position: relative;
 
 			&:hover {
@@ -1153,6 +1159,10 @@ body .ui-dialog .ui-dialog-titlebar {
 			@include r(767) {
 				width: 100%;
 				margin-top: -20px;
+
+				&.is-search-page {
+					margin-top: 0;
+				}
 			}
 
 			border-bottom: 1px solid;
@@ -1263,6 +1273,12 @@ body .ui-dialog .ui-dialog-titlebar {
 			right: 0;
 			background: linear-gradient(180deg, #000000 -17.57%, rgba(0, 0, 0, 0) 74.18%);
 		}
+
+		.btn {
+			width: 100%;
+			max-width: 170px;
+			height: 50px;
+		}
 	}
 
 	.container {
@@ -1307,6 +1323,10 @@ body .ui-dialog .ui-dialog-titlebar {
 .section {
 	padding: 50px 0;
 
+	&.card-list {
+		padding: 50px 0 0 0;
+	}
+
 	& + .section {
 		margin-top: -50px;
 	}
@@ -1333,15 +1353,62 @@ body .ui-dialog .ui-dialog-titlebar {
 	margin-top: 110px;
 
 	.container {
+		width: 100%;
+		justify-content: center;
+
 		@include r(767) {
-			display: block;
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+
+	&__group {
+		@include r(767) {
+			display: flex;
+			width: 100%;
+			margin-bottom: 0 !important;
 		}
 
-		@include fnsb;
+		@include r(435) {
+			flex-direction: column;
+		}
+	}
+
+	&__icon-group {
+		@include r(767) {
+			margin-left: 50px;
+		}
+		@include r(470) {
+			margin-left: 20px;
+		}
+		@include r(435) {
+			margin-left: 0px;
+		}
+	}
+
+	&__info {
+		width: 100%;
+		margin-left: 70px;
+
+		.footer__col:not(:first-child) {
+			margin-left: 10px;
+		}
+
+		@include r(767) {
+			margin-left: 0;
+		}
 	}
 
 	&__logo {
 		margin-bottom: 25px;
+
+		@include r(767) {
+			margin-bottom: 10px;
+		}
+
+		@include r(435) {
+			margin-bottom: 20px;
+		}
 	}
 
 	&__social {
@@ -1375,6 +1442,31 @@ body .ui-dialog .ui-dialog-titlebar {
 
 	&__copy {
 		font-size: 10px;
+
+		&.isMobile {
+			display: none;
+
+			@include r(767) {
+				display: block;
+				margin-left: 5px;
+			}
+
+			@include r(435) {
+				display: none;
+			}
+		}
+
+		&.isDesktop {
+			display: block;
+
+			@include r(767) {
+				display: none;
+			}
+
+			@include r(435) {
+				display: block;
+			}
+		}
 	}
 
 	&__title {
@@ -1757,6 +1849,10 @@ body .ui-dialog .ui-dialog-titlebar {
 
 	min-height: 47vh;
 	padding: 100px 0;
+
+	&.info-pages {
+		min-height: 50vh;
+	}
 
 	&__hidden {
 		margin-top: 25px;

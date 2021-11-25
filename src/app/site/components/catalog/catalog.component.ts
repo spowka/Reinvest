@@ -25,7 +25,7 @@ export class CatalogComponent implements OnInit {
   public catalogMode: null | 'ThemeNoSeriesNoSet' | 'ThemeHasSeriesNoSet' | 'ThemeHasSeriesHasSet' | 'Series' | 'Set' = null;
   public allSeriesLoaded: boolean;
   public allSetsLoaded: boolean;
-  public cards: any[];
+  public cards: any[] = [];
   public series: any[];
   public sets: any[];
 

@@ -1,12 +1,13 @@
-<section class="section">
+<section class="section card-list">
   <div class="container">
     <h3 [innerHTML]="cardsTitle"></h3>
 
-    <div class="card__list">
-      <ng-container *ngFor="let card of cardList">
+    <div class="card__list" [class.catalog-list]="isCatalogPage">
+      <ng-container *ngFor="let card of (cardList | slice: 0:cardQuantity)">
         <div [ngClass]="cardClass ? cardClass : ''">
           <rs-card-item>
-            <a [routerLink]="['/catalog/' + card.id]" class="card__item" [style.background-image]="'url(' + card.image + ')'">
+            <a [routerLink]="['/catalog/' + card.id]" class="card__item"
+              [style.background-image]="'url(' + card.image + ')'">
               <div class="card__name" [innerHTML]="card.name"></div>
               <div class="card__hidden card__show">
                 <div class="card__text show" [innerHTML]="card.shortDescription"></div>
@@ -19,7 +20,7 @@
     </div>
 
     <a href="javascript:void(0)" class="btn btn-black full" *ngIf="showMoreTitle" (click)="onShowMore()">
-      <span>Показать все серии</span>
+      <span>{{showMoreButton}}</span>
     </a>
   </div>
 </section>

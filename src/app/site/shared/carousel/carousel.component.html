@@ -1,18 +1,20 @@
 <section class="main" id="banner">
-    <ng-container *ngIf="items && items.length">
-      <ngx-slick-carousel class="main__slider"
-                          #slickModal="slick-carousel"
-                          [config]="slideConfig">
+  <ng-container *ngIf="items && items.length">
+    <ngx-slick-carousel class="main__slider" #slickModal="slick-carousel" [config]="slideConfig">
 
-        <a ngxSlickItem *ngFor="let item of items" class="main__slide" [style.background-image]="'url(' + item.image + ')'" [href]="item.link">
-          <!--<div class="container">-->
-          <!--<div class="main__content">-->
-          <!--<h1 class="main__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>-->
-          <!--<div class="main__subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placerat sagittis lacus.</div>-->
-          <!--</div>-->
-          <!--</div>-->
-        </a>
-
-      </ngx-slick-carousel>
-    </ng-container>
+      <div ngxSlickItem *ngFor="let item of items" class="main__slide"
+        [style.background-image]="'url(' + item.image + ')'">
+        <div class="container">
+          <div class="main__content">
+            <h1 class="main__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
+            <div class="main__subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placerat sagittis
+              lacus.</div>
+            <button class="btn rv-margin-t-20 rv-flex rv-flex-align-center" (click)="hrefInfo(item)">
+              Подробнее
+            </button>
+          </div>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </ng-container>
 </section>

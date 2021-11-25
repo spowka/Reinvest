@@ -7,6 +7,7 @@ export class FormCartRow implements CartRow {
   path: string;
   rowQuantity: number;
   rowPrice: number;
+  printCountLeft: number;
   detailRows: DetailRow[];
 
   isDeleted: boolean = false;

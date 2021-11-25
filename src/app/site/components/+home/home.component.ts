@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
   topThemes: any[];
   topSeries: any[];
   topSets: any[];
+  topCards: any[] = [];
+  topBlogs: any[] = [];
   banners: Banner[];
 
   constructor(
@@ -30,10 +32,14 @@ export class HomeComponent implements OnInit {
   private loadData() {
     this.catalogService.getTop().subscribe(
       (response: GetCatalogTopLevelsResponse) => {
-        var topLevels = response.topLevels;
+        let topLevels = response.topLevels;
         this.topThemes = topLevels.filter((level) => level.levelType == 'Theme');
         this.topSeries = topLevels.filter((level) => level.levelType == 'Series');
         this.topSets = topLevels.filter((level) => level.levelType == 'Set');
+
+        // не дата для blogs и cards
+        // this.topCards = topLevels.filter((level) => level.levelType == 'cards');
+        // this.topBlogs = topLevels.filter((level) => level.levelType == 'blogs');
       }
     );
     this.contentService.getBanners().subscribe(

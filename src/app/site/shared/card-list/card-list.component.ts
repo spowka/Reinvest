@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CatalogTopLevel } from '../../../admin/shared/catalog/catalog.model';
 
 @Component({
@@ -13,12 +14,21 @@ export class CardListComponent implements OnInit {
   @Input() cardClass: string;
   @Input() cardsTitle: string;
   @Input() showMoreTitle: string;
+  @Input() cardQuantity: number = 2;
+  @Input() showMoreButton: string;
 
   @Output() handleShowMore = new EventEmitter();
+  isCatalogPage: boolean;
 
-  constructor() { }
+  constructor(
+    private route: Router
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.route.url.includes('catalog')) {
+      this.isCatalogPage = true;
+    }
+  }
 
   onShowMore(): void {
     this.handleShowMore.emit();

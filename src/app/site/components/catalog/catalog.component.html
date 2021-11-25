@@ -4,7 +4,7 @@
 
   <div *ngIf="catalog" class="catalog-home-container">
 
-    <section class="section">
+    <!-- <section class="section">
       <div class="container">
         <h3>{{catalog.name}}</h3>
 
@@ -20,11 +20,11 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <ng-container *ngIf="catalogMode == 'ThemeNoSeriesNoSet' || catalogMode == 'Set'">
 
-      <section class="filter">
+      <section class="filter" *ngIf="cards.length > 1">
         <div class="container">
           <div class="filter__name">Сортировать:</div>
 
@@ -39,10 +39,10 @@
             <span>По новизне</span>
           </a>
 
-          <div class="checkbox">
+          <div class="cards-result__filter checkbox rv-flex rv-flex-align-center">
             <input type="checkbox" [(ngModel)]="cardsFilter.showSoldOut" (ngModelChange)="reloadCards()"
               [attr.disabled]="this.loadingCards ? '' : null" id="c1">
-            <label for="c1">Показывать закончившиеся карточки</label>
+            <label class="label" for="c1">Показывать закончившиеся карточки</label>
           </div>
         </div>
       </section>
@@ -124,16 +124,22 @@
 
     </ng-container>
 
-    <ng-container *ngIf="catalogMode == 'ThemeHasSeriesNoSet' || catalogMode == 'ThemeHasSeriesHasSet'">
-      <rs-card-list [cardList]="series" (handleShowMore)="loadAllSeries()"
-        [showMoreTitle]="!allSeriesLoaded ? 'Показать все серии' : ''" cardLinkTitle="Смотреть Серию"
-        cardsTitle="Топ серии" cardClass="card__inner--large"></rs-card-list>
-    </ng-container>
+    <ng-container
+      *ngIf="catalogMode == 'ThemeHasSeriesNoSet' || catalogMode == 'ThemeHasSeriesHasSet' || catalogMode == 'ThemeHasSeriesHasSet' || catalogMode == 'Series'">
+      <ng-container *ngIf="catalogMode == 'ThemeHasSeriesNoSet' || catalogMode == 'ThemeHasSeriesHasSet'">
+        <rs-card-list [cardList]="series" (handleShowMore)="loadAllSeries()"
+          [showMoreTitle]="!allSeriesLoaded ? 'Показать все серии' : ''" cardLinkTitle="Смотреть Серию"
+          showMoreButton="Показать все серии" cardsTitle="Популярные коллекции" cardClass="card__inner--large">
+        </rs-card-list>
+      </ng-container>
 
-    <ng-container *ngIf="catalogMode == 'ThemeHasSeriesHasSet' || catalogMode == 'Series'">
-      <rs-card-list [cardList]="sets" (handleShowMore)="loadAllSets()"
-        [showMoreTitle]="!allSetsLoaded && catalogMode == 'Series' ? 'Показать все комплекты' : ''"
-        cardLinkTitle="Смотреть комплект" cardsTitle="Топ комплекты" cardClass="card__inner--small"></rs-card-list>
+      <ng-container *ngIf="catalogMode == 'ThemeHasSeriesHasSet' || catalogMode == 'Series'">
+        <rs-card-list [cardList]="sets" (handleShowMore)="loadAllSets()"
+          [showMoreTitle]="!allSetsLoaded && catalogMode == 'Series' ? 'Показать все комплекты' : ''"
+          showMoreButton="Показать все коллекции" cardLinkTitle="Смотреть комплект" cardsTitle="Популярные коллекции"
+          cardClass="card__inner--small"></rs-card-list>
+      </ng-container>
+      <hr *ngIf="cards.length > 1" class="divider" />
     </ng-container>
   </div>
 </div>

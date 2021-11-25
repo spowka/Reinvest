@@ -30,7 +30,7 @@
               <input type="number" class="counter__input" [class.disabled]="updating" [disabled]="updating" onlyNumbers [(ngModel)]="row.rowQuantity"
                 (ngModelChange)="quantityChange(row, $event)">
 
-              <div class="counter__btn counter__btn-plus" (click)="incrementRowQuantity(row)"
+              <div class="counter__btn counter__btn-plus" [class.disabled]="row.printCountLeft === 0" (click)="incrementRowQuantity(row)"
                 [ngClass]="{'is-visible': updating}"></div>
             </div>
 

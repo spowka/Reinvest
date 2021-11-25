@@ -137,16 +137,18 @@ export class CartComponent implements OnInit {
   }
 
   incrementRowQuantity(rowData: FormCartRow): void {
-    this.isSelectCard = rowData.id
-    rowData.rowQuantity++;
-    this._debounceCode.next(rowData)
+    if (rowData.printCountLeft > 0) {
+      this.isSelectCard = rowData.id;
+      rowData.rowQuantity++;
+      this._debounceCode.next(rowData);
+    }
   }
 
   decrementRowQuantity(rowData: FormCartRow): void {
-    if (rowData.rowQuantity > 0) {      
-      this.isSelectCard = rowData.id
+    if (rowData.rowQuantity > 0) {
+      this.isSelectCard = rowData.id;
       rowData.rowQuantity--;
-      this._debounceCode.next(rowData)
+      this._debounceCode.next(rowData);
     }
   }
 

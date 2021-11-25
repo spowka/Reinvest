@@ -6,21 +6,35 @@
     cardLinkTitle="Смотреть тематику"
     cardsTitle="Популярные тематики"
     cardClass="card__inner--small"
+    [cardQuantity]="4"
   ></rs-card-list>
 
   <rs-card-list
     [cardList]="topSeries"
-    cardLinkTitle="Смотреть Серию"
+    cardLinkTitle="Смотреть серию"
     cardsTitle="Популярные Серии"
     cardClass="card__inner--large"
+    [cardQuantity]="4"
   ></rs-card-list>
 
   <rs-card-list
     [cardList]="topSets"
     cardLinkTitle="Смотреть комплект"
-    cardsTitle="Топ комплекты"
+    cardsTitle="Популярные коллекции"
     cardClass="card__inner--small"
+    [cardQuantity]="4"
   ></rs-card-list>
-</div>
 
-<!-- <a [routerLink]="['/admin']">GO to ADMIN</a> -->
+  <rs-card-list-cards *ngIf="topCards.length"
+  [cardList]="topCards"
+  cardsTitle="Лучшие карточки"
+  [cardQuantity]="4"
+  >    
+  </rs-card-list-cards>
+  <rv-blog-list *ngIf="topBlogs.length"
+    [cardList]="topBlogs"
+    cardsTitle="Блог"
+    [cardQuantity]="2"
+  >
+  </rv-blog-list>
+</div>

@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   isPageIncludesBanner: boolean;
   moreCatalogTree: any[];
   selectedCatalogTree: boolean;
+  isSearchPage: boolean;
 
   activeOrders$: Observable<GetActiveOrdersResponse>;
   finishedOrders$: Observable<GetFinishedOrdersResponse>;
@@ -72,6 +73,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isPageIncludesBanner = this.router.url === '/' || this.router.url.includes('catalog');
       }
     }));
+
+    if(this.router.url.includes('search')) {
+      this.isSearchPage = true;
+    }
   }
 
   ngOnInit() {

@@ -79,6 +79,10 @@ form {
     color: red;
     display: block;
     margin-top: 7px;
+
+    &.login {
+      margin-bottom: 15px !important;
+    }
   }  
 
   label.summary {

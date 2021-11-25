@@ -87,13 +87,13 @@
           </div>
 
           <div class="form-group flex">
-              <input pInputText [ngClass]="{'error': hasError(f.deliveryHouse)}"
+              <input pInputText onlyNumbers [ngClass]="{'error': hasError(f.deliveryHouse)}"
                      formControlName="deliveryHouse" placeholder="Дом" type="text">
 
-              <input pInputText [ngClass]="{'error': hasError(f.deliveryBuilding)}"
+              <input pInputText onlyNumbers [ngClass]="{'error': hasError(f.deliveryBuilding)}"
                      formControlName="deliveryBuilding" placeholder="Корпус" type="text">
 
-              <input pInputText [ngClass]="{'error': hasError(f.deliveryApartment)}"
+              <input pInputText onlyNumbers [ngClass]="{'error': hasError(f.deliveryApartment)}"
                      formControlName="deliveryApartment" placeholder="Квартира" type="text">
           </div>
         </div>

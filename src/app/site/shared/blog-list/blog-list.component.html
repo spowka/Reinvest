@@ -1,0 +1,23 @@
+<section class="section card-list">
+  <div class="container">
+    <h3 [innerHTML]="cardsTitle"></h3>
+
+    <div *ngFor="let yearPosts of cardList | slice: 0 : cardQuantity" class="posts rv-margin-t-20">
+      <div *ngFor="let post of yearPosts" class="post rv-flex rv-flex-column">
+        <div class="post__img-section">
+          <div *ngIf="!post.image" class="image-stub clickable" (click)="gotoPost(post)"></div>
+          <img *ngIf="post.image" class="clickable" src="{{post.image}}" (click)="gotoPost(post)">
+          <div class="date rv-flex rv-flex-center">{{post.createDate | date: "d MMM":null: 'ru' |
+            titlecase }}
+          </div>
+        </div>
+        <div class="post__description-section rv-flex rv-flex-column rv-flex-btw rv-padding-25">
+          <h4 class="clickable subtitle bold rv-margin-b-25" (click)="gotoPost(post)">
+            {{post.title}}</h4>
+          <p class="text short-desc rv-margin-b-10">{{post.text}}</p>
+          <a class="clickable text small rubinate underlined" (click)="gotoPost(post)">Читать полностью</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
