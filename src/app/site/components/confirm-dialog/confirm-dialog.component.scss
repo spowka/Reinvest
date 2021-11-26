@@ -1,0 +1,9 @@
+.confirm-modal {
+    position: relative;
+    &__close {
+        position: absolute;
+        right: -20px;
+        top: -15px;
+        cursor: pointer;
+    }
+}

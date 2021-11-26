@@ -87,6 +87,7 @@ import { ContactsComponent } from './site/components/contacts/contacts.component
 import { SidebarHelpfulComponent } from './site/shared/sidebar-helpful/sidebar-helpful.component';
 import { CardListCardsComponent } from './site/shared/card-list-cards/card-list-cards.component';
 import { BlogListComponent } from './site/shared/blog-list/blog-list.component';
+import { ConfirmDialogComponent } from './site/components/confirm-dialog/confirm-dialog.component';
 
 registerLocaleData(localeRu, 'ru')
 
@@ -96,6 +97,7 @@ registerLocaleData(localeRu, 'ru')
     ProfileOrderStatusHistoryComponent,
     OrderPaymentComponent,
     CaptchaDialogComponent,
+    ConfirmDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -149,6 +151,7 @@ registerLocaleData(localeRu, 'ru')
     SidebarHelpfulComponent,
     CardListCardsComponent,
     BlogListComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,

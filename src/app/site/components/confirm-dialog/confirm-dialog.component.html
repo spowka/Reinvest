@@ -1,0 +1,16 @@
+<div class="modal-body">
+  <div class="confirm-modal">
+    <figure class="confirm-modal__close" (click)="close()">
+      <img src="assets/images/icons/close-modal.svg" alt="close.svg" />
+    </figure>
+    <div class="confirm-modal__body rv-flex rv-flex-column">
+      <div class="rv-margin-t-10">
+        <p class="subtitle">{{data.message}}</p>
+      </div>
+      <div class="rv-margin-t-20 rv-flex rv-flex-center">
+        <button class="btn rv-margin-r-35" (click)="close()">{{data.rejectLabel}}</button>
+        <button class="btn btn-black" (click)="accept(data.id)">{{data.acceptLabel}}</button>
+      </div>
+    </div>
+  </div>
+</div>

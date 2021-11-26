@@ -14,6 +14,7 @@ import { MessageGroupEnum } from 'src/app/admin/shared/edit-texts/MessageGroupEn
 import { padNumber } from 'src/app/admin/shared/helpers/format-helper';
 import { ServerErrorHelper } from 'src/app/admin/shared/helpers/server-error-helper';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-cart',
@@ -153,15 +154,22 @@ export class CartComponent implements OnInit {
   }
 
   remove(rowData: FormCartRow) {
-    this.confirmService.confirm({
-      ...Consts.Confirmation,
+    let data = {
+      id: rowData.id,
       header: 'Подтвердите удаление',
       message: 'Убрать карточку из корзины?',
       acceptLabel: 'Убрать',
       rejectLabel: 'Оставить',
-      accept: () => {
+    }
+
+    const ref = this.dialogService.open(ConfirmDialogComponent, {
+      style: { 'max-height': '95%', overflow: 'auto' },
+      data: data
+    });
+    ref.onClose.subscribe((res) => {
+      if (res) {
         this.updating = true;
-        this.cartService.deleteCart(rowData.id).subscribe(
+        this.cartService.deleteCart(res).subscribe(
           response => {
             this.updating = false;
             this.lastDeletedRow = rowData;
@@ -177,7 +185,7 @@ export class CartComponent implements OnInit {
             this.cartService.reloadCart();
           }
         );
-      }
+      };
     });
   }
 
